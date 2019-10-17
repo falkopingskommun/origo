@@ -2,7 +2,7 @@ $position-margin: $app-margin;
 $position-no-margin: 0;
 
 .bottom-right {
-  bottom: $position-margin;
+  top: $position-margin; /* Falkmod */
   right: $position-margin;
   &.no-margin {
     bottom: $position-no-margin;
@@ -21,7 +21,7 @@ $position-no-margin: 0;
 
 .top-left {
   left: $position-margin;
-  top: $position-margin;
+  bottom: $position-margin; /* Falkmod */
   &.no-margin {
     left: $position-no-margin;
     top: $position-no-margin;
@@ -29,7 +29,7 @@ $position-no-margin: 0;
 }
 
 .top-right {
-  right: $position-margin;
+  left: $position-margin; /* Falkmod */
   top: $position-margin;
   &.no-margin {
     right: $position-no-margin;
