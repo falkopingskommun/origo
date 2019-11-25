@@ -18,7 +18,7 @@ function createSource(options) {
       matrixIds: options.matrixIds,
       tileSize: options.tileSize
     }),
-    style: 'default'
+    style: options.style
   });
 }
 
@@ -32,7 +32,8 @@ const wmts = function wmts(layerOptions, viewer) {
     matrixIdsPrefix: `${viewer.getProjectionCode()}:`,
     format: 'image/png',
     resolutions: viewer.getResolutions(),
-    tileSize: [256, 256]
+    tileSize: [256, 256],
+    style: 'default'
   };
   const wmtsOptions = Object.assign(wmtsDefault, layerOptions);
   wmtsOptions.name.split(':').pop();
