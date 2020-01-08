@@ -1870,7 +1870,8 @@ body {
   .o-map .o-modal-content {
     font-size: 0.9em;
     line-height: 1.1em;
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 60px);
+    height: 100%;
     padding: 10px 15px;
     overflow-y: auto; }
   .o-map .o-modal-content .o-share-link {
@@ -2358,7 +2359,8 @@ body {
   .o-map .o-measure-button-true .o-icon-minicons-line-vector {
     fill: #007aff; }
   .o-map .o-measure-length .icon svg, .o-map .o-measure-area .icon svg {
-    overflow: visible; }
+    overflow: visible;
+    border-radius: 0; }
   .o-map .print-scale-line {
     background: rgba(255, 255, 255, 0.7);
     border-radius: 0.1875rem;
@@ -2483,7 +2485,7 @@ body {
     max-width: calc(100% + 2rem);
     top: 2.25rem; }
   .o-map .o-search-wrapper {
-    max-width: calc(100% - 7rem);
+    max-width: calc(100% - 8rem);
     width: 310px; }
   .o-map .o-search input {
     box-sizing: content-box;
@@ -2519,7 +2521,7 @@ body {
   .o-map .errorMsg {
     color: #ff9500; }
   .o-map .o-scalepicker {
-    width: 110px;
+    min-width: 110px;
     margin-right: 5px;
     height: 1.25rem; }
   .o-map .o-scalepicker button {
