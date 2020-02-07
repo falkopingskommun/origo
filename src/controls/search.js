@@ -237,7 +237,7 @@ const Search = function Search(options = {}) {
       const type = item[layerNameAttribute];
       if (type in group === false) {
         group[type] = [];
-        item.header = viewer.getLayer(type).get('title');
+        item.header = type;
       }
       group[type].push(item);
     });
@@ -360,7 +360,7 @@ const Search = function Search(options = {}) {
       searchableDefault = Object.prototype.hasOwnProperty.call(options, 'searchableDefault') ? options.searchableDefault : false;
       if (!maxZoomLevel) maxZoomLevel = viewer.getResolutions().length - 2 || viewer.getResolutions();
       if (!limit) limit = 9;
-      if (!minLength) minLength = 4;
+      if (!minLength) minLength = 1;
       projectionCode = viewer.getProjectionCode();
       map = viewer.getMap();
 
