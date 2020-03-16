@@ -71,7 +71,7 @@ const OverlayLayer = function OverlayLayer(options) {
     onRender() {
       const labelEl = document.getElementById(this.getId());
       labelEl.addEventListener('click', (e) => {
-        layerIcon.dispatch('click');
+        toggleVisible(layer.getVisible());
         e.preventDefault();
       });
     },
