@@ -28,6 +28,15 @@ $position-no-margin: 0;
   }
 }
 
+.top-left-special {
+  left: $position-margin;
+  top: 4rem;
+  &.no-margin {
+    left: $position-no-margin;
+    top: $position-no-margin;
+  }
+}
+
 .top-right {
   right: $position-margin;
   top: $position-margin;

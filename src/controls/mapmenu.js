@@ -108,7 +108,7 @@ const Mapmenu = function Mapmenu({
       });
       headerComponent = El({
         cls: 'flex row justify-end',
-        style: { width: '100%' },
+        style: { width: '22%' },
         components: [closeButton]
       });
       contentComponent = Component({
