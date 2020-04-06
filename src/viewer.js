@@ -4,6 +4,7 @@ import geom from 'ol/geom/Geometry';
 import { Component } from './ui';
 import Map from './map';
 import proj from './projection';
+import getCapabilities from './getCapabilities';
 import MapSize from './utils/mapsize';
 import Featureinfo from './featureinfo';
 import Selectionmanager from './selectionmanager';
@@ -47,6 +48,7 @@ const Viewer = function Viewer(targetOption, options = {}) {
     center: centerOption = [0, 0],
     zoom: zoomOption = 0,
     resolutions = null,
+    capabilitiesURL = null,
     layers: layerOptions = [],
     map: mapName,
     params: urlParams = {},
@@ -62,6 +64,15 @@ const Viewer = function Viewer(targetOption, options = {}) {
   const center = urlParams.center || centerOption;
   const zoom = urlParams.zoom || zoomOption;
   const groups = flattenGroups(groupOptions);
+
+  let getCapabilitiesLayers = {};
+  (Object.keys(source)).forEach(sourceName => {
+    const sourceOptions = source[sourceName];
+    if (sourceOptions && sourceOptions.capabilitiesURL) {
+      getCapabilitiesLayers[sourceName] = getCapabilities(sourceOptions.capabilitiesURL);
+    }
+  });
+
   const defaultTileGridOptions = {
     alignBottomLeft: true,
     extent,
@@ -182,6 +193,8 @@ const Viewer = function Viewer(targetOption, options = {}) {
     return groupLayers;
   };
 
+  const getLayerGroups = () => getLayers().filter(layer => layer.get('type') === 'GROUP');
+
   const getSearchableLayers = function getSearchableLayers(searchableDefault) {
     const searchableLayers = [];
     map.getLayers().forEach((layer) => {
@@ -204,6 +217,13 @@ const Viewer = function Viewer(targetOption, options = {}) {
       return source[name];
     }
     throw new Error(`There is no source with name: ${name}`);
+  };
+
+  const getSource2 = function getSource2(name) {
+    if (name in source) {
+      return source[name];
+    }
+    return undefined;
   };
 
   const getGroups = () => groups;
@@ -239,9 +259,28 @@ const Viewer = function Viewer(targetOption, options = {}) {
 
   const getMain = () => main;
 
-  const mergeSavedLayerProps = (initialLayerProps, savedLayerProps) => {
+  const mergeSecuredLayer = (layerlist, capabilitiesLayers) => {
+    if (capabilitiesLayers && Object.keys(capabilitiesLayers).length > 0) {
+      layerlist.forEach((layer) => {
+        const layerSourceOptions = layer.source ? getSource2(layer.source) : undefined;
+        if (layerSourceOptions && layerSourceOptions.capabilitiesURL) {
+          if (capabilitiesLayers[layer.source].indexOf(layer.name) >= 0) {
+            layer.secure = false;
+          } else {
+            layer.secure = true;
+          }
+        } else {
+          layer.secure = false;
+        }
+      });
+    }
+    return layerlist;
+  };
+
+  const mergeSavedLayerProps = (initialLayerProps, savedLayerProps, capabilitiesLayers) => {
+    let mergedLayerProps;
     if (savedLayerProps) {
-      const mergedLayerProps = initialLayerProps.reduce((acc, initialProps) => {
+      mergedLayerProps = initialLayerProps.reduce((acc, initialProps) => {
         const layerName = initialProps.name.split(':').pop();
         const savedProps = savedLayerProps[layerName] || {
           visible: false,
@@ -252,9 +291,9 @@ const Viewer = function Viewer(targetOption, options = {}) {
         acc.push(mergedProps);
         return acc;
       }, []);
-      return mergedLayerProps;
+      return mergeSecuredLayer(mergedLayerProps, capabilitiesLayers);
     }
-    return initialLayerProps;
+    return mergeSecuredLayer(initialLayerProps, capabilitiesLayers);
   };
 
   const removeOverlays = function removeOverlays(overlays) {
@@ -394,7 +433,7 @@ const Viewer = function Viewer(targetOption, options = {}) {
         target: this.getId()
       }));
 
-      const layerProps = mergeSavedLayerProps(layerOptions, urlParams.layers);
+      const layerProps = mergeSavedLayerProps(layerOptions, urlParams.layers, getCapabilitiesLayers);
       this.addLayers(layerProps);
 
       mapSize = MapSize(map, {
@@ -508,6 +547,7 @@ const Viewer = function Viewer(targetOption, options = {}) {
     getSize,
     getLayer,
     getLayers,
+    getLayerGroups,
     getLayersByProperty,
     getMap,
     getMapName,
