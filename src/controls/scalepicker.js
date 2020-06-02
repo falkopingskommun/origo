@@ -56,7 +56,7 @@ const Scalepicker = function Scalepicker(options = {}) {
       dropdown.setButtonText(`${buttonPrefix}1:${numberFormatter(getCurrentMapScale())}`);
       dropdown.setItems(getScales());
 
-      map.getView().on('change:resolution', onZoomChange);
+      map.on('moveend', onZoomChange);
     },
     onInit() {
       dropdown = Dropdown({
