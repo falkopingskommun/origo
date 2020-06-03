@@ -21,7 +21,7 @@ const Position = function Position(options = {}) {
   let projection;
   let mapProjection;
   let precision;
-  let mousePositionActive;
+  let mousePositionActive = true;
   let mousePositionControl;
   let markerIcon;
   let markerElement;
@@ -173,8 +173,9 @@ const Position = function Position(options = {}) {
       removeMousePosition();
       addCenterPosition();
     } else {
-      addMousePosition();
+      //addMousePosition();
       removeCenterPosition();
+      mousePositionActive = true;
     }
   }
 
@@ -208,7 +209,8 @@ const Position = function Position(options = {}) {
     writeProjection(currentProjection);
     if (mousePositionActive) {
       removeMousePosition();
-      addMousePosition();
+      //addMousePosition();
+      mousePositionActive = true;
     } else {
       updateCoords(view.getCenter());
     }
@@ -278,7 +280,7 @@ const Position = function Position(options = {}) {
       document.getElementById(`${projButton.getId()}`).textContent = projections[currentProjection];
 
       setPrecision();
-      addMousePosition();
+      //addMousePosition();
 
       this.dispatch('render');
     }
