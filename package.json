@@ -25,6 +25,8 @@
     "copy-plugins": "copyfiles plugins/* build"
   },
   "dependencies": {
+    "@turf/boolean-disjoint": "^6.0.2",
+    "@turf/buffer": "^5.1.5",
     "@babel/polyfill": "^7.8.7",
     "@babel/runtime": "^7.9.2",
     "@babel/runtime-corejs3": "^7.9.2",
