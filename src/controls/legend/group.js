@@ -90,7 +90,7 @@ const Group = function Group(options = {}, viewer) {
         });
       },
       render() {
-        return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header" style="width: 100%;">
+        return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
                 <div id="${this.getId()}" class="flex row align-center grow">
                    ${expandButton.render()}
                     <span class="grow padding-x-small">${title}</span>

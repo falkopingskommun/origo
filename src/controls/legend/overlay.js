@@ -6,7 +6,7 @@ const OverlayLayer = function OverlayLayer(options) {
     headerIconCls = ''
   } = options;
   const {
-    cls: clsSettings = '',
+    cls: clsSettings = 'grey-lightest hover rounded',
     icon = '#o_list_24px',
     iconCls = 'grey-lightest',
     layer,
