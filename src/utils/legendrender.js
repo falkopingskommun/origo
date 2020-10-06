@@ -13,15 +13,17 @@ export const renderSvg = function renderSvg(content, {
 
 
 export const renderIcon = {
-  Line({
-    color,
-    lineDash,
-    width: widthOption = 2
-  } = {}) {
+  Line(options = {}) {
+    const strokeOptions = options.stroke || {};
+    const {
+      color: strokeColor,
+      lineDash,
+      width: widthOption = 2
+    } = strokeOptions;
     const strokeDasharray = lineDash ? 'stroke-dasharray: 4 4;' : '';
     const width = widthOption > 7 ? 7 : widthOption;
     const margin = 4;
-    const stroke = `stroke: ${color}; stroke-width: ${width}; ${strokeDasharray}`;
+    const stroke = `stroke: ${strokeColor}; stroke-width: ${width}; ${strokeDasharray}`;
     return `<line x1 ="${margin}" y1="${(size - margin)}" x2="${(size - margin)}" y2="${margin}" style="${stroke}"/>`;
   },
   Polygon(
