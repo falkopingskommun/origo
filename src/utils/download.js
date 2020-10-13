@@ -101,6 +101,6 @@ export const downloadPDF = async function downloadPDF({
   if (beforeRender) beforeRender(el);
   const canvas = await html2canvas(el);
   if (afterRender) afterRender(el);
-  pdf.addImage(canvas, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+  pdf.addImage(canvas, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight(),'','FAST');
   pdf.save(`${filename}.pdf`);
 };
