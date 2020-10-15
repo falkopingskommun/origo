@@ -8,7 +8,8 @@ const About = function About(options = {}) {
   const {
     content = '<p></p>',
     icon = '#ic_help_outline_24px',
-    title = 'Om kartan'
+    title = 'Om kartan',
+    style = options.style || ''
   } = options;
 
   let viewer;
@@ -28,7 +29,8 @@ const About = function About(options = {}) {
           modal = Modal({
             title,
             content,
-            target
+            target,
+            style
           });
           this.addComponent(modal);
           mapMenu.close();
