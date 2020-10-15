@@ -20,9 +20,9 @@ export default function Main(options = {}) {
       return `<div id=${this.getId()} class="${cls}">
                 <div id="o-tools-left" class="box top-left-special transparent flex column">
                   ${navigation.render()}
-                  ${mapTools.render()}
                   ${miscTools.render()}
-                </div>
+
+                <div style=" position: relative; bottom: 40px;  width: 34px"> ${mapTools.render()}</div></div>
                 <div id="o-tools-bottom" class="box bottom-center transparent width-full ">
                   ${bottomTools.render()}
                 </div>

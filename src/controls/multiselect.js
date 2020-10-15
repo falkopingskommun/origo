@@ -408,7 +408,7 @@ const Multiselect = function Multiselect(options = {}) {
 
     return new Promise((resolve) => {
       const title = 'Du har valt flera objekt:';
-      const content = `<div id="featureSelector"> 
+      const content = `<div id="featureSelector">
                         ${featuresList.join('')}
                       </div>`;
       const target = viewer.getId();
@@ -433,7 +433,7 @@ const Multiselect = function Multiselect(options = {}) {
 
   function createRadiusModal() {
     const title = 'Ange buffert i meter (ex 10,4):';
-    const content = `<div> 
+    const content = `<div>
                       <input type="number" id="bufferradius">
                       <button id="bufferradiusBtn">OK</button>
                     </div>`;
@@ -695,7 +695,7 @@ const Multiselect = function Multiselect(options = {}) {
       if (clickSelection || boxSelection || circleSelection || polygonSelection || bufferSelection) {
         multiselectElement = El({
           tagName: 'div',
-          cls: 'flex column'
+          cls: 'flex row'
         });
 
         multiselectButton = Button({

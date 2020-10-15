@@ -370,7 +370,7 @@ const Measure = function Measure({
       if (lengthTool || areaTool || elevationTool) {
         measureElement = El({
           tagName: 'div',
-          cls: 'flex column'
+          cls: 'flex row'
         });
 
         measureButton = Button({

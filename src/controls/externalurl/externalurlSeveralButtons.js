@@ -37,7 +37,7 @@ const externalurlSeveralButtons = function externalurlSeveralButtons(options = {
     onInit() {
       containerElement = El({
         tagName: 'div',
-        cls: 'flex column'
+        cls: 'flex row'
       });
 
       externalUrlMainButton = Button({
