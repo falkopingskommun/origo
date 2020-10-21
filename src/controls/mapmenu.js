@@ -94,7 +94,7 @@ const Mapmenu = function Mapmenu({
         icon: menuIcon,
         cls: `control icon-smaller medium round absolute light top-left${menuButtonCls}`,
         tooltipText: 'Meny',
-        tooltipPlacement: 'west',
+        tooltipPlacement: 'east',
         click() {
           toggle();
         }
