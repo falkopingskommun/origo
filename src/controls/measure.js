@@ -501,7 +501,7 @@ const Measure = function Measure({
           },
           icon: '#ic_straighten_24px',
           tooltipText: 'Mäta',
-          tooltipPlacement: 'east'
+          tooltipPlacement: 'north'
         });
         buttons.push(measureButton);
 
@@ -514,7 +514,7 @@ const Measure = function Measure({
             },
             icon: '#ic_timeline_24px',
             tooltipText: 'Längd',
-            tooltipPlacement: 'east'
+            tooltipPlacement: 'north'
           });
           buttons.push(lengthToolButton);
           defaultButton = lengthToolButton;
@@ -529,7 +529,7 @@ const Measure = function Measure({
             },
             icon: '#o_polygon_24px',
             tooltipText: 'Yta',
-            tooltipPlacement: 'east'
+            tooltipPlacement: 'north'
           });
           buttons.push(areaToolButton);
           defaultButton = defaultTool === 'length' ? lengthToolButton : areaToolButton;
@@ -544,7 +544,7 @@ const Measure = function Measure({
             },
             icon: '#ic_height_24px',
             tooltipText: 'Höjd',
-            tooltipPlacement: 'east'
+            tooltipPlacement: 'north'
           });
           buttons.push(elevationToolButton);
           defaultButton = defaultTool === 'length' ? lengthToolButton : elevationToolButton;
@@ -558,7 +558,7 @@ const Measure = function Measure({
             },
             icon: '#ic_undo_24px',
             tooltipText: 'Ångra',
-            tooltipPlacement: 'east'
+            tooltipPlacement: 'north'
           });
           buttons.push(undoButton);
         }
