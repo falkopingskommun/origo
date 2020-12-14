@@ -34,7 +34,7 @@ export default function editorLayers(editableLayers, optOptions = {}, v) {
   function render(options) {
     const popover = createElement('div', '', {
       id: options.target,
-      cls: 'o-popover'
+      cls: 'o-popover_falk_editor_scroll'
     });
     $('#o-editor-layers').after(popover);
     dropDown(options.target, options.selectOptions, {
