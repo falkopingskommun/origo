@@ -21,3 +21,4 @@ export { default as Sharemap } from './controls/sharemap';
 export { default as Splash } from './controls/splash';
 export { default as Externalurl } from './controls/externalurl';
 export { default as Scalepicker } from './controls/scalepicker';
+export { default as Help } from './controls/help';
