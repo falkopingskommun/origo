@@ -28,6 +28,12 @@
     "copy-plugins": "copyfiles plugins/* build"
   },
   "dependencies": {
+    "@turf/boolean-disjoint": "^6.0.2",
+    "@turf/buffer": "^5.1.5",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/runtime": "^7.12.5",
+    "@babel/runtime-corejs3": "^7.12.5",
+    "jquery": "^3.5.1",
     "@glidejs/glide": "^3.4.1",
     "acorn": "^8.0.4",
     "awesomplete": "^1.1.5",
