@@ -1,7 +1,6 @@
 import dropDown from '../../dropdown';
 import dispatcher from './editdispatcher';
 import utils from '../../utils';
-import Map from '../../map';
 
 const createElement = utils.createElement;
 
@@ -80,13 +79,6 @@ export default function editorLayers(editableLayers, optOptions = {}, v) {
       dispatcher.emitToggleEdit('edit', {
         currentLayer: e.detail.dataAttribute
       });
-
-      //falk_mod test
-      if (e.prevSelected) {
-        map.getLayer(e.prevSelected).setVisible(false);
-      }
-      map.getLayer(e.dataAttribute).setVisible(true);
-
 
     });
     document.addEventListener('toggleEdit', onToggleEdit);
