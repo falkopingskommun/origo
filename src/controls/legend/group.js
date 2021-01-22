@@ -16,6 +16,8 @@ const Group = function Group(options = {}, viewer) {
     name,
     parent,
     abstract,
+    abstractbtntext,
+    abstractbtnurl,
     position = 'top',
     type = 'group',
     autoExpand = true,
@@ -33,7 +35,7 @@ const Group = function Group(options = {}, viewer) {
   let groupEl;
 
   const listCls = type === 'grouplayer' ? 'divider-start padding-left padding-top-small' : '';
-  const groupList = GroupList({ viewer, cls: listCls, abstract });
+  const groupList = GroupList({ viewer, cls: listCls, abstract, abstractbtntext,abstractbtnurl });
   visibleState = groupList.getVisible();
 
   const getEl = () => groupEl;

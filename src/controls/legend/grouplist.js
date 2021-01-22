@@ -3,7 +3,7 @@ import { Component } from '../../ui';
 const LayerList = function LayerList(options, isRootGroup = false) {
   const {
     cls: clsSettings = '',
-    abstract
+    abstract, abstractbtntext, abstractbtnurl
   } = options;
 
   let cls = `${clsSettings} list divider-end`.trim();
@@ -108,6 +108,16 @@ const LayerList = function LayerList(options, isRootGroup = false) {
           render() {
             return `<li><div id="${this.getId()}">
             <div class="padding-small padding-x text-small">${abstract}</div>
+            </div></li>`;
+          }
+        });
+        this.addComponent(groupAbstract);
+      }
+      if (abstractbtntext) {
+        const groupAbstract = Component({
+          render() {
+            return `<li><div id="${this.getId()}">
+            <div class="padding-small padding-x text-small"><a href='${abstractbtnurl}' target='_parent'>${abstractbtntext}</a></div>
             </div></li>`;
           }
         });
