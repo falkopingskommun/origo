@@ -4,11 +4,18 @@ import utils from '../../utils';
 
 const createElement = utils.createElement;
 
-let map;
 let viewer;
 
 export default function editorLayers(editableLayers, optOptions = {}, v) {
   viewer = v;
+  for (let i = 0; i < editableLayers.length; i++) {
+    let secure = viewer.getLayer(editableLayers[i]).get('secure');
+    if (secure === true) {
+      editableLayers.splice(i, 1);
+      i--;
+    }
+  }
+  editableLayers.reverse();
   function selectionModel(layerNames) {
     const selectOptions = layerNames.map((layerName) => {
       const obj = {};
@@ -79,7 +86,10 @@ export default function editorLayers(editableLayers, optOptions = {}, v) {
       dispatcher.emitToggleEdit('edit', {
         currentLayer: e.detail.dataAttribute
       });
-
+      editableLayers.forEach(layername => {
+        viewer.getLayer(layername).setVisible(false);
+      });
+      viewer.getLayer(e.detail.dataAttribute).setVisible(true);
     });
     document.addEventListener('toggleEdit', onToggleEdit);
     document.addEventListener('changeEdit', onChangeEdit);
