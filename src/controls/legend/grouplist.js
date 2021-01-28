@@ -107,7 +107,7 @@ const LayerList = function LayerList(options, isRootGroup = false) {
         const groupAbstract = Component({
           render() {
             return `<li><div id="${this.getId()}">
-            <div class="padding-small padding-x text-small">${abstract}</div>
+            <div class="extern_abstract">${abstract}</div>
             </div></li>`;
           }
         });
