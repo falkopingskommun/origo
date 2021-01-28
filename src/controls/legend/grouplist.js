@@ -1,5 +1,4 @@
 import { Component } from '../../ui';
-
 const LayerList = function LayerList(options, isRootGroup = false) {
   const {
     cls: clsSettings = '',
@@ -10,6 +9,7 @@ const LayerList = function LayerList(options, isRootGroup = false) {
   if (isRootGroup) {
     cls = `${clsSettings} list divider-end-rootgroup`.trim();
   }
+  
   const overlaysStore = {};
   const groupStore = {};
   let el;
@@ -117,7 +117,7 @@ const LayerList = function LayerList(options, isRootGroup = false) {
         const groupAbstract = Component({
           render() {
             return `<li><div id="${this.getId()}">
-            <div class="padding-small padding-x text-small"><a href='${abstractbtnurl}' target='_parent'>${abstractbtntext}</a></div>
+            <div class="extern_abstract"><a href='${abstractbtnurl}' target='intern.html'><img src='img/svg/external_link_o.svg' height='14px' width='14px'> ${abstractbtntext}</a></div>
             </div></li>`;
           }
         });
