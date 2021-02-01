@@ -1,9 +1,10 @@
 const pin = [{
   icon: {
-    anchor: [0.5, 32],
+    anchor: [0.5, 0.83],
     anchorXUnits: 'fraction',
-    anchorYUnits: 'pixels',
-    src: 'img/png/falk_marker_red.png'
+    anchorYUnits: 'fraction',
+    scale: 0.22,
+    src: 'img/svg/pin.svg'
   }
 }];
 
