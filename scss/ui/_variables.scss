@@ -13,7 +13,9 @@ $green: hsl(130, 65, 58);
 $blue: hsl(205, 100, 48);
 $purple: hsl(241, 61, 59);
 $pink: hsl(349, 100, 59);
-
+// Falköping - colors
+$falk_blue: rgba(143, 168, 200, 0.95);
+// Falköping - colors slut
 $grey-darker: hsl(0, 0, 21);
 $grey-dark: hsl(0, 0, 29);
 $grey: hsl(0, 0, 48);
@@ -23,7 +25,7 @@ $grey-lightest: hsl(0, 0, 92);
 
 
 // General colors
-$primary-color: $blue;
+$primary-color: $falk_blue;
 $background-color: $white;
 $primary-color-inverse: $white;
 $info-color: $blue;
