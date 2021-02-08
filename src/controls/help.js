@@ -9,8 +9,6 @@ const Help = function Help(options = {}) {
   let modal;
   const contentItems = [];
 
-  const GuiderText = 'Kartnytt och videoguider för kartan och andra GIS program'
-  const DrawText = 'Startar Ritverktyget'
   const AboutText = 'Här finner du mer information';
   const ZoomInText = 'Zooma in i kartan';
   const ZoomOutText = 'Zooma ut i kartan';
@@ -35,9 +33,7 @@ const Help = function Help(options = {}) {
   const SplashText = '';
   const ExternalurlText = 'Öppnar fler knappar där du kan välja att öppna din kartposition i annan applikation';
   const ScalepickerText = '';
-  
-  const GuiderIcon = '#falk_guider-24px';
-  const DrawIcon = '#fa-pencil'
+
   const AboutIcon = '#ic_info_outline_24px';
   const ZoomInIcon = '#ic_add_24px';
   const ZoomOutIcon = '#ic_remove_24px';
@@ -50,7 +46,7 @@ const Help = function Help(options = {}) {
   const PrintIcon = '#ic_print_24px';
   const LinkIcon = '#ic_launch_24px';
   const DraganddropIcon = '';
-  const EditorIcon = '#fa-pencil';
+  const EditorIcon = '#ic_edit_24px';
   const FullscreenIcon = '#ic_fullscreen_24px';
   const LegendIcon = '#ic_layers_24px';
   const PositionIcon = '#ic_gps_not_fixed_24px';
