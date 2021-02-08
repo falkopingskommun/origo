@@ -59,7 +59,7 @@ const Editor = function Editor(options = {}) {
         click() {
           toggleState();
         },
-        icon: '#ic_edit_24px',
+        icon: '#fa-pencil-ruler',
         tooltipText: 'Redigera',
         tooltipPlacement: 'east',
         state,
