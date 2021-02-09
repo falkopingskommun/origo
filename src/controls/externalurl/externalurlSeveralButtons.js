@@ -57,7 +57,7 @@ const externalurlSeveralButtons = function externalurlSeveralButtons(options = {
           cls: 'o-measure-length padding-small margin-bottom-smaller icon-smaller round light box-shadow hidden',
           icon: buttonImage,
           tooltipText,
-          tooltipPlacement: 'north_falk',
+          tooltipPlacement: 'east',
           click() {
             const mapView = map.getView();
             const center = mapView.getCenter();
