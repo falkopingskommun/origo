@@ -50,7 +50,7 @@ const Help = function Help(options = {}) {
   const PrintIcon = '#ic_print_24px';
   const LinkIcon = '#ic_launch_24px';
   const DraganddropIcon = '';
-  const EditorIcon = '#fa-pencil';
+  const EditorIcon = '#fa-pencil-ruler';
   const FullscreenIcon = '#ic_fullscreen_24px';
   const LegendIcon = '#ic_layers_24px';
   const PositionIcon = '#ic_gps_not_fixed_24px';
