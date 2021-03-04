@@ -93,7 +93,7 @@ const getContent = {
     return newElement;
   },
   xy(feature, attribute) {
-    const val = `<b>E: </b> ${feature.getGeometry().getCoordinates()[0]}<b>N: </b> ${feature.getGeometry().getCoordinates()[1]}`;
+    const val = `<b>N: </b> ${feature.getGeometry().getCoordinates()[1]}<b> E: </b> ${feature.getGeometry().getCoordinates()[0]}`;
     const newElement = document.createElement('li');
     newElement.classList.add(attribute.cls);
     newElement.innerHTML = val;
