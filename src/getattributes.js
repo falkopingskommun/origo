@@ -16,7 +16,7 @@ function parseUrl(urlattr, feature, attribute, attributes, map) {
     url = createUrl(attribute.urlPrefix, attribute.urlSuffix, replacer.replace(urlattr, attributes, null, map));
   } else if (isUrl(attribute.url)) {
     url = attribute.url;
-  } else return false;
+  } else return '';
   const text = feature.get(attribute.name) || attribute.html || attribute.title || urlattr;
   const aTargetTitle = replacer.replace(attribute.targetTitle, attributes) || url;
   let aTarget = '_blank';
