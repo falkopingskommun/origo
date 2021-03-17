@@ -445,7 +445,7 @@ const Viewer = function Viewer(targetOption, options = {}) {
       });
 
       if (urlParams.feature) {
-        const featureId = urlParams.feature;
+        let featureId = urlParams.feature;
         const layerName = featureId.split('.')[0];
         const layer = getLayer(layerName);
         const type = layer.get('type');
@@ -459,6 +459,9 @@ const Viewer = function Viewer(targetOption, options = {}) {
             if (type === 'WFS' && clusterSource) {
               feature = clusterSource.getFeatureById(featureId);
             } else if (type === 'WFS') {
+              if (featureId.includes('__')) {
+                featureId = featureId.replace(featureId.substring(featureId.lastIndexOf('__'), featureId.lastIndexOf('.')), '');
+              }
               feature = layer.getSource().getFeatureById(featureId);
             } else if (clusterSource) {
               feature = clusterSource.getFeatureById(id);
