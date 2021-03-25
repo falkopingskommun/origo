@@ -29,7 +29,7 @@ const Bookmarks = function Bookmarks(options = {}) {
     bookmarksEl.classList.toggle('faded');
     bookmarksButtonEl.classList.toggle('active');
     isActive = !isActive;
-    bookmarksEl.style.cssText = 'top: 1rem; left: 4rem;';
+    bookmarksEl.style.cssText = 'top: 3.5rem; left: 4rem;';
   };
 
   const close = function close() {

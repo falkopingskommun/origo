@@ -108,6 +108,10 @@ const Help = function Help(options = {}) {
     Scalepicker: {
       text: 'Visar kartans nuvarande skala. Klicka för att välja skala manuellt',
       icon: ''
+    },
+    Multiselect: {
+      text: 'Markera flera objekt genom att rita cirkel, rektangel, polygon eller buffert runt ett objekt',
+      icon: '#baseline-select-all-24px'
     }
   };
 
