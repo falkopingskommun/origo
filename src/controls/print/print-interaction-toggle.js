@@ -46,7 +46,7 @@ export default function PrintInteractionToggle(options = {}) {
         icon: toggleIcon,
         tooltipText: 'Ändra kartans läge',
         tooltipPlacement: 'east',
-        state: 'initial',
+        state: 'active',
         validStates: ['initial', 'active'],
         style: 'width: fit-content;',
         click() {
