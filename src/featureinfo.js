@@ -101,40 +101,6 @@ const Featureinfo = function Featureinfo(options = {}) {
     return title;
   };
 
-  const getTitle = function getTitle(item) {
-    let featureinfoTitle;
-    let title;
-    let layer;
-    if (item.layer) {
-      if (typeof item.layer === 'string') {
-        // bcuz in getfeatureinfo -> getFeaturesFromRemote only name of the layer is set on the object! (old version before using SelectedItems class)
-        layer = viewer.getLayer(item.layer);
-      } else {
-        layer = viewer.getLayer(item.layer.get('name'));
-      }
-    }
-    // This is very strange: layer above is only a string, could not possibly have method.
-    if (layer) {
-      featureinfoTitle = layer.getProperties().featureinfoTitle;
-    }
-    if (featureinfoTitle) {
-      const featureProps = item.feature.getProperties();
-      title = replacer.replace(featureinfoTitle, featureProps);
-      if (!title) {
-        if (item instanceof SelectedItem) {
-          title = item.getLayer().get('title') ? item.getLayer().get('title') : item.getLayer().get('name');
-        } else {
-          title = item.title ? item.title : item.name;
-        }
-      }
-    } else if (item instanceof SelectedItem) {
-      title = item.getLayer().get('title') ? item.getLayer().get('title') : item.getLayer().get('name');
-    } else {
-      title = item.title ? item.title : item.name;
-    }
-    return title;
-  };
-
   // TODO: direct access to feature and layer should be converted to getFeature and getLayer methods on currentItem
   const callback = function callback(evt) {
     const currentItemIndex = evt.item.index;
