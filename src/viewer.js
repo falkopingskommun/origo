@@ -57,6 +57,7 @@ const Viewer = function Viewer(targetOption, options = {}) {
     url
   } = options;
 
+  const viewerOptions = Object.assign({}, options);
   const target = targetOption;
   const center = urlParams.center || centerOption;
   const zoom = urlParams.zoom || zoomOption;
@@ -130,6 +131,8 @@ const Viewer = function Viewer(targetOption, options = {}) {
   const getTileGridSettings = () => tileGridSettings;
 
   const getTileSize = () => tileGridSettings.tileSize;
+
+  const getViewerOptions = () => viewerOptions;
 
   const getUrl = () => url;
 
@@ -568,6 +571,7 @@ const Viewer = function Viewer(targetOption, options = {}) {
     getTileSize,
     getUrl,
     getUrlParams,
+    getViewerOptions,
     removeGroup,
     removeOverlays,
     zoomToExtent,
