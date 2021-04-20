@@ -112,6 +112,10 @@ const Help = function Help(options = {}) {
     Multiselect: {
       text: 'Markera flera objekt genom att rita cirkel, rektangel, polygon eller buffert runt ett objekt',
       icon: '#baseline-select-all-24px'
+    },
+    Estatelookup: {
+      text: 'Visa fastighet genom att klicka i kartan',
+      icon: '#ic_crop_house_24px'
     }
   };
 
