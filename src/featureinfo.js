@@ -149,15 +149,17 @@ const Featureinfo = function Featureinfo(options = {}) {
     }
   };
 
-  const initImageCarousel = function initImageCarousel(id) {
-    const { length } = Array.from(document.querySelectorAll('.o-image-content'));
-    if (!document.querySelector('.glide-image') && length > 1) {
+  const initImageCarousel = function initImageCarousel(id, oClass, carouselId, targetElement) {
+    const carousel = document.getElementsByClassName(id.substring(1));
+    const { length } = Array.from(carousel[0].querySelectorAll('div.o-image-content > img'));
+    if (!document.querySelector(`.glide-image${carouselId}`) && length > 1) {
       OGlide({
         id,
         callback: callbackImage,
-        oClass: '.o-image-content',
-        glideClass: 'glide-image',
-        autoplay
+        oClass,
+        glideClass: `glide-image${carouselId}`,
+        autoplay,
+        targetElement
       });
     }
   };
@@ -242,7 +244,9 @@ const Featureinfo = function Featureinfo(options = {}) {
           title: getTitle(items[0])
         });
         const contentDiv = document.getElementById('o-identify-carousel');
+        const carouselIds = [];
         items.forEach((item) => {
+          carouselIds.push(item.feature.ol_uid);
           if (item.content instanceof Element) {
             contentDiv.appendChild(item.content);
           } else {
@@ -251,9 +255,7 @@ const Featureinfo = function Featureinfo(options = {}) {
         });
         popup.setVisibility(true);
         initCarousel('#o-identify-carousel');
-        const popupHeight = document.querySelector('.o-popup').offsetHeight + 10;
         const popupEl = popup.getEl();
-        popupEl.style.height = `${popupHeight}px`;
         overlay = new Overlay({
           element: popupEl,
           autoPan: {
@@ -277,10 +279,21 @@ const Featureinfo = function Featureinfo(options = {}) {
         const coord = geometry.getType() === 'Point' ? geometry.getCoordinates() : coordinate;
         map.addOverlay(overlay);
         overlay.setPosition(coord);
-        const imageCarouselDiv = document.getElementById('o-image-carousel');
-        if (imageCarouselDiv !== null) {
-          initImageCarousel('#o-image-carousel');
-        }
+        carouselIds.forEach((carouselId) => {
+          let targetElement;
+          const elements = document.getElementsByClassName(`o-image-carousel${carouselId}`);
+          elements.forEach(element => {
+            if (!element.closest('.glide__slide--clone')) {
+              targetElement = element;
+            }
+          });
+          const imageCarouselEl = document.getElementsByClassName(`o-image-carousel${carouselId}`);
+          if (imageCarouselEl.length > 0) {
+            initImageCarousel(`#o-image-carousel${carouselId}`, `.o-image-content${carouselId}`, carouselId, targetElement);
+          }
+        });
+        const popupHeight = document.querySelector('.o-popup').offsetHeight + 10;
+        popupEl.style.height = `${popupHeight}px`;
         break;
       }
       case 'sidebar':

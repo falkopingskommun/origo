@@ -81,11 +81,8 @@
       }
     }
   }
-  #o-image-carousel {
+  .o-image-carousel {
     max-height: inherit;
-
-    .owl-stage {
-      margin-bottom: 10px;
-    }
+    margin-bottom: 10px;
   }
 }
