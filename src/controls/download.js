@@ -4,6 +4,7 @@ import formCreator from '../utils/formcreator';
 import sidebar from '../sidebar';
 // import featureLayer from '../featurelayer';
 import { Component } from '../ui';
+import {getArea} from 'ol/extent';
 
 const Download = function Download(options = {}) {
   const {
@@ -29,6 +30,8 @@ const Download = function Download(options = {}) {
   let attributeObjects;
   let map;
   let layers;
+  let extent_area;
+  let extent_area_color;
 
   function getLayerTitles() {
     let titles = '';
@@ -55,7 +58,16 @@ const Download = function Download(options = {}) {
     layerTitles = getLayerTitles();
 
     if (layerTitles) {
-      layerInfo = `<br>Nedan listas de lager som du kommer att hämta från den aktuella vyn:<br><br>${layerTitles}<br>`;
+      //falk-mod start - area extent
+      extent_area = Math.round(getArea(map.getView().calculateExtent(map.getSize())) /10000);
+        if  (extent_area > 160) {
+          extent_area_color = 'red'
+          }
+        else {
+          extent_area_color = 'green'
+          }     
+          //falk-mod slut - area extent
+      layerInfo = `<br>Nedan listas de lager som du kommer att hämta från den aktuella vyn:<br><br>${layerTitles}<br>Max area: 160 ha<br><font color='${extent_area_color}'>Aktuell area: ${extent_area} ha</font>`;
     } else {
       layerInfo = '<p style="font-style:italic;">Du måste tända ett nedladdningsbart lager i kartan för att kunna hämta hem data.</p>';
     }
@@ -74,7 +86,7 @@ const Download = function Download(options = {}) {
   }
 
   function fmeDownloadEnabled() {
-    if (layerTitles && document.querySelector('#input-DestinationFormat')[0].selectedIndex !== 0) {
+    if (layerTitles && document.querySelector('#input-DestinationFormat')[0].selectedIndex !== 0 && extent_area_color !== 'red') {
       document.querySelector('#o-fme-download-button').removeAttribute('disabled');
     } else {
       document.querySelector('#o-fme-download-button').disabled = true;
