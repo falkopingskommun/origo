@@ -292,6 +292,10 @@ const Viewer = function Viewer(targetOption, options = {}) {
     return layerlist;
   };
 
+  const getEmbedded = function getEmbedded() {
+    return isEmbedded(this.getTarget());
+  };
+  
   const mergeSavedLayerProps = (initialLayerProps, savedLayerProps, capabilitiesLayers) => {
     let mergedLayerProps;
     if (savedLayerProps) {
@@ -575,7 +579,8 @@ const Viewer = function Viewer(targetOption, options = {}) {
     removeGroup,
     removeOverlays,
     zoomToExtent,
-    getSelectionManager
+    getSelectionManager,
+    getEmbedded
   });
 };
 
