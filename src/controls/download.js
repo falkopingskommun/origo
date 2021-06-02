@@ -170,9 +170,10 @@ const Download = function Download(options = {}) {
       dwg: 'ACAD',
       shape: 'ESRISHAPE',
       GeoJSON: 'GEOJSON',
-      GeoPackage: 'GEOPACKAGE'
+      GeoPackage: 'GEOPACKAGE',
+      csv: 'CSV',
     };
-    fmeUrl = fmeUrl.replace(/dwg|shape|GeoJSON|GeoPackage/gi, matched => formatTypes[matched]);
+    fmeUrl = fmeUrl.replace(/dwg|shape|GeoJSON|GeoPackage|csv/gi, matched => formatTypes[matched]);
 
     visibleLayers = getVisibleLayers();
     visibleLayers = visibleLayers.replace(/;/g, '%20');
