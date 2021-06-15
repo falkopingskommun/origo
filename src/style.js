@@ -190,9 +190,10 @@ function checkOptions(feature, scale, styleSettings, styleList, size) {
             styleL = styleList[j];
             return styleL;
           }
+        // eslint-disable-next-line brace-style
         }
         // eslint-disable-next-line no-eval
-        if (eval(expr)) {
+        else if (eval(expr)) {
           styleL = styleList[j];
           return styleL;
         }
@@ -297,7 +298,6 @@ function createStyleRule(options) {
   }
   return styleRule;
 }
-
 function createGeometryCollectionStyle(options) {
   const styleRule = [];
 
