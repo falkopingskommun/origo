@@ -1,6 +1,5 @@
-import { Component, Button, Collapse, CollapseHeader, dom } from '../../ui';
+import { Component, Modal, Button, Collapse, CollapseHeader, dom } from '../../ui'; //falk mod 2021-06-15
 import GroupList from './grouplist';
-
 /**
  * The Group component can be a group or a subgroup,
  * defined by type group or grouplayer. If the
@@ -15,9 +14,10 @@ const Group = function Group(options = {}, viewer) {
     title,
     name,
     parent,
-    abstract,
+    abstract, //abstract visas direkt under lagret i legenden (orginal)
+    abstractbtnurl, //falk mod, skapar infoknapp som öppnar url i modal
+    abstractbtnmodal, //falk mod, skapar infoknapp som öppnar abstract i modal
     abstractbtntext,
-    abstractbtnurl,
     position = 'top',
     type = 'group',
     autoExpand = true,
@@ -33,9 +33,10 @@ const Group = function Group(options = {}, viewer) {
   const uncheckIcon = '#ic_radio_button_unchecked_24px';
   let visibleState = 'all';
   let groupEl;
+  let modal;
 
   const listCls = type === 'grouplayer' ? 'divider-start padding-left padding-top-small' : '';
-  const groupList = GroupList({ viewer, cls: listCls, abstract, abstractbtntext,abstractbtnurl });
+  const groupList = GroupList({ viewer, cls: listCls, abstract,abstractbtnurl,abstractbtnmodal,abstractbtntext });
   visibleState = groupList.getVisible();
 
   const getEl = () => groupEl;
@@ -49,6 +50,34 @@ const Group = function Group(options = {}, viewer) {
 
   const getVisible = () => visibleState;
 
+//falk mod skapar infoknapp
+  const iframe1 = '<iframe width="600px" src="'
+  const iframe2 = '"></iframe>'
+  let modalstyle = ''
+  let abstractcontent = ''
+  if (!abstractbtnurl && !abstractbtnmodal) abstractcontent = title;
+  if (abstractbtnurl) {
+    abstractcontent = iframe1+abstractbtnurl+iframe2;
+    modalstyle = 'width:600px';}
+  if (abstractbtnmodal)  abstractcontent = abstractbtnmodal;
+
+
+  const infoButton = Button({
+    cls: 'icon-smaller compact round',
+    icon: '#fa-info-circle',
+
+  click() {
+    modal = Modal({
+      title: title,
+      content: abstractcontent,
+      newTabUrl: abstractbtnurl,
+      style: modalstyle,
+      target: viewer.getId(),
+    });
+    this.addComponent(modal);
+  },
+});
+//falk mod slut
   const tickButton = !exclusive ? Button({
     cls: 'icon-smaller round small',
     click() {
@@ -77,10 +106,11 @@ const Group = function Group(options = {}, viewer) {
         'align-self': 'flex-start'
       }
     });
-
     return Component({
       onInit() {
         this.addComponent(expandButton);
+        if (abstractbtnurl || abstractbtnmodal) //falk mod
+        this.addComponent(infoButton); //falk mod
         if (tickButton) {
           this.addComponent(tickButton);
         }
@@ -97,17 +127,28 @@ const Group = function Group(options = {}, viewer) {
         });
       },
       render() {
+        if (abstractbtnurl || abstractbtnmodal) { //falk mod start
         return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
                 <div id="${this.getId()}" class="flex row align-center grow">
                    ${expandButton.render()}
-                    <span class="grow padding-x-small">${title}</span>
+                    <span class="grow padding-x-small"> ${title}</span>
                 </div>
-                ${tickButton ? tickButton.render() : ''}
+                ${tickButton ? tickButton.render() : '' }${infoButton.render()}
+               
               </div>`;
+            }//falk mod slut
+            else {
+              return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
+                      <div id="${this.getId()}" class="flex row align-center grow">
+                         ${expandButton.render()}
+                          <span class="grow padding-x-small"> ${title}</span>
+                      </div>
+                      ${tickButton ? tickButton.render() : '' }
+                    </div>`;
+                  }    
       }
     });
   };
-
   const GroupHeader = function GroupHeader() {
     const headerComponent = CollapseHeader({
       cls: 'hover padding-x padding-y-small grey-lightest border-bottom text-small',

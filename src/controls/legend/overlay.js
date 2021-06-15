@@ -1,4 +1,5 @@
-import { Component, Button, dom } from '../../ui';
+//falk mod 2021-06-15
+import { Component, Modal, Button, dom } from '../../ui';
 import { HeaderIcon } from '../../utils/legendmaker';
 
 const OverlayLayer = function OverlayLayer(options) {
@@ -19,10 +20,13 @@ const OverlayLayer = function OverlayLayer(options) {
   let removeButton;
   let ButtonsHtml;
   let layerList;
+  let modal; //falk mod
 
   let cls = `${clsSettings} flex row align-center padding-left padding-right item`.trim();
   const title = layer.get('title') || 'Titel saknas';
   const name = layer.get('name');
+  const abstractbtnurl = layer.get('abstractbtnurl'); //falk mod
+  const abstractbtnmodal = layer.get('abstractbtnmodal'); //falk mod
   const secure = layer.get('secure');
 
   const checkIcon = '#ic_check_circle_24px';
@@ -107,6 +111,36 @@ const OverlayLayer = function OverlayLayer(options) {
     icon: getCheckIcon(layer.getVisible())
   });
 
+  //falk mod skapar infoknapp
+  const iframe1 = '<iframe width="600px" src="'
+  const iframe2 = '"></iframe>'
+  let abstractcontent = ''
+  let modalstyle = ''
+  if (!abstractbtnurl && !abstractbtnmodal) abstractcontent = title;
+  if (abstractbtnurl) {
+    abstractcontent = iframe1+abstractbtnurl+iframe2;
+    modalstyle = 'width:600px';}
+  if (abstractbtnmodal)  abstractcontent = abstractbtnmodal;
+
+  const infoButton = Button({
+    cls: 'icon-smaller compact round',
+    icon: '#fa-info-circle',
+
+    click() {
+      modal = Modal({
+  
+        title: title,
+        content: abstractcontent,
+        newTabUrl: abstractbtnurl,
+        style: modalstyle,
+        target: viewer.getId(),
+        
+      });
+      this.addComponent(modal);
+    },
+
+  });
+  if (abstractbtnurl || abstractbtnmodal) {buttons.push(infoButton);} //falk mod slut}
   buttons.push(toggleButton);
 
   if (layer.get('removable')) {
@@ -125,9 +159,13 @@ const OverlayLayer = function OverlayLayer(options) {
     buttons.push(removeButton);
     ButtonsHtml = `${layerIcon.render()}${label.render()}${removeButton.render()}${toggleButton.render()}`;
   } else {
+    if (abstractbtnurl || abstractbtnmodal){  //falk start (removeable kan ej kombineras med abstractbtnurl eller abstractbtnmodal)
+      ButtonsHtml = `${layerIcon.render()}${label.render()}${toggleButton.render()}${infoButton.render()}`;
+    }
+    else { //falk slut
     ButtonsHtml = `${layerIcon.render()}${label.render()}${toggleButton.render()}`;
   }
-
+  }
   const onRemove = function onRemove() {
     const el = document.getElementById(this.getId());
     el.remove();
