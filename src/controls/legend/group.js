@@ -17,7 +17,7 @@ const Group = function Group(options = {}, viewer) {
     abstract, //abstract visas direkt under lagret i legenden (orginal)
     abstractbtnurl, //falk mod, skapar infoknapp som öppnar url i modal
     abstractbtnmodal, //falk mod, skapar infoknapp som öppnar abstract i modal
-    abstractbtntext,
+    abstractbtnug, //falk mod, sätts till true om abstractmodal eller abstracturl används för temalager, info knappen hamnar under gruppen (ug)
     position = 'top',
     type = 'group',
     autoExpand = true,
@@ -36,7 +36,7 @@ const Group = function Group(options = {}, viewer) {
   let modal;
 
   const listCls = type === 'grouplayer' ? 'divider-start padding-left padding-top-small' : '';
-  const groupList = GroupList({ viewer, cls: listCls, abstract,abstractbtnurl,abstractbtnmodal,abstractbtntext });
+  const groupList = GroupList({ viewer, cls: listCls, abstract,abstractbtnurl,abstractbtnmodal,abstractbtnug });
   visibleState = groupList.getVisible();
 
   const getEl = () => groupEl;

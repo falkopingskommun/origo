@@ -1,8 +1,9 @@
-import { Component } from '../../ui';
+import { Component, Modal, Button} from '../../ui'; //falk mod 2021-06-16
 const LayerList = function LayerList(options, isRootGroup = false) {
   const {
     cls: clsSettings = '',
-    abstract, abstractbtntext, abstractbtnurl
+    viewer,//falk-mod
+    abstract, abstractbtnmodal, abstractbtnurl, title, abstractbtnug //falk-mod
   } = options;
 
   let cls = `${clsSettings} list divider-end`.trim();
@@ -14,6 +15,7 @@ const LayerList = function LayerList(options, isRootGroup = false) {
   const groupStore = {};
   let el;
   let target;
+  let modal; //falk mod
 
   const getEl = () => el;
 
@@ -93,6 +95,34 @@ const LayerList = function LayerList(options, isRootGroup = false) {
     }
   };
 
+    //falk mod skapar infoknapp
+    const iframe1 = '<iframe width="600px" src="'
+    const iframe2 = '"></iframe>'
+    let abstractcontent = ''
+    let modalstyle = ''
+    if (!abstractbtnurl && !abstractbtnmodal) abstractcontent = title;
+    if (abstractbtnurl) {
+      abstractcontent = iframe1+abstractbtnurl+iframe2;
+      modalstyle = 'width:600px';}
+    if (abstractbtnmodal)  abstractcontent = abstractbtnmodal;
+
+  const infoButton = Button({
+    cls: 'falk_btn',
+    icon: '#fa-info-circle',
+    text: 'Läs mer',
+
+  click() {
+    modal = Modal({
+      title: title,
+      content: abstractcontent,
+      newTabUrl: abstractbtnurl,
+      style: modalstyle,
+      target: viewer.getId(),
+    });
+    this.addComponent(modal);
+  },
+}); //falk mod slut
+
   return Component({
     addGroup,
     addOverlay,
@@ -113,15 +143,8 @@ const LayerList = function LayerList(options, isRootGroup = false) {
         });
         this.addComponent(groupAbstract);
       }
-      if (abstractbtntext) {
-        const groupAbstract = Component({
-          render() {
-            return `<li><div id="${this.getId()}">
-            <div class="extern_abstract"><a href='${abstractbtnurl}' target='intern.html'><img src='img/svg/external_link_o.svg' height='14px' width='14px'> ${abstractbtntext}</a></div>
-            </div></li>`;
-          }
-        });
-        this.addComponent(groupAbstract);
+      if (abstractbtnug) { //falk mod lägger till infoknapp under temagruppen om abstractbtnug är true
+        this.addComponent(infoButton); //falk mod
       }
       this.on('add', (evt) => {
         if (evt.target) {
