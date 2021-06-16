@@ -15,10 +15,10 @@ export default function hatch_style() {
       canvas.width = 15 * pixelRatio;
       canvas.height = 15 * pixelRatio;
       context.fillStyle = 'rgb(0, 0, 0)';
-      context.strokeStyle = '#739642';
+      context.strokeStyle = '#1e1ffc';
       context.beginPath();
-      context.moveTo(0, 15);
-      context.lineTo(15 * pixelRatio, 0 * pixelRatio);
+      context.moveTo(0, 0);
+      context.lineTo(15 * pixelRatio, 15 * pixelRatio);
       context.stroke();
       
       return context.createPattern(canvas, 'repeat');
@@ -26,9 +26,8 @@ export default function hatch_style() {
 
     // Generate a outline
     const stroke = new Stroke({
-      color: '#465a28',
-      width: 2,
-      lineDash: [5,5]
+      color: '#1e1ffc',
+      width: 2
     });
 
     fill = new Fill({

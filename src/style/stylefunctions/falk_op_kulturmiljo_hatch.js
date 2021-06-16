@@ -12,13 +12,13 @@ export default function hatch_style() {
 
     // Generate a canvasPattern
     const linje_fyllnad = (function km() {
-      canvas.width = 15 * pixelRatio;
-      canvas.height = 15 * pixelRatio;
+      canvas.width = 10 * pixelRatio;
+      canvas.height = 10 * pixelRatio;
       context.fillStyle = 'rgb(0, 0, 0)';
-      context.strokeStyle = '#739642';
+      context.strokeStyle = '#fc0808';
       context.beginPath();
-      context.moveTo(0, 15);
-      context.lineTo(15 * pixelRatio, 0 * pixelRatio);
+      context.moveTo(0, 0);
+      context.lineTo(10 * pixelRatio, 0 * pixelRatio);
       context.stroke();
       
       return context.createPattern(canvas, 'repeat');
@@ -26,9 +26,8 @@ export default function hatch_style() {
 
     // Generate a outline
     const stroke = new Stroke({
-      color: '#465a28',
-      width: 2,
-      lineDash: [5,5]
+      color: '#fc0808',
+      width: 2
     });
 
     fill = new Fill({
