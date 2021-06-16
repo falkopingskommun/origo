@@ -116,6 +116,14 @@ const Help = function Help(options = {}) {
     Estatelookup: {
       text: 'Visa fastighet genom att klicka i kartan',
       icon: '#ic_crop_house_24px'
+    },
+    Draw: {
+      text: 'Rita i kartan, lägg till tillfälliga punkter, linjer, ytor eller texter. Glöm inte skriva ut till pdf eller bild om det ska behållas',
+      icon: '#fa-pencil'
+    },
+    Download: {
+      text: 'Hämta data till fil, tänd först lager i Nedladdningsbara lager och zooma till önskad utbredning',
+      icon: '#ic_get_app_24px'
     }
   };
 
