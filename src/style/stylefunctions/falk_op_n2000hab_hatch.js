@@ -17,7 +17,7 @@ export default function hatch_style() {
       context.fillStyle = 'rgb(0, 0, 0)';
       context.strokeStyle = '#739642';
       context.beginPath();
-      context.moveTo(0, 0);
+      context.moveTo(0 * pixelRatio,  0 * pixelRatio);
       context.lineTo(15 * pixelRatio, 15 * pixelRatio);
       context.stroke();
       
