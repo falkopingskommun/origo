@@ -12,6 +12,9 @@ import op_skyddavlanStyle from './stylefunctions/falk_op_skyddavlan_hatch';
 import op_naturreservatStyle from './stylefunctions/falk_op_naturreservat_hatch';
 import op_strandskyddStyle from './stylefunctions/falk_op_strandskydd_hatch';
 import op_bitopskyddStyle from './stylefunctions/falk_op_biotopskydd_hatch';
+import op_mineralStyle from './stylefunctions/falk_op_sgumineral_hatch';
+import op_grundvattenStyle from './stylefunctions/falk_op_grundvatten_hatch';
+
 
 const customStyles = {
   default: defaultStyle,
@@ -27,7 +30,9 @@ const customStyles = {
   op_skyddavlan: op_skyddavlanStyle,
   op_naturreservat: op_naturreservatStyle,
   op_strandskydd: op_strandskyddStyle,
-  op_bitopskydd: op_bitopskyddStyle
+  op_bitopskydd: op_bitopskyddStyle,
+  op_mineral: op_mineralStyle,
+  op_grundvatten: op_grundvattenStyle
 };
 
 export default function styleFunctions(customStyle, params) {
