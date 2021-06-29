@@ -131,7 +131,7 @@ const Group = function Group(options = {}, viewer) {
         return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
                 <div id="${this.getId()}" class="flex row align-center grow">
                    ${expandButton.render()}
-                    <span class="grow padding-x-small"> ${title}</span>
+                    <span class="grow padding-x-small falk_rubrik2"> ${title}</span>
                 </div>
                 ${tickButton ? tickButton.render() : '' }${infoButton.render()}
                
@@ -141,7 +141,7 @@ const Group = function Group(options = {}, viewer) {
               return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
                       <div id="${this.getId()}" class="flex row align-center grow">
                          ${expandButton.render()}
-                          <span class="grow padding-x-small"> ${title}</span>
+                          <span class="grow padding-x-small falk_rubrik2"> ${title}</span>
                       </div>
                       ${tickButton ? tickButton.render() : '' }
                     </div>`;
@@ -151,7 +151,7 @@ const Group = function Group(options = {}, viewer) {
   };
   const GroupHeader = function GroupHeader() {
     const headerComponent = CollapseHeader({
-      cls: 'hover padding-x padding-y-small grey-lightest border-bottom text-small',
+      cls: 'hover padding-x padding-y-small grey-lightest border-bottom text-small falk_rubrik1',
       icon,
       title
     });

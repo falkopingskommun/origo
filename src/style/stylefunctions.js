@@ -14,6 +14,10 @@ import op_strandskyddStyle from './stylefunctions/falk_op_strandskydd_hatch';
 import op_bitopskyddStyle from './stylefunctions/falk_op_biotopskydd_hatch';
 import op_mineralStyle from './stylefunctions/falk_op_sgumineral_hatch';
 import op_grundvattenStyle from './stylefunctions/falk_op_grundvatten_hatch';
+import op_fortatningStyle from './stylefunctions/falk_op_fortatning_hatch';
+import op_jordbruksmarkStyle from './stylefunctions/falk_op_jordbruksmark_hatch';
+import op_markradonStyle from './stylefunctions/falk_op_markradon_hatch';
+
 
 
 const customStyles = {
@@ -32,7 +36,11 @@ const customStyles = {
   op_strandskydd: op_strandskyddStyle,
   op_bitopskydd: op_bitopskyddStyle,
   op_mineral: op_mineralStyle,
-  op_grundvatten: op_grundvattenStyle
+  op_grundvatten: op_grundvattenStyle,
+  op_fortatning: op_fortatningStyle,
+  op_jordbruksmark: op_jordbruksmarkStyle,
+  op_markradon: op_markradonStyle
+  
 };
 
 export default function styleFunctions(customStyle, params) {
