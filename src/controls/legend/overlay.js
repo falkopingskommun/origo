@@ -78,6 +78,7 @@ const OverlayLayer = function OverlayLayer(options) {
       height: '1.5rem',
       width: '1.5rem'
     },
+    ariaLabel: 'Lager ikon',
     icon: headerIcon
   });
 
@@ -108,7 +109,8 @@ const OverlayLayer = function OverlayLayer(options) {
       'align-self': 'center',
       'padding-left': '.5rem'
     },
-    icon: getCheckIcon(layer.getVisible())
+    icon: getCheckIcon(layer.getVisible()),
+    ariaLabel: 'Växla lagersynlighet'
   });
 
   //falk mod skapar infoknapp
