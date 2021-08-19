@@ -17,6 +17,9 @@ import op_grundvattenStyle from './stylefunctions/falk_op_grundvatten_hatch';
 import op_fortatningStyle from './stylefunctions/falk_op_fortatning_hatch';
 import op_jordbruksmarkStyle from './stylefunctions/falk_op_jordbruksmark_hatch';
 import op_markradonStyle from './stylefunctions/falk_op_markradon_hatch';
+import op_spillvattenStyle from './stylefunctions/falk_op_spillvatten_hatch';
+import op_dagvattenStyle from './stylefunctions/falk_op_dagvatten_hatch';
+import op_dricksvattenStyle from './stylefunctions/falk_op_dricksvatten_hatch';
 
 
 
@@ -39,7 +42,10 @@ const customStyles = {
   op_grundvatten: op_grundvattenStyle,
   op_fortatning: op_fortatningStyle,
   op_jordbruksmark: op_jordbruksmarkStyle,
-  op_markradon: op_markradonStyle
+  op_markradon: op_markradonStyle,
+  op_spillvatten: op_spillvattenStyle,
+  op_dagvatten: op_dagvattenStyle,
+  op_dricksvatten: op_dricksvattenStyle
   
 };
 
