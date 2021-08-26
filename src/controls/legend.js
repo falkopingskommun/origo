@@ -212,7 +212,7 @@ const Legend = function Legend(options = {}) {
       });
 
       const baselayersCmp = El({
-        cls: 'flex padding-small no-shrink',
+        cls: 'flex padding-small no-shrink falk-bg-iconer', //Falk-mod lägger till klassen falk-bg-iconer ikoner för bakgrunskarta flyttas till höger
         style: {
           'background-color': '#fff',
           height: '50px',
@@ -247,7 +247,7 @@ const Legend = function Legend(options = {}) {
         icon: '#ic_layers_24px',
         tooltipText: 'Lager',
         tooltipPlacement: 'west',
-        cls: `control icon-small medium round absolute light bottom-right${layerButtonCls}`,
+        cls: `control icon-small medium round absolute light bottom-right falk-left${layerButtonCls}`, //Falk-mod lägger till klassen falk-left flyttar lager stängningsknapp till vänster
         click() {
           if (!isExpanded) {
             overlaysCmp.dispatch('expand');
@@ -257,7 +257,7 @@ const Legend = function Legend(options = {}) {
       });
       const closeButtonState = isExpanded ? 'initial' : 'hidden';
       closeButton = Button({
-        cls: 'icon-smaller small round absolute margin-bottom margin-right grey-lightest bottom-right z-index-top',
+        cls: 'icon-smaller small round absolute margin-bottom margin-right grey-lightest bottom-right z-index-top falk-left', //Falk-mod lägger till klassen falk-left flyttar lager stängningsknapp till vänster
         icon: '#ic_close_24px',
         state: closeButtonState,
         validStates: ['initial', 'hidden'],

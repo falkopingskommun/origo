@@ -93,7 +93,7 @@ const Mapmenu = function Mapmenu({
       const menuButtonCls = isExpanded ? ' faded' : '';
       menuButton = Button({
         icon: menuIcon,
-        cls: `control icon-smaller medium round absolute light top-left${menuButtonCls}`,
+        cls: `control icon-smaller medium round absolute light top-left falk-right${menuButtonCls}`, //Falk-mod lägger till klassen falk-right flyttar knappen meny till höger
         tooltipText: 'Meny',
         tooltipPlacement: 'east',
         click() {
@@ -119,7 +119,7 @@ const Mapmenu = function Mapmenu({
         }
       });
       mapMenu = El({
-        cls: 'absolute flex column top-left control box bg-white overflow-hidden z-index-top faded',
+        cls: 'absolute flex column top-left falk-right control box bg-white overflow-hidden z-index-top faded', //Falk-mod lägger till klassen falk-right flyttar popup meny till höger
         collapseX: true,
         components: [headerComponent, contentComponent]
       });

@@ -16,9 +16,9 @@ export default function Main(options = {}) {
     getNavigation: () => navigation,
     getMapTools: () => mapTools,
     getMiscTools: () => miscTools,
-    render: function render() {
+    render: function render() {                         //Falk-mod lägger till klassen falk-right, meny knappar flyttas till höger sida
       return `<div id=${this.getId()} class="${cls}">
-                <div id="o-tools-left" class="box top-left-special transparent flex column">
+                <div id="o-tools-left" class="box top-left-special transparent flex column falk-right"> 
                   ${navigation.render()}
                   <div style="width: 34px">
                     ${mapTools.render()}

@@ -595,7 +595,7 @@ const Measure = function Measure({
       if (lengthTool || areaTool || elevationTool) {
         measureElement = El({
           tagName: 'div',
-          cls: 'flex row'
+          cls: 'flex row falk-flex-ms' //falk-mod lägger till kllassen falk-flex-ms expanderar menyn efter egen css
         });
 
         measureButton = Button({

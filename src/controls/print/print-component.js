@@ -162,7 +162,7 @@ const PrintComponent = function PrintComponent(options = {}) {
   const printInteractionToggle = PrintInteractionToggle({ map, target, mapInteractionsActive, pageSettings: viewer.getViewerOptions().pageSettings });
   const printToolbar = PrintToolbar();
   const closeButton = Button({
-    cls: 'fixed top-right medium round icon-smaller light box-shadow z-index-ontop-high',
+    cls: 'fixed top-right medium round icon-smaller light box-shadow z-index-ontop-high falk-left', //Falk-mod lägger till klassen falk-right flyttar knappar till höger
     icon: '#ic_close_24px'
   });
 
@@ -393,12 +393,12 @@ const PrintComponent = function PrintComponent(options = {}) {
             style="margin-bottom: 4rem;">
             <div class="flex column no-margin width-full height-full overflow-hidden">
   ${pageTemplate({
-    descriptionComponent, printMapComponent, titleComponent, footerComponent
-  })}
+    descriptionComponent, printMapComponent, titleComponent, footerComponent //Falk-mod lägger till klassen falk-right flyttar knappar till höger
+  })}                                       
             </div>
           </div>
         </div>
-        <div id="o-print-tools-left" class="top-left fixed no-print flex column spacing-vertical-small z-index-ontop-top height-full">
+        <div id="o-print-tools-left" class="top-left fixed no-print flex column spacing-vertical-small z-index-ontop-top height-full falk-right">
           ${printSettings.render()}
           ${printInteractionToggle.render()}
         </div>
