@@ -14,6 +14,7 @@ const Legend = function Legend(options = {}) {
     contentCls,
     contentStyle,
     turnOffLayersControl = false,
+    turnOnLayersControl = false, //Falk-mod (Tänd alla lager)
     name = 'legend',
     labelOpacitySlider = '',
     useGroupIndication = true
@@ -32,9 +33,10 @@ const Legend = function Legend(options = {}) {
   let layerButtonEl;
   let isExpanded;
   let toolsCmp;
+
   const cls = `${clsSettings} control bottom-right box overflow-hidden flex row o-legend`.trim();
   const style = dom.createStyle(Object.assign({}, { width: 'auto' }, styleSettings));
-
+  
   const addBackgroundButton = function addBackgroundButton(layer) {
     const styleName = layer.get('styleName') || 'default';
     const icon = viewer.getStyle(styleName) ? imageSource(viewer.getStyle(styleName)) : 'img/png/farg.png';
@@ -89,6 +91,14 @@ const Legend = function Legend(options = {}) {
       }
     });
   };
+  const turnOnAllLayers = function turnOnAllLayers() { //Falk-mod (Tänd alla lager)
+    const layers = viewer.getLayers();
+    layers.forEach((el) => {
+      if (!(['none', 'background'].includes(el.get('group')))) {
+        el.setVisible(true);
+      }
+    });
+  };//Falk-mod slut
 
   const divider = El({
     cls: 'divider margin-x-small',
@@ -114,6 +124,23 @@ const Legend = function Legend(options = {}) {
       fill: '#7a7a7a'
     }
   });
+
+  const turnOnLayersButton = Button({ //Falk-mod (Tänd alla lager)
+    cls: 'round compact icon-small margin-x-smaller',
+    title: 'Tänd alla lager',
+
+    click() {
+      viewer.dispatch('active:turnonlayers');
+    },
+    style: {
+      'align-self': 'center',
+      'padding-right': '6px'
+    },
+    icon: '#ic_visibility_on_24px',
+    iconStyle: {
+      fill: '#7a7a7a'
+    }
+  });//Falk-mod Slut
 
   const toggleVisibility = function toggleVisibility() {
     if (isExpanded) {
@@ -169,6 +196,10 @@ const Legend = function Legend(options = {}) {
       if (turnOffLayersControl) {
         viewer.on('active:turnofflayers', turnOffAllLayers);
       }
+      if (turnOnLayersControl) { //Falk-mod (Tänd alla lager)
+        viewer.on('active:turnonlayers', turnOnAllLayers);
+      }//Falk-mod slut
+      
       const backgroundLayers = viewer.getLayersByProperty('group', 'background').reverse();
       addBackgroundButtons(backgroundLayers);
       toggleGroup = ToggleGroup({
@@ -190,6 +221,7 @@ const Legend = function Legend(options = {}) {
       });
       window.addEventListener('resize', updateMaxHeight);
       if (turnOffLayersControl) this.addButtonToTools(turnOffLayersButton);
+      if (turnOnLayersControl) this.addButtonToTools(turnOnLayersButton); //Falk-mod (Tänd alla lager)
     },
     render() {
       const size = viewer.getSize();
