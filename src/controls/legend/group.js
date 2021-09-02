@@ -21,7 +21,8 @@ const Group = function Group(options = {}, viewer) {
     position = 'top',
     type = 'group',
     autoExpand = true,
-    exclusive = false
+    exclusive = false,
+    toggleAll = true
   } = options;
 
   const stateCls = {
@@ -36,7 +37,7 @@ const Group = function Group(options = {}, viewer) {
   let modal;
 
   const listCls = type === 'grouplayer' ? 'divider-start padding-left padding-top-small' : '';
-  const groupList = GroupList({ viewer, cls: listCls, abstract,abstractbtnurl,abstractbtnmodal,abstractbtnug });
+  const groupList = GroupList({ viewer, cls: listCls, abstract, abstractbtnurl, abstractbtnmodal, abstractbtnug });
   visibleState = groupList.getVisible();
 
   const getEl = () => groupEl;
@@ -50,35 +51,35 @@ const Group = function Group(options = {}, viewer) {
 
   const getVisible = () => visibleState;
 
-//falk mod skapar infoknapp
+  //falk-mod skapar infoknapp
   const iframe1 = '<iframe width="600px" src="'
   const iframe2 = '"></iframe>'
   let modalstyle = ''
   let abstractcontent = ''
   if (!abstractbtnurl && !abstractbtnmodal) abstractcontent = title;
   if (abstractbtnurl) {
-    abstractcontent = iframe1+abstractbtnurl+iframe2;
-    modalstyle = 'width:600px';}
-  if (abstractbtnmodal)  abstractcontent = abstractbtnmodal;
-
+    abstractcontent = iframe1 + abstractbtnurl + iframe2;
+    modalstyle = 'width:600px';
+  }
+  if (abstractbtnmodal) abstractcontent = abstractbtnmodal;
 
   const infoButton = Button({
     cls: 'icon-smaller compact round',
     icon: '#fa-info-circle',
 
-  click() {
-    modal = Modal({
-      title: title,
-      content: abstractcontent,
-      newTabUrl: abstractbtnurl,
-      style: modalstyle,
-      target: viewer.getId(),
-    });
-    this.addComponent(modal);
-  },
-});
-//falk mod slut
-  const tickButton = !exclusive ? Button({
+    click() {
+      modal = Modal({
+        title: title,
+        content: abstractcontent,
+        newTabUrl: abstractbtnurl,
+        style: modalstyle,
+        target: viewer.getId(),
+      });
+      this.addComponent(modal);
+    },
+  });
+  //falk-mod slut
+  const tickButton = !exclusive && toggleAll ? Button({
     cls: 'icon-smaller round small',
     click() {
       const eventType = visibleState === 'all' ? 'untick:all' : 'tick:all';
@@ -88,7 +89,7 @@ const Group = function Group(options = {}, viewer) {
       const el = document.getElementById(this.getId());
       el.dispatchEvent(tickEvent);
     },
-    icon: '#ic_check_circle_24px',
+    icon: '#ic_radio_button_unchecked_24px',
     iconCls: '',
     state: visibleState,
     style: {
@@ -110,7 +111,7 @@ const Group = function Group(options = {}, viewer) {
       onInit() {
         this.addComponent(expandButton);
         if (abstractbtnurl || abstractbtnmodal) //falk mod
-        this.addComponent(infoButton); //falk mod
+          this.addComponent(infoButton); //falk mod
         if (tickButton) {
           this.addComponent(tickButton);
         }
@@ -128,24 +129,24 @@ const Group = function Group(options = {}, viewer) {
       },
       render() {
         if (abstractbtnurl || abstractbtnmodal) { //falk mod start
-        return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
+          return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
                 <div id="${this.getId()}" class="flex row align-center grow">
                    ${expandButton.render()}
                     <span class="grow padding-x-small falk_rubrik2"> ${title}</span>
                 </div>
-                ${tickButton ? tickButton.render() : '' }${infoButton.render()}
+                ${tickButton ? tickButton.render() : ''}${infoButton.render()}
                
               </div>`;
-            }//falk mod slut
-            else {
-              return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
+        }//falk mod slut
+        else {
+          return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
                       <div id="${this.getId()}" class="flex row align-center grow">
                          ${expandButton.render()}
                           <span class="grow padding-x-small falk_rubrik2"> ${title}</span>
                       </div>
-                      ${tickButton ? tickButton.render() : '' }
+                      ${tickButton ? tickButton.render() : ''}
                     </div>`;
-                  }    
+        }
       }
     });
   };
