@@ -1,5 +1,5 @@
 import {
-  Component, Button, Element as El, ToggleGroup, dom
+  Component, Button, Icon, Element as El, ToggleGroup, dom
 } from '../ui';
 import imageSource from './legend/imagesource';
 import Overlays from './legend/overlays';
@@ -15,6 +15,9 @@ const Legend = function Legend(options = {}) {
     contentStyle,
     turnOffLayersControl = false,
     turnOnLayersControl = false, //Falk-mod (Tänd alla lager)
+    falklink1url,falklink2url,falklink3url,falklink4url ='',
+    falklink1text,falklink2text,falklink3text,falklink4text ='',
+    falkexternal,
     name = 'legend',
     labelOpacitySlider = '',
     useGroupIndication = true
@@ -33,6 +36,7 @@ const Legend = function Legend(options = {}) {
   let layerButtonEl;
   let isExpanded;
   let toolsCmp;
+  let falkexternalcmp;
 
   const cls = `${clsSettings} control bottom-right box overflow-hidden flex row o-legend`.trim();
   const style = dom.createStyle(Object.assign({}, { width: 'auto' }, styleSettings));
@@ -253,9 +257,26 @@ const Legend = function Legend(options = {}) {
         },
         components: baselayerCmps
       });
-
-      const mainContainerComponents = [overlaysCmp, toolsCmp, baselayersCmp];
-
+      //Falk-mod skpar länkar i legenden
+      const externalurlicon = Icon({
+        icon: '#ic_launch_24px',
+        cls: 'icon-smallest compact round',
+      });
+      falkexternalcmp = Component({render() {return ``;}});
+      
+      if (falkexternal) {
+       falkexternalcmp = Component({
+        render() {
+          return `<div class="falk-external-link">
+          <a href="${falklink1url}" target="_blank">${falklink1text}${externalurlicon.render()}</a>
+          <a href="${falklink2url}" target="_blank">${falklink2text}${externalurlicon.render()}</a>
+          <a href="${falklink3url}" target="_blank">${falklink3text}${externalurlicon.render()}</a>
+          <a href="${falklink4url}" target="_blank">${falklink4text}${externalurlicon.render()}</a>
+          </div>`;
+        }  
+      });
+    }//Falk-mod slut
+      const mainContainerComponents = [falkexternalcmp,overlaysCmp, toolsCmp, baselayersCmp];//Falk-mod 
       mainContainerCmp = El({
         cls: 'flex column overflow-hidden relative',
         components: mainContainerComponents,
