@@ -23,8 +23,7 @@ const Fullscreen = function Fullscreen(options = {}) {
     onAdd(evt) {
       viewer = evt.target;
       fullscreenButton = Button({
-        cls: 'o-home-in padding-small icon-small light box-shadow falk-embed',
-        text: 'Visa stor karta',
+        cls: 'o-fullscreen padding-small icon-smaller round light box-shadow',
         click() {
           goFullScreen();
         },
