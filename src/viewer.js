@@ -283,24 +283,6 @@ const Viewer = function Viewer(targetOption, options = {}) {
 
   const getMain = () => main;
 
-  const mergeSecuredLayer = (layerlist, capabilitiesLayers) => {
-    if (capabilitiesLayers && Object.keys(capabilitiesLayers).length > 0) {
-      layerlist.forEach((layer) => {
-        const layerSourceOptions = layer.source ? getSource2(layer.source) : undefined;
-        if (layerSourceOptions && layerSourceOptions.capabilitiesURL) {
-          if (capabilitiesLayers[layer.source].indexOf(layer.name) >= 0) {
-            layer.secure = false;
-          } else {
-            layer.secure = true;
-          }
-        } else {
-          layer.secure = false;
-        }
-      });
-    }
-    return layerlist;
-  };
-
   const getEmbedded = function getEmbedded() {
     return isEmbedded(this.getTarget());
   };
@@ -555,6 +537,7 @@ const Viewer = function Viewer(targetOption, options = {}) {
           this.addComponent(featureinfo);
 
           this.addControls();
+          this.dispatch('loaded');
         });
     },
     render() {
