@@ -104,8 +104,11 @@ const LayerList = function LayerList(options, isRootGroup = false) {
     if (abstractbtnurl) {
       abstractcontent = iframe1+abstractbtnurl+iframe2;
       modalstyle = 'width:600px';}
-    if (abstractbtnmodal)  abstractcontent = abstractbtnmodal;
-
+    if (abstractbtnmodal) abstractcontent = abstractbtnmodal;
+    if (abstractbtnug) {
+      abstractcontent = iframe1+abstractbtnug+iframe2;
+      modalstyle = 'width:600px';}
+    
   const infoButton = Button({
     cls: 'falk_btn',
     icon: '#fa-info-circle',
