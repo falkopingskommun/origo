@@ -77,6 +77,25 @@
   z-index: 9999999;
 }
 
+.awesomplete.grey > ul {
+  background: rgba(230, 230, 230, 0.95) !important;
+  box-sizing: border-box;
+  color: rgb(0, 0, 0);
+  left: 0px;
+  list-style: none;
+  margin: 0;
+  min-width: 100%;
+  padding: 0;
+  position: absolute;
+  top: auto;
+  bottom: 100%;
+  z-index: 9999999;
+}
+
+.awesomplete.grey > ul > li {
+  border-bottom: 1px solid rgb(185, 185, 185);
+}
+
 .awesomplete > ul:empty {
   display: none;
 }

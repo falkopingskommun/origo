@@ -80,6 +80,10 @@
 .green mark {
   color: #aaa;
 }
+.grey mark {
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
 
 .awesomplete li .suggestion:hover mark {
   background-color: $search-hover-backround;
