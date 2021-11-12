@@ -47,6 +47,36 @@
   z-index: 9999999;
 }
 
+.awesomplete.blue > ul {
+  background: #2c588d !important;
+  box-sizing: border-box;
+  color: #fff;
+  left: 0px;
+  list-style: none;
+  margin: 0;
+  min-width: 100%;
+  padding: 0;
+  position: absolute;
+  top: auto;
+  bottom: 100%;
+  z-index: 9999999;
+}
+
+.awesomplete.green > ul {
+  background: #3B9f6A !important;
+  box-sizing: border-box;
+  color: #fff;
+  left: 0px;
+  list-style: none;
+  margin: 0;
+  min-width: 100%;
+  padding: 0;
+  position: absolute;
+  top: auto;
+  bottom: 100%;
+  z-index: 9999999;
+}
+
 .awesomplete > ul:empty {
   display: none;
 }

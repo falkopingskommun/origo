@@ -25,6 +25,7 @@ const Legend = function Legend(options = {}) {
     searchLayersControl = false,
     searchLayersMinLength = 2,
     searchLayersLimit = 10,
+    searchLayersTheme = 'black',
     searchLayersParameters = ['name', 'title']
   } = options;
   const keyCodes = {
@@ -278,7 +279,7 @@ const Legend = function Legend(options = {}) {
       const layersArr = viewer.getLayers();
       const hitArr = [];
       layersArr.forEach((layer) => {
-        if (layer.get('group') !== 'none') {
+        if (layer.get('group') !== 'none' && layer.get('group') !== 'nedladdning' && layer.get('group') !== 'pk_snap' && layer.get('group') !== 'pk_skikt') {
           let found = false;
           const label = layer.get('name');
           let value = label;
@@ -326,8 +327,7 @@ const Legend = function Legend(options = {}) {
           return suggestionValue.toLowerCase().includes(userInput.toLowerCase()) ? suggestionValue : false;
         }
       });
-
-      input.parentNode.classList.add('black');
+      input.parentNode.classList.add(searchLayersTheme);
       input.addEventListener('keyup', (e) => {
         const keyCode = e.keyCode;
         if (input.value.length >= searchLayersMinLength) {

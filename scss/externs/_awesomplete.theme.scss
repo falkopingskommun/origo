@@ -73,11 +73,27 @@
   color: #aaa;
 }
 
+.blue mark {
+  color: #aaa;
+}
+
+.green mark {
+  color: #aaa;
+}
+
 .awesomplete li .suggestion:hover mark {
   background-color: $search-hover-backround;
 }
 
 .black li .suggestion:hover mark {
+  background-color: #fff;
+}
+
+.blue li .suggestion:hover mark {
+  background-color: #fff;
+}
+
+.green li .suggestion:hover mark {
   background-color: #fff;
 }
 
