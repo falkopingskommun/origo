@@ -279,7 +279,7 @@ const Legend = function Legend(options = {}) {
       const layersArr = viewer.getLayers();
       const hitArr = [];
       layersArr.forEach((layer) => {
-        if (layer.get('group') !== 'none' && layer.get('group') !== 'nedladdning' && layer.get('group') !== 'pk_snap' && layer.get('group') !== 'pk_skikt') {
+        if (layer.get('group') !== 'none' && layer.get('group') !== 'background' && layer.get('group') !== 'nedladdning' && layer.get('group') !== 'pk_snap' && layer.get('group') !== 'pk_skikt') {
           let found = false;
           const label = layer.get('name');
           let value = label;
