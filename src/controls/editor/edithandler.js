@@ -100,7 +100,7 @@ function getFeaturesByIds(type, layer, ids) {
       if (source.getFeatureById(id)) {
         feature = source.getFeatureById(id);
         feature.unset('bbox');
-        const username = localStorage.getItem('username');
+        const username = sessionStorage.getItem('username');
         feature.values_.origo_anv = username;
         features.push(feature);
       }
