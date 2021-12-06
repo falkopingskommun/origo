@@ -2,11 +2,27 @@ import featureinfotemplates from './featureinfotemplates';
 import replacer from './utils/replacer';
 import isUrl from './utils/isurl';
 import geom from './geom';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
 
 function createUrl(prefix, suffix, url) {
   const p = prefix || '';
   const s = suffix || '';
   return p + url + s;
+}
+
+function transformCoords(coords, source, destination) {
+  const geometry = new Feature({
+    geometry: new Point(coords)
+  }).getGeometry();
+  return geometry.transform(source, destination).getCoordinates();
+}
+
+function round(coords, precision) {
+  if (precision) {
+    return coords.map(coord => coord.toFixed(precision));
+  }
+  return coords.map(coord => Math.round(coord));
 }
 
 function parseUrl(urlattr, feature, attribute, attributes, map, linktext) {
@@ -165,7 +181,18 @@ const getContent = {
     return newElement;
   },
   xy(feature, attribute) {
-    const val = `<b>N: </b> ${feature.getGeometry().getCoordinates()[1]}<b> E: </b> ${feature.getGeometry().getCoordinates()[0]}`;
+    let coords = feature.getGeometry().getCoordinates();
+    let transcoords = coords;
+    let prefix_north = attribute.prefix_north ?? '<b>N: </b>';
+    let prefix_east = attribute.prefix_east ?? '<b>E: </b>';
+    let from = attribute.from ?? 'EPSG:3008'; //Defaults to EPSG:3008
+    let to = attribute.to ?? 'EPSG:3008';
+    if (from !== to) {
+      transcoords = transformCoords(coords, from, to);
+    }
+    let precision = attribute.precision;
+    transcoords = round(transcoords, precision);
+    const val = `${prefix_north}${transcoords[1]} ${prefix_east}${transcoords[0]}`;
     const newElement = document.createElement('li');
     newElement.classList.add(attribute.cls);
     newElement.innerHTML = val;
