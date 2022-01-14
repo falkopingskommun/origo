@@ -26,6 +26,7 @@ const Legend = function Legend(options = {}) {
     searchLayersMinLength = 2,
     searchLayersLimit = 10,
     searchLayersTheme = 'black',
+    searchLayersGroupsNot = ['none'],
     searchLayersParameters = ['name', 'title']
   } = options;
   const keyCodes = {
@@ -297,7 +298,7 @@ const Legend = function Legend(options = {}) {
       const layersArr = viewer.getLayers();
       const hitArr = [];
       layersArr.forEach((layer) => {
-        if (layer.get('group') !== 'none' && layer.get('group') !== 'background' && layer.get('group') !== 'nedladdning' && layer.get('group') !== 'pk_snap' && layer.get('group') !== 'pk_skikt') {
+        if (!(searchLayersGroupsNot.includes(layer.get('group'))) && layer.get('layersearch') !== false) {
           let found = false;
           const label = layer.get('name');
           let value = label;
