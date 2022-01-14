@@ -241,6 +241,11 @@ const Featureinfo = function Featureinfo(options = {}) {
           modalStyle = 'max-width:unset;width:98%;height:98%;resize:both;overflow:auto;display:flex;flex-flow:column;';
           break;
         }
+        case 'modal-medium':
+        {
+          modalStyle = 'max-width:unset;width:50%;height:55%;resize:both;overflow:auto;display:flex;flex-flow:column;';
+          break;
+        }
         default:
         {
           modalStyle = 'resize:both;overflow:auto;display:flex;flex-flow:column;';
