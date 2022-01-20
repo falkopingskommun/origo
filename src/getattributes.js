@@ -43,6 +43,9 @@ function parseUrl(urlattr, feature, attribute, attributes, map, linktext) {
   } else if (attribute.target === 'modal-full') {
     aTarget = 'modal-full';
     aCls = 'o-identify-link-modal';
+  }  else if (attribute.target === 'modal-medium') {
+    aTarget = 'modal-medium';
+    aCls = 'o-identify-link-modal';
   } else if (attribute.target === '_self') {
     aTarget = '_self';
   } else if (attribute.target === '_top') {
