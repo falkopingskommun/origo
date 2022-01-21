@@ -70,12 +70,14 @@ const Viewer = function Viewer(targetOption, options = {}) {
       if (sourceOptions && sourceOptions.capabilitiesURL) {
         capabilitiesPromises.push(getCapabilities(sourceName, sourceOptions.capabilitiesURL));
       }
+      document.getElementById("app-wrapper").classList.add('falk-load');
     });
     return Promise.all(capabilitiesPromises).then(capabilitiesResults => {
       const layers = {};
       capabilitiesResults.forEach(result => {
         layers[result.name] = result.capabilites;
       });
+      document.getElementById("app-wrapper").classList.remove('falk-load');
       return layers;
     }).catch(error => console.log(error));
   };
