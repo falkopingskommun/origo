@@ -18,8 +18,8 @@ const ShareMap = function ShareMap(options = {}) {
   let modal;
 
   const createContent = function createContent() {
-    return '<div class="o-share-link"><input type="text"></div>'
-    + '<i>Kopiera och klistra in länken för att dela kartan.</i>';
+    return '<div class="o-share-link"><input id="input-sharemap" type="text"></div>'
+      + '<i>Kopiera och klistra in länken för att dela kartan.</i>';
   };
 
   const createLink = function createLink(data) {
@@ -50,6 +50,7 @@ const ShareMap = function ShareMap(options = {}) {
           modal = Modal({
             title: 'Länk till karta',
             content: createContent(),
+            copyInputfield: true,
             target
           });
           this.addComponent(modal);
