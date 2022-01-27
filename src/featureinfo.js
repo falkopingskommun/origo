@@ -311,7 +311,7 @@ const Featureinfo = function Featureinfo(options = {}) {
         carouselIds.forEach((carouselId) => {
           let targetElement;
           const elements = document.getElementsByClassName(`o-image-carousel${carouselId}`);
-          elements.forEach(element => {
+          Array.from(elements).forEach(element => {
             if (!element.closest('.glide__slide--clone')) {
               targetElement = element;
             }
@@ -398,7 +398,7 @@ const Featureinfo = function Featureinfo(options = {}) {
    * @param {any} coordinate Coordinate where to show pop up.
    * @param {any} opts Additional options. Supported options are : ignorePan, disable auto pan to popup overlay.
    */
-   const render = function render(identifyItems, target, coordinate, opts = {}) {
+  const render = function render(identifyItems, target, coordinate, opts = {}) {
     // Append attachments (if any) to the SelectedItems
     const requests = [];
     identifyItems.forEach(currItem => {

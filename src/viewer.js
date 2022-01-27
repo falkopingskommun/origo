@@ -491,7 +491,6 @@ const Viewer = function Viewer(targetOption, options = {}) {
               // it will not be triggered until map is panned or zoomed where a feature exists.
               layer.once('postrender', () => {
                 let feature;
-
                 // FIXME: ensure that feature is loaded. If using bbox and feature is outside default extent it will not be found.
                 // Workaround is to have a default extent covering the entire map with the layer in visible range or use strategy all
                 if (type === 'WFS' && clusterSource) {
