@@ -414,7 +414,6 @@ const Featureinfo = function Featureinfo(options = {}) {
         }
       }
     });
-
     // Wait for all requests. If there are no attachments it just calls .then() without waiting.
     Promise.all(requests)
       .then(() => {
