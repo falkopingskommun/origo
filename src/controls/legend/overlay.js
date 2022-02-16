@@ -217,7 +217,7 @@ const OverlayLayer = function OverlayLayer(options) {
   };
 
   moreInfoButton = Button({
-    cls: 'round small icon-smaller no-shrink',
+    cls: 'icon-smaller compact round',
     click() {
       if (abstractbtnurl) {
       console.log("test")
