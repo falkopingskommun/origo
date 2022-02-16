@@ -1,4 +1,3 @@
-//falk mod 2021-06-15
 import { Component, Modal, Button, dom } from '../../ui';
 import { HeaderIcon } from '../../utils/legendmaker';
 import PopupMenu from '../../popupmenu';
@@ -8,7 +7,7 @@ const OverlayLayer = function OverlayLayer(options) {
     headerIconCls = ''
   } = options;
   const {
-    cls: clsSettings = 'grey-lightest hover rounded',
+    cls: clsSettings = '',
     icon = '#o_list_24px',
     iconCls = 'grey-lightest',
     layer,
@@ -22,12 +21,11 @@ const OverlayLayer = function OverlayLayer(options) {
   let layerList;
   let modal; //falk mod
 
-  let cls = `${clsSettings} flex row align-center padding-left padding-right item`.trim();
+  const cls = `${clsSettings} flex row align-center padding-left padding-right item`.trim();
   const title = layer.get('title') || 'Titel saknas';
   const name = layer.get('name');
-  const abstractbtnurl = layer.get('abstractbtnurl'); //falk mod
-  const abstractbtnmodal = layer.get('abstractbtnmodal'); //falk mod
   const secure = layer.get('secure');
+  const abstractbtnurl = layer.get('abstractbtnurl'); //falk mod
   let moreInfoButton;
   let popupMenu;
 
@@ -36,7 +34,6 @@ const OverlayLayer = function OverlayLayer(options) {
 
   if (secure) {
     uncheckIcon = '#ic_lock_outline_24px';
-    cls += '"style="pointer-events:none';
   }
 
   const opacity = layer.getOpacity();
@@ -94,7 +91,7 @@ const OverlayLayer = function OverlayLayer(options) {
     onRender() {
       const labelEl = document.getElementById(this.getId());
       labelEl.addEventListener('click', (e) => {
-        toggleVisible(layer.getVisible());
+        layerIcon.dispatch('click');
         e.preventDefault();
       });
     },
@@ -120,36 +117,13 @@ const OverlayLayer = function OverlayLayer(options) {
     tabIndex: -1
   });
 
-  //falk mod skapar infoknapp
-  const iframe1 = '<iframe width="600px" src="'
-  const iframe2 = '"></iframe>'
-  let abstractcontent = ''
-  let modalstyle = ''
-  if (!abstractbtnurl && !abstractbtnmodal) abstractcontent = title;
-  if (abstractbtnurl) {
-    abstractcontent = iframe1+abstractbtnurl+iframe2;
-    modalstyle = 'width:600px';}
-  if (abstractbtnmodal)  abstractcontent = abstractbtnmodal;
+    //falk mod skapar infoknapp
+    let abstractcontent = title
+    let modalstyle = ''
+    if (abstractbtnurl) {
+      abstractcontent = '<iframe width="600px" src="'+abstractbtnurl+'"></iframe>';
+      modalstyle = 'width:600px';}
 
-  const infoButton = Button({
-    cls: 'icon-smaller compact round',
-    icon: '#fa-info-circle',
-
-    click() {
-      modal = Modal({
-  
-        title: title,
-        content: abstractcontent,
-        newTabUrl: abstractbtnurl,
-        style: modalstyle,
-        target: viewer.getId(),
-        
-      });
-      this.addComponent(modal);
-    },
-
-  });
-  if (abstractbtnurl || abstractbtnmodal) {buttons.push(infoButton);} //falk mod slut}
   buttons.push(toggleButton);
 
   const layerInfoMenuItem = Component({
@@ -245,6 +219,19 @@ const OverlayLayer = function OverlayLayer(options) {
   moreInfoButton = Button({
     cls: 'round small icon-smaller no-shrink',
     click() {
+      if (abstractbtnurl) {
+      console.log("test")
+      modal = Modal({
+    
+        title: title,
+        content: abstractcontent,
+        newTabUrl: abstractbtnurl,
+        style: modalstyle,
+        target: viewer.getId(),
+        
+      });
+      this.addComponent(modal);
+    }
       if (popupMenuItems.length > 1) {
         togglePopupMenu();
       } else {
@@ -254,7 +241,7 @@ const OverlayLayer = function OverlayLayer(options) {
     style: {
       'align-self': 'center'
     },
-    icon: '#ic_more_vert_24px',
+    icon: '#fa-info-circle',
     ariaLabel: 'Visa lagerinfo',
     tabIndex: -1
   });
