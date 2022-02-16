@@ -1,7 +1,6 @@
 //falk mod 2021-06-15
 import { Component, Modal, Button, dom } from '../../ui';
 import { HeaderIcon } from '../../utils/legendmaker';
-import PopupMenu from '../../popupmenu';
 
 const OverlayLayer = function OverlayLayer(options) {
   let {
@@ -18,7 +17,8 @@ const OverlayLayer = function OverlayLayer(options) {
   } = options;
 
   const buttons = [];
-  const popupMenuItems = [];
+  let removeButton;
+  let ButtonsHtml;
   let layerList;
   let modal; //falk mod
 
@@ -28,8 +28,6 @@ const OverlayLayer = function OverlayLayer(options) {
   const abstractbtnurl = layer.get('abstractbtnurl'); //falk mod
   const abstractbtnmodal = layer.get('abstractbtnmodal'); //falk mod
   const secure = layer.get('secure');
-  let moreInfoButton;
-  let popupMenu;
 
   const checkIcon = '#ic_check_circle_24px';
   let uncheckIcon = '#ic_radio_button_unchecked_24px';
@@ -46,13 +44,6 @@ const OverlayLayer = function OverlayLayer(options) {
     headerIcon = icon;
     headerIconCls = iconCls;
   }
-
-  const eventOverlayProps = new CustomEvent('overlayproperties', {
-    bubbles: true,
-    detail: {
-      layer
-    }
-  });
 
   const getCheckIcon = (visible) => {
     const isVisible = visible ? checkIcon : uncheckIcon;
@@ -75,9 +66,13 @@ const OverlayLayer = function OverlayLayer(options) {
   const layerIcon = Button({
     cls: `${headerIconCls} round compact icon-small light relative no-shrink`,
     click() {
-      if (!secure) {
-        toggleVisible(layer.getVisible());
-      }
+      const eventOverlayProps = new CustomEvent('overlayproperties', {
+        bubbles: true,
+        detail: {
+          layer
+        }
+      });
+      document.getElementById(this.getId()).dispatchEvent(eventOverlayProps);
     },
     style: {
       height: '1.5rem',
@@ -152,129 +147,31 @@ const OverlayLayer = function OverlayLayer(options) {
   if (abstractbtnurl || abstractbtnmodal) {buttons.push(infoButton);} //falk mod slut}
   buttons.push(toggleButton);
 
-  const layerInfoMenuItem = Component({
-    onRender() {
-      const labelEl = document.getElementById(this.getId());
-      labelEl.addEventListener('click', (e) => {
-        popupMenu.setVisibility(false);
-        document.getElementById(moreInfoButton.getId()).dispatchEvent(eventOverlayProps);
-        e.preventDefault();
-      });
-    },
-    render() {
-      const labelCls = 'text-smaller padding-x-small grow pointer no-select overflow-hidden';
-      return `<li id="${this.getId()}" class="${labelCls}">Visa lagerinformation</li>`;
-    }
-  });
-  popupMenuItems.push(layerInfoMenuItem);
-
   if (layer.get('removable')) {
-    const removeLayerMenuItem = Component({
-      onRender() {
-        const labelEl = document.getElementById(this.getId());
-        labelEl.addEventListener('click', (e) => {
-          layerList.removeOverlay(layer.get('name'));
-          viewer.getMap().removeLayer(layer);
-          e.preventDefault();
-        });
+    removeButton = Button({
+      cls: 'round small icon-smaller no-shrink',
+      click() {
+        layerList.removeOverlay(layer.get('name'));
+        viewer.getMap().removeLayer(layer);
       },
-      render() {
-        const labelCls = 'text-smaller padding-x-small grow pointer no-select overflow-hidden';
-        return `<li id="${this.getId()}" class="${labelCls}">Ta bort lager</li>`;
-      }
+      style: {
+        'align-self': 'center',
+        'padding-left': '.5rem'
+      },
+      icon: '#ic_remove_circle_outline_24px',
+      tabIndex: -1
     });
-    popupMenuItems.push(removeLayerMenuItem);
-  } 
-  /* FM deactivated special abstractbtn (needs rewrite)
-  else {
+    buttons.push(removeButton);
+    ButtonsHtml = `${layerIcon.render()}${label.render()}${removeButton.render()}${toggleButton.render()}`;
+  } else {
     if (abstractbtnurl || abstractbtnmodal){  //falk start (removeable kan ej kombineras med abstractbtnurl eller abstractbtnmodal)
       ButtonsHtml = `${layerIcon.render()}${label.render()}${toggleButton.render()}${infoButton.render()}`;
     }
-    else {
-  */
-  const popupMenuList = Component({
-    onInit() {
-      this.addComponents(popupMenuItems);
-    },
-    render() {
-      let html = `<ul id="${this.getId()}">`;
-      popupMenuItems.forEach((item) => {
-        html += `${item.render()}`;
-      });
-      html += '</ul>';
-      return html;
-    }
-  });
-
-  const getElementOffset = function getElementOffset(el, rootParentEl) {
-    let left = 0;
-    let top = 0;
-    let currentEl = el;
-    while (
-      currentEl
-      && !Number.isNaN(currentEl.offsetLeft)
-      && !Number.isNaN(currentEl.offsetTop)
-      && currentEl.id !== rootParentEl.id
-    ) {
-      left += currentEl.offsetLeft - currentEl.scrollLeft;
-      top += currentEl.offsetTop - currentEl.scrollTop;
-      currentEl = currentEl.offsetParent;
-    }
-    return { top, left };
-  };
-
-  const createPopupMenu = function createPopupMenu() {
-    const moreInfoButtonEl = document.getElementById(moreInfoButton.getId());
-    const onUnfocus = (e) => {
-      if (!moreInfoButtonEl.contains(e.target)) {
-        popupMenu.setVisibility(false);
-      }
-    };
-    const viewerEl = document.getElementById(viewer.getId());
-    const { top, left } = getElementOffset(moreInfoButtonEl, viewerEl);
-    const right = viewerEl.offsetWidth - left - moreInfoButtonEl.offsetWidth;
-    const targetRect = moreInfoButtonEl.getBoundingClientRect();
-    popupMenu = PopupMenu({ target: viewer.getId(), onUnfocus });
-    popupMenu.setContent(popupMenuList.render());
-    popupMenuList.dispatch('render');
-    popupMenu.setPosition({ right: `${right}px`, top: `${top + targetRect.height}px` });
-  };
-
-  const togglePopupMenu = function togglePopupMenu() {
-    if (!popupMenu) {
-      createPopupMenu();
-    } else {
-      popupMenu.toggleVisibility();
-    }
-  };
-
-  moreInfoButton = Button({
-    cls: 'round small icon-smaller no-shrink',
-    click() {
-      if (popupMenuItems.length > 1) {
-        togglePopupMenu();
-      } else {
-        document.getElementById(this.getId()).dispatchEvent(eventOverlayProps);
-      }
-    },
-    style: {
-      'align-self': 'center'
-    },
-    icon: '#ic_more_vert_24px',
-    ariaLabel: 'Visa lagerinfo',
-    tabIndex: -1
-  });
-
-  buttons.push(moreInfoButton);
-  const ButtonsHtml = `${layerIcon.render()}${label.render()}${toggleButton.render()}${moreInfoButton.render()}`;
-
-  const removeOverlayMenuItem = function removeListeners() {
-    const popupMenuListEl = document.getElementById(popupMenuList.getId());
-    popupMenuListEl.remove();
-  };
-
+    else { //falk slut
+    ButtonsHtml = `${layerIcon.render()}${label.render()}${toggleButton.render()}`;
+  }
+  }
   const onRemove = function onRemove() {
-    removeOverlayMenuItem();
     const el = document.getElementById(this.getId());
     el.remove();
   };

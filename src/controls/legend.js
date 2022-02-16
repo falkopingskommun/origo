@@ -501,7 +501,6 @@ const Legend = function Legend(options = {}) {
         cls: 'icon-smaller small round absolute margin-bottom margin-right grey-lightest bottom-right z-index-top falk-left', //Falk-mod lägger till klassen falk-left flyttar lager stängningsknapp till vänster
         icon: '#ic_close_24px',
         state: closeButtonState,
-        style: { right: 0, bottom: 0 },
         validStates: ['initial', 'hidden'],
         ariaLabel: 'Stäng',
         click() {
@@ -513,7 +512,7 @@ const Legend = function Legend(options = {}) {
       let el = dom.html(layerButton.render());
       target.appendChild(el);
       el = dom.html(closeButton.render());
-      layerSwitcherEl.appendChild(el);
+      target.appendChild(el);
     }
   });
 };

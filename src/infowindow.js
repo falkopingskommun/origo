@@ -1,5 +1,4 @@
 import { simpleExportHandler, layerSpecificExportHandler } from './infowindow_exporthandler';
-import exportToFile from './utils/exporttofile';
 
 let parentElement;
 let mainContainer;
@@ -222,6 +221,10 @@ function createSubexportComponent(selectionGroup) {
   const subexportContainer = document.createElement('div');
   subexportContainer.classList.add('export-buttons-container');
 
+  if (activeLayer.get('type') === 'GROUP') {
+    console.warn('The selected layer is a LayerGroup, be careful!');
+  }
+
   if (exportOptions.layerSpecificExport) {
     layerSpecificExportOptions = exportOptions.layerSpecificExport.find((i) => i.layer === selectionGroup);
   }
@@ -289,25 +292,11 @@ function createSubexportComponent(selectionGroup) {
         });
       });
       subexportContainer.appendChild(exportBtn);
+    } else {
+      console.warn(`Export is not allowed for selection group: ${selectionGroup}`);
     }
-  } else if (exportOptions.clientExport) {
-    const conf = exportOptions.clientExport;
-    const exportAllowed = !conf.layers || conf.layers.find((l) => l === selectionGroup);
-    if (exportAllowed) {
-      const exportBtn = createExportButton(conf.buttonText || 'Exportera');
-      const btn = exportBtn.querySelector('button');
-      btn.addEventListener('click', () => {
-        exportBtn.loadStart();
-        const selectedItems = selectionManager.getSelectedItemsForASelectionGroup(selectionGroup);
-        const features = selectedItems.map(i => i.getFeature());
-        exportToFile(features, conf.format, {
-          featureProjection: viewer.getProjection().getCode(),
-          filename: selectionGroup
-        });
-        exportBtn.loadStop();
-      });
-      subexportContainer.appendChild(exportBtn);
-    }
+  } else {
+    console.warn(`Neither Specific Export is specified for selection group: ${selectionGroup} nor Simple Export is allowed!`);
   }
 
   return subexportContainer;

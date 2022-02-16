@@ -225,10 +225,6 @@ button:focus,
   &.icon-smaller:focus {
     border: 1px solid $black;
   }
-
-  &.icon-smallest:focus {
-    border: 1px solid $black;
-  }
 }
 
 button:focus:not(:focus-visible),
@@ -268,10 +264,6 @@ button:focus:not(:focus-visible),
   }
 
   &.icon-smaller:focus:not(:focus-visible) {
-    border: 0;
-  }
-
-  &.icon-smallest:focus:not(:focus-visible) {
     border: 0;
   }
 }

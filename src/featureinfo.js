@@ -514,8 +514,9 @@ const Featureinfo = function Featureinfo(options = {}) {
     identifyItems.forEach(currItem => {
       // At least search can call render without SelectedItem as Items, it just sends an object with the least possible fields render uses
       // so we need to exclude those from related tables handling, as we know nothing about them
-      if (currItem instanceof SelectedItem && currItem.getLayer()) {
+      if (currItem instanceof SelectedItem) {
         // Fire off a bunch of promises that fetches attachments and related tables
+        // requests.push(hoistRelatedAttributes(currItem.getLayer(), currItem.getFeature(), hoistedAttributes));
         requests.push(addRelatedContent(currItem));
       }
     });
@@ -528,7 +529,11 @@ const Featureinfo = function Featureinfo(options = {}) {
       .then(() => {
         doRender(identifyItems, target, coordinate, opts.ignorePan);
       })
-      .catch(err => console.log(err));
+      .catch(() => {
+        alert('Kunde inte hämta bilagor. Fält från bilagor kommer att vara tomma.');
+        // Show without attachments
+        doRender(identifyItems, target, coordinate, opts.ignorePan);
+      });
   };
 
   /**
