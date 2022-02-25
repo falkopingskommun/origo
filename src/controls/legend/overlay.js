@@ -21,7 +21,7 @@ const OverlayLayer = function OverlayLayer(options) {
   let layerList;
   let modal; //falk mod
 
-  const cls = `${clsSettings} flex row align-center padding-left padding-right item`.trim();
+  const cls = `${clsSettings} flex row align-center padding-left padding-right item hover`.trim(); //falk-mod (hover)
   const title = layer.get('title') || 'Titel saknas';
   const name = layer.get('name');
   const secure = layer.get('secure');
