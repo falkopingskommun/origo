@@ -220,7 +220,6 @@ const OverlayLayer = function OverlayLayer(options) {
     cls: 'icon-smaller compact round',
     click() {
       if (abstractbtnurl) {
-      console.log("test")
       modal = Modal({
     
         title: title,
