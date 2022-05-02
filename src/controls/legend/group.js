@@ -139,10 +139,10 @@ const Group = function Group(options = {}, viewer) {
               </div>`;
         }//falk mod slut
         else {
-          return `<div class="flex row align-center padding-left text-smaller pointer collapse-header" style="width: 100%; padding-right: 1.875rem">
+          return `<div class="flex row align-center padding-left text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%; padding-right: 1.875rem">
           <div id="${this.getId()}" class="flex row align-center grow">
              ${expandButton.render()}
-              <span class="grow padding-x-small" style="word-break: break-all;">${title}</span>
+              <span class="grow padding-x-small falk_rubrik2" style="word-break: break-all;">${title}</span>
           </div>
           ${tickButton ? tickButton.render() : ''}
           </div>`;

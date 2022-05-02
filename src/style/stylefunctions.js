@@ -20,6 +20,7 @@ import op_markradonStyle from './stylefunctions/falk_op_markradon_hatch';
 import op_spillvattenStyle from './stylefunctions/falk_op_spillvatten_hatch';
 import op_dagvattenStyle from './stylefunctions/falk_op_dagvatten_hatch';
 import op_dricksvattenStyle from './stylefunctions/falk_op_dricksvatten_hatch';
+import mex_belastningStyle from './stylefunctions/falk_mex_bel_mod';
 
 
 
@@ -45,7 +46,8 @@ const customStyles = {
   op_markradon: op_markradonStyle,
   op_spillvatten: op_spillvattenStyle,
   op_dagvatten: op_dagvattenStyle,
-  op_dricksvatten: op_dricksvattenStyle
+  op_dricksvatten: op_dricksvattenStyle,
+  mex_belastningStyle: mex_belastningStyle 
   
 };
 
