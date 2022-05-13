@@ -180,6 +180,7 @@ const Search = function Search(options = {}) {
       document.getElementById(`${containerElement.getId()}`).classList.remove('o-search-true');
       document.getElementById(`${containerElement.getId()}`).classList.add('o-search-false');
       document.getElementsByClassName('o-search-field')[0].value = '';
+      document.getElementsByClassName('o-search-field')[0].focus();
       document.getElementById(`${searchButton.getId()}`).blur();
     });
   }
