@@ -39,7 +39,7 @@ export default function editorLayers(editableLayers, optOptions = {}, v) {
   function render(options) {
     const popover = createElement('div', '', {
       id: options.target,
-      cls: 'o-popover'
+      cls: 'falk-editor-layerlist'
     });
     const { body: popoverHTML } = new DOMParser().parseFromString(popover, 'text/html');
     document.getElementById('o-editor-layers').insertAdjacentElement('afterend', popoverHTML);
