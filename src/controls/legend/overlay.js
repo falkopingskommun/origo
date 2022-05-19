@@ -1,6 +1,9 @@
 import { Component, Modal, Button, dom } from '../../ui';
 import { HeaderIcon } from '../../utils/legendmaker';
 import PopupMenu from '../../ui/popupmenu';
+import {Icon, Style} from 'ol/style'; //FM+
+import Circle from 'ol/style/Circle'; //FM+
+import Stroke from 'ol/style/Stroke'; //FM+
 
 const OverlayLayer = function OverlayLayer(options) {
   let {
@@ -15,11 +18,12 @@ const OverlayLayer = function OverlayLayer(options) {
     style,
     viewer
   } = options;
-
+  let inputValue; //FM+
   const buttons = [];
   const popupMenuItems = [];
   let layerList;
   let modal; //falk mod
+
 
   const cls = `${clsSettings} flex row align-center padding-left padding-right-smaller item hover`.trim(); //falk-mod (hover)
   const title = layer.get('title') || 'Titel saknas';
@@ -182,6 +186,58 @@ const OverlayLayer = function OverlayLayer(options) {
     });
     popupMenuItems.push(removeLayerMenuItem);
   }
+
+    //FM-B Välja färg för drag and drop
+    if (layer.values_.group === 'egna-lager')
+    {
+    const colorbuttonmenuItem = Component({
+      onRender() {
+        const labelEl = document.getElementById(this.getId());
+
+        labelEl.addEventListener('click', (e) => {
+          
+          inputValue = document.getElementById(layer.ol_uid).value;
+          const features = layer.getSource().getFeatures();
+          const geomtype = features[0].getGeometry().getType()
+
+          if(geomtype === "LineString")
+          { 
+          layer.style_[1].stroke_.color_ = inputValue;
+          }
+          else if(geomtype === "Polygon"){
+            layer.style_[1].stroke_.color_ = inputValue;
+            layer.style_[2].fill_.color_ = inputValue;
+          }
+          else if(geomtype === "Point"){
+          const circle = new Style({
+            image: new  Circle({
+                radius: 5,
+                fill: null,
+                stroke: new Stroke({
+                    color: inputValue,
+                    width: 3
+                })
+            })
+        });
+          layer.setStyle(circle);
+
+        }
+          viewer.getMap().getView().fit(layer.getSource().getExtent(), viewer.getMap().getSize()); //Kartan hoppar så färgen uppdateras
+
+          e.preventDefault();
+        });
+      }, 
+      render() {
+        const labelCls = 'text-smaller padding-x-small grow pointer no-select overflow-hidden';
+        
+        return `<li align="center"><input  type="text" id="${layer.ol_uid}" name="head" value="#00ffff"></input></li>
+                <li class="falk-small-info-text">Anges i formatet Hex (ex: #00ffff)</li>
+        <li id="${this.getId()}" class="${labelCls} falk-hover" align="center"><input class="falk-hover" type="submit" value="Byt färg"></li>`;
+      }
+    });
+    popupMenuItems.push(colorbuttonmenuItem);
+  }
+  //FM-S
 
   const popupMenuList = Component({
     onInit() {
