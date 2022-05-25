@@ -167,7 +167,7 @@ const Overlays = function Overlays(options) {
     },
     render() {
       const emptyCls = hasOverlays() ? '' : 'hidden';
-      return `<div id="${this.getId()}" class="flex column o-scrollbar ${cls} ${emptyCls}" style="${style}">
+      return `<div id="${this.getId()}" class="flex column o-scrollbar falk_overflow ${cls} ${emptyCls}" style="${style}">
                 ${header.render()}
                 ${navContainer.render()}
               </div>`;

@@ -226,6 +226,8 @@ const Legend = function Legend(options = {}) {
     if (!visibleLayersControl) return;
     visibleLayersViewActive = active;
     if (visibleLayersViewActive) {
+      layerSwitcherEl.classList.remove('falk_legend_expanded'); //FM+ Ändrar css inställning när legend minimeras.
+      layerSwitcherEl.classList.add('falk_legend_minimized');  //FM+ 
       document.getElementById(overlaysCmp.getId()).classList.add('hidden');
       document.getElementById(visibleOverlaysCmp.getId()).classList.remove('hidden');
       document.getElementById(showAllVisibleLayersButton.getId()).classList.remove('hidden');
@@ -233,6 +235,8 @@ const Legend = function Legend(options = {}) {
       visibleOverlaysCmp.dispatch('readOverlays');
       document.getElementById(toolsCmp.getId()).classList.add('hidden');
     } else {
+      layerSwitcherEl.classList.remove('falk_legend_minimized'); //FM+ Ändrar css inställning när legend maximeras.
+      layerSwitcherEl.classList.add('falk_legend_expanded'); //FM+
       document.getElementById(overlaysCmp.getId()).classList.remove('hidden');
       document.getElementById(visibleOverlaysCmp.getId()).classList.add('hidden');
       document.getElementById(showAllVisibleLayersButton.getId()).classList.add('hidden');
@@ -577,7 +581,7 @@ const Legend = function Legend(options = {}) {
         cls: 'flex padding-small no-shrink falk-bg-iconer', //Falk-mod lägger till klassen falk-bg-iconer ikoner för bakgrunskarta flyttas till höger
         style: {
           'background-color': '#fff',
-          height: '50px',
+          height: '80px', //FM
           'border-top': '1px solid #dbdbdb'
         },
         components: baselayerCmps
@@ -618,9 +622,9 @@ const Legend = function Legend(options = {}) {
         components: [mainContainerCmp],
         target
       });
+
       layerSwitcherCmp.render();
       layerSwitcherEl = document.getElementById(layerSwitcherCmp.getId());
-
       const layerButtonCls = isExpanded ? ' faded' : '';
       layerButton = Button({
         icon: '#ic_layers_24px',
