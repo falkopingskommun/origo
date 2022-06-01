@@ -16,6 +16,7 @@ import Footer from './components/footer';
 import flattenGroups from './utils/flattengroups';
 import getcenter from './geometry/getcenter';
 import isEmbedded from './utils/isembedded';
+import permalink from './permalink/permalink';
 
 const Viewer = function Viewer(targetOption, options = {}) {
   let map;
@@ -624,7 +625,8 @@ const Viewer = function Viewer(targetOption, options = {}) {
     setStyle,
     zoomToExtent,
     getSelectionManager,
-    getEmbedded
+    getEmbedded,
+    permalink
   });
 };
 
