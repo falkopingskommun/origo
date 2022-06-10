@@ -6,10 +6,8 @@ import Circle from 'ol/style/Circle'; //FM+
 import Stroke from 'ol/style/Stroke'; //FM+
 
 const OverlayLayer = function OverlayLayer(options) {
-  let {
-    headerIconCls = ''
-  } = options;
   const {
+    headerIconCls = '',
     cls: clsSettings = '',
     icon = '#o_list_24px',
     iconCls = 'grey-lightest',
@@ -20,11 +18,15 @@ const OverlayLayer = function OverlayLayer(options) {
   } = options;
   let inputValue; //FM+
   const buttons = [];
+  let headerIconClass = headerIconCls;
+
   const popupMenuItems = [];
   let layerList;
   let modal; //falk mod
 
 
+  const hasStylePicker = viewer.getLayerStylePicker(layer).length > 0;
+  const layerIconCls = `round compact icon-small relative no-shrink light ${hasStylePicker ? 'style-picker' : ''}`;
   const cls = `${clsSettings} flex row align-center padding-left padding-right-smaller item hover`.trim(); //falk-mod (hover)
   const title = layer.get('title') || 'Titel saknas';
   const name = layer.get('name');
@@ -45,7 +47,7 @@ const OverlayLayer = function OverlayLayer(options) {
   let headerIcon = HeaderIcon(style, opacity);
   if (!headerIcon) {
     headerIcon = icon;
-    headerIconCls = iconCls;
+    headerIconClass = iconCls;
   }
 
   const eventOverlayProps = new CustomEvent('overlayproperties', {
@@ -74,15 +76,15 @@ const OverlayLayer = function OverlayLayer(options) {
   };
 
   const layerIcon = Button({
-    cls: `${headerIconCls} round compact icon-small light relative no-shrink`,
+    cls: `${headerIconClass} ${layerIconCls}`,
     click() {
       if (!secure) {
         toggleVisible(layer.getVisible());
       }
     },
     style: {
-      height: '1.5rem',
-      width: '1.5rem'
+      height: 'calc(1.5rem + 2px)',
+      width: 'calc(1.5rem + 2px)'
     },
     ariaLabel: 'Lager ikon',
     icon: headerIcon,
@@ -330,13 +332,23 @@ const OverlayLayer = function OverlayLayer(options) {
 
   const removeOverlayMenuItem = function removeListeners() {
     const popupMenuListEl = document.getElementById(popupMenuList.getId());
-    popupMenuListEl.remove();
+    if (popupMenuListEl) { popupMenuListEl.remove(); }
   };
 
   const onRemove = function onRemove() {
     removeOverlayMenuItem();
     const el = document.getElementById(this.getId());
     el.remove();
+  };
+
+  const onLayerStyleChange = function onLayerStyleChange() {
+    const newStyle = viewer.getStyle(layer.get('styleName'));
+    const layerIconCmp = document.getElementById(layerIcon.getId());
+    let newIcon = HeaderIcon(newStyle, opacity);
+    headerIconClass = !newIcon ? iconCls : headerIconCls;
+    newIcon = !newIcon ? icon : newIcon;
+    layerIconCmp.className = `${headerIconClass} ${layerIconCls}`;
+    layerIcon.dispatch('change', { icon: newIcon });
   };
 
   return Component({
@@ -376,6 +388,9 @@ const OverlayLayer = function OverlayLayer(options) {
           bubbles: true
         });
         document.getElementById(this.getId()).dispatchEvent(visibleEvent);
+      });
+      layer.on('change:style', () => {
+        onLayerStyleChange();
       });
     },
     render() {
