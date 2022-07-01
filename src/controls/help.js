@@ -124,7 +124,12 @@ const Help = function Help(options = {}) {
     Download: {
       text: 'Hämta data till fil, tänd först lager i Nedladdningsbara lager och zooma till önskad utbredning',
       icon: '#ic_get_app_24px'
-    }
+    },
+    Legendvisiblelayers: {
+      text: 'Minimera legenden/lagerlistan så den bara visar tända lager',
+      icon: '#ic_close_fullscreen_24px'
+    },
+    
   };
 
   const modalContent = () => {
