@@ -1,9 +1,9 @@
-import { Component, Modal, Button} from '../../ui'; //falk mod 2021-06-16
+import { Component, Modal, Button} from '../../ui'; //FM 2021-06-16
 const LayerList = function LayerList(options, isRootGroup = false) {
   const {
     cls: clsSettings = '',
-    viewer,//falk-mod
-    abstract, abstractbtnmodal, abstractbtnurl, title, abstractbtnug //falk-mod
+    viewer, //FM
+    abstract, abstractbtnmodal, abstractbtnurl, title, abstractbtnug //FM
   } = options;
 
   let cls = `${clsSettings} list divider-end`.trim();
@@ -15,7 +15,7 @@ const LayerList = function LayerList(options, isRootGroup = false) {
   const groupStore = {};
   let el;
   let target;
-  let modal; //falk mod
+  let modal; //FM
 
   const getEl = () => el;
 
@@ -95,7 +95,7 @@ const LayerList = function LayerList(options, isRootGroup = false) {
     }
   };
 
-    //falk mod skapar infoknapp
+    //FM skapar infoknapp
     const iframe1 = '<iframe width="600px" src="'
     const iframe2 = '"></iframe>'
     let abstractcontent = ''
@@ -140,14 +140,14 @@ const LayerList = function LayerList(options, isRootGroup = false) {
         const groupAbstract = Component({
           render() {
             return `<li><div id="${this.getId()}">
-            <div class="extern_abstract">${abstract}</div>
-            </div></li>`;
+            <div class="padding-small padding-x text-smaller falk-group-abstract">${abstract}</div>
+            </div></li>`; //FM change to smaller text and add falk css
           }
         });
         this.addComponent(groupAbstract);
       }
-      if (abstractbtnug) { //falk mod lägger till infoknapp under temagruppen om abstractbtnug är true
-        this.addComponent(infoButton); //falk mod
+      if (abstractbtnug) { //FM lägger till infoknapp under temagruppen om abstractbtnug är true
+        this.addComponent(infoButton); //FM
       }
       this.on('add', (evt) => {
         if (evt.target) {
