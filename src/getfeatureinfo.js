@@ -62,7 +62,7 @@ function getFeatureInfoUrl({
   if (layer.get('infoFormat') === 'application/geo+json' || layer.get('infoFormat') === 'application/geojson') {
     const url = layer.getSource().getFeatureInfoUrl(coordinate, resolution, projection, {
       INFO_FORMAT: layer.get('infoFormat'),
-      FEATURE_COUNT: '20'
+      FEATURE_COUNT: '30'
     });
 
     return fetch(url, { type: 'GET' })
@@ -89,7 +89,7 @@ function getFeatureInfoUrl({
   }
   const url = layer.getSource().getFeatureInfoUrl(coordinate, resolution, projection, {
     INFO_FORMAT: 'application/json',
-    FEATURE_COUNT: '20'
+    FEATURE_COUNT: '30'
   });
   return fetch(url, { type: 'GET' }).then((res) => {
     if (res.error) {
