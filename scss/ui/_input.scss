@@ -13,8 +13,8 @@ input {
   border: 1px solid $border-color;
   border-radius: 3px;
   box-sizing: border-box;
-  font-family: Arial;
-  font-size: 0.8rem; //Falk mod orginal ($font-size-normal)
+  font-family: Arial; 
+  font-size: $font-size-normal;
   line-height: $line-height-base;
   margin-bottom: .375rem;
   padding: $button-padding-medium;
