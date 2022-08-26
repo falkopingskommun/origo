@@ -31,7 +31,7 @@ const wmts = function wmts(layerOptions, viewer) {
     matrixSet: viewer.getProjectionCode(),
     matrixIdsPrefix: `${viewer.getProjectionCode()}:`,
     format: 'image/png',
-    resolutions: viewer.getResolutions(),
+    resolutions: JSON.parse(JSON.stringify(viewer.getResolutions())),
     tileSize: [256, 256],
     style: 'default'
   };
