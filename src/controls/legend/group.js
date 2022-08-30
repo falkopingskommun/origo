@@ -64,7 +64,7 @@ const Group = function Group(viewer, options = {}) {
   if (abstractbtnmodal) abstractcontent = abstractbtnmodal;
 
   const infoButton = Button({
-    cls: 'icon-smaller compact round',
+    cls: 'icon-smaller compact round falk-linear', //FM
     icon: '#fa-info-circle',
 
     click() {
@@ -80,7 +80,7 @@ const Group = function Group(viewer, options = {}) {
   });
   //falk-mod slut
   const tickButton = !exclusive && toggleAll ? Button({
-    cls: 'icon-smaller round small',
+    cls: 'icon-smaller round small falk-linear', //FM
     click() {
       const eventType = visibleState === 'all' ? 'untick:all' : 'tick:all';
       const tickEvent = new CustomEvent(eventType, {
