@@ -21,8 +21,7 @@ import op_spillvattenStyle from './stylefunctions/falk_op_spillvatten_hatch';
 import op_dagvattenStyle from './stylefunctions/falk_op_dagvatten_hatch';
 import op_dricksvattenStyle from './stylefunctions/falk_op_dricksvatten_hatch';
 import mex_belastningStyle from './stylefunctions/falk_mex_bel_mod';
-
-
+import upplatelseStyle from './stylefunctions/falk_upplatelse_mod';
 
 const customStyles = {
   default: defaultStyle,
@@ -47,7 +46,8 @@ const customStyles = {
   op_spillvatten: op_spillvattenStyle,
   op_dagvatten: op_dagvattenStyle,
   op_dricksvatten: op_dricksvattenStyle,
-  mex_belastningStyle: mex_belastningStyle 
+  mex_belastningStyle: mex_belastningStyle,
+  upplatelseStyle: upplatelseStyle  
   
 };
 
