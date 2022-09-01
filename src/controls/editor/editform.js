@@ -144,6 +144,11 @@ const createForm = function createForm(obj) {
     case 'decimal':
       el = `<div class="validate ${cls}"><label>${label}<br><input type="number" step="0.01" min="0" name="decimaltal" id="${id}" value="${val}"${readonly}${required}></label></div>`;
       break;
+    // FMB Slider/range input method, used for percentage 0-100
+    case 'slider':
+        el = `<div class="validate ${cls}"><label>${label}<br><input type="range" min="0" max="100" name="range-slider" id="${id}" value="${val}"${readonly}${required}></label></div>`;
+        break;
+    // FMS
     case 'hidden':
       // Note that an input with type="hidden" is not the same as an input with class="o-hidden". Type hidden is to roundtrip values invisible to the user
       // class o-hidden is to temporarily hide an input as logic in view says it should not be visible right now (batch edit or constraints).
