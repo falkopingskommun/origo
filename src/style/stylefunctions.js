@@ -22,6 +22,8 @@ import op_dagvattenStyle from './stylefunctions/falk_op_dagvatten_hatch';
 import op_dricksvattenStyle from './stylefunctions/falk_op_dricksvatten_hatch';
 import mex_belastningStyle from './stylefunctions/falk_mex_bel_mod';
 import upplatelseStyle from './stylefunctions/falk_upplatelse_mod';
+import ritlager_ytaStyle from './stylefunctions/falk_ritlager_yta';
+import ritlager_linjeStyle from './stylefunctions/falk_ritlager_linje';
 
 const customStyles = {
   default: defaultStyle,
@@ -47,8 +49,9 @@ const customStyles = {
   op_dagvatten: op_dagvattenStyle,
   op_dricksvatten: op_dricksvattenStyle,
   mex_belastningStyle: mex_belastningStyle,
-  upplatelseStyle: upplatelseStyle  
-  
+  upplatelseStyle: upplatelseStyle,
+  ritlager_yta: ritlager_ytaStyle,
+  ritlager_linje: ritlager_linjeStyle
 };
 
 export default function styleFunctions(customStyle, params) {
