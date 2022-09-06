@@ -18,6 +18,13 @@ export default function hatch_style() {
     linecolor = 'black'
     }
 
+    else if (feature.get('typ') == 'Marktillstånd, Allmän mark') {
+      fill = new Fill({
+        color: [125, 0, 0, 0.8]
+      });
+      linecolor = 'black'
+      }
+
     else if (feature.get('datum_till') > today && feature.get('typ') == 'Nyttjanderätt kommunal mark') {
       fill = new Fill({
         color: [153, 123, 252, 0.8]

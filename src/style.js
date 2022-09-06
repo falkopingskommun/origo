@@ -207,6 +207,8 @@ function checkOptions(options = {}) {
         // find attribute vale between [] defined in styles
         let regexExpr;
         let regexFilter;
+        let dateDiffNowFilter; //FM+ Datum filter
+        let dateDiffNowFilter_r; //FM+ Datum filter
         let featMatch;
         let filters = [];
         let filtering = '';
@@ -217,6 +219,16 @@ function checkOptions(options = {}) {
         } else if (s[j][0].filter.search(' OR ') > 0) {
           filters = s[j][0].filter.split(' OR ');
           filtering = 'OR';
+          //FMB - Datum filter
+        } else if (s[j][0].filter.search(' DATETIMEDIFFNOW ') > 0) {
+          filters = s[j][0].filter.split(' DATETIMEDIFFNOW ');
+          dateDiffNowFilter = filters[1];
+          filtering = 'DATETIMEDIFFNOW';
+        } else if (s[j][0].filter.search(' DATETIMEDIFFNOW_R ') > 0) {
+          filters = s[j][0].filter.split(' DATETIMEDIFFNOW_R ');
+          dateDiffNowFilter_r = filters[1];
+          filtering = 'DATETIMEDIFFNOW_R';
+          //FMS - Datum filter
         } else {
           // Remove AND or OR filtering in the case it matched the one or other
           filters = s[j][0].filter.split(' AND ');
@@ -253,6 +265,20 @@ function checkOptions(options = {}) {
             } else {
               filterMatch = false;
             }
+            //FMB - Datum filter
+          } else if (filtering === 'DATETIMEDIFFNOW') {
+            if (Date.parse(exp.replaceAll('"', '')) > Date.now() - dateDiffNowFilter * 1000) {
+              filterMatch = true;
+            } else {
+              filterMatch = false;
+            }
+          } else if (filtering === 'DATETIMEDIFFNOW_R') {
+            if (Date.parse(exp.replaceAll('"', '')) < Date.now() - dateDiffNowFilter_r * 1000) {
+              filterMatch = true;
+            } else {
+              filterMatch = false;
+            }
+            //FMS - Datum filter
           } else if (filtering === 'OR') {
             // eslint-disable-next-line no-eval
             if ((eval(exp) || filterMatchOR)) {
