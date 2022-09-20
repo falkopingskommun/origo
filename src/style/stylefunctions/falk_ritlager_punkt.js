@@ -1,22 +1,34 @@
-import Fill from 'ol/style/Fill';
 import Style from 'ol/style/Style';
+import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
+import Circle from 'ol/style/Circle';
 
 // Style used with colorpicker (attr: farg) and slider (attr: opacity)
-export default function ritlager_yta_style() {
+export default function ritlager_punkt_style() {
   return function styles(feature) {
     let style;
-    let colorvalue = feature.get('farg');
-    let opacity = feature.get('opacity');
+    let point;
+    let colorvalue = feature.get('farg') || '#000000';
+    let opacity = feature.get('opacity') || '0.8';
     let linecolor = colorvalue + Math.floor(opacity / 100 * 255).toString(16).padStart(2, 0);
     let fillcolor = colorvalue + Math.floor(opacity / 100 * 255).toString(16).padStart(2, 0);
+    let strokewidth = 1;
+    let radius = 5;
+    
+    const fill = new Fill({
+      color: fillcolor
+    });
+    const stroke = new Stroke({
+      color: linecolor,
+      width: strokewidth
+    });
 
     //Legacy support for old color choices
     if (colorvalue == 'Svart') {
       fillcolor = [0, 0, 0, 0.8]
       linecolor = [0, 0, 0, 0.4]
     }
-
+    
     else if (colorvalue == 'Röd') {
       fillcolor = [250, 0, 0, 0.8]
       linecolor = [250, 0, 0, 0.4]
@@ -91,18 +103,19 @@ export default function ritlager_yta_style() {
       fillcolor = [230, 227, 228, 0.8]
       linecolor = [230, 227, 228, 0.4]
     }
+    
+    stroke.setColor(linecolor);
+    fill.setColor(fillcolor);
+    point = new Style({
+      image: new Circle({
+        radius,
+        fill,
+        stroke
+      }),
+      zIndex: 50
+    });
 
-    const fill = new Fill({
-      color: fillcolor
-    });
-    const stroke = new Stroke({
-      color: linecolor,
-      width: 3,
-    });
-    style = new Style({
-      fill,
-      stroke
-    });
+    style = point;
     return style
 
   };
