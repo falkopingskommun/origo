@@ -25,6 +25,7 @@ import upplatelseStyle from './stylefunctions/falk_upplatelse_mod';
 import ritlager_ytaStyle from './stylefunctions/falk_ritlager_yta';
 import ritlager_linjeStyle from './stylefunctions/falk_ritlager_linje';
 import ritlager_punktStyle from './stylefunctions/falk_ritlager_punkt';
+import markplanering_ytaStyle from './stylefunctions/falk_markplanering_y';
 
 const customStyles = {
   default: defaultStyle,
@@ -53,7 +54,9 @@ const customStyles = {
   upplatelseStyle: upplatelseStyle,
   ritlager_yta: ritlager_ytaStyle,
   ritlager_linje: ritlager_linjeStyle,
-  ritlager_punkt: ritlager_punktStyle
+  ritlager_punkt: ritlager_punktStyle,
+  markplanering_yta: markplanering_ytaStyle,
+  
 };
 
 export default function styleFunctions(customStyle, params) {
