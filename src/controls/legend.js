@@ -15,7 +15,7 @@ const Legend = function Legend(options = {}) {
     expanded = true,
     contentCls,
     contentStyle,
-    //turnOnLayersControl = false, //FM (Tänd alla lager deaktiverad)
+    turnOnLayersControl = false,
     falklink1url,falklink2url,falklink3url,falklink4url ='',
     falklink1text,falklink2text,falklink3text,falklink4text ='',
     falkexternal,
@@ -147,14 +147,22 @@ const Legend = function Legend(options = {}) {
       }
     });
   };
-  const turnOnAllLayers = function turnOnAllLayers() { //Falk-mod (Tänd alla lager)
+
+  const turnOnAllLayers = function turnOnAllLayers() {
     const layers = viewer.getLayers();
     layers.forEach((el) => {
       if (!(['none', 'background'].includes(el.get('group')))) {
-        el.setVisible(true);
+        const group = viewer.getGroups().find((item) => item.name === el.get('group'));
+        if (typeof group !== 'undefined') {
+          if (!group.exclusive) {
+            el.setVisible(true);
+          }
+        } else {
+          el.setVisible(true);
+        }
       }
     });
-  };//Falk-mod slut
+  };
 
   const divider = El({
     cls: 'divider margin-x-small',
@@ -258,6 +266,22 @@ const Legend = function Legend(options = {}) {
   const toggleShowVisibleLayers = function toggleShowVisibleLayers() {
     setVisibleLayersViewActive(!visibleLayersViewActive);
   };
+
+  const turnOnLayersButton = Button({
+    cls: 'round compact icon-small margin-x-smaller',
+    title: 'Tänd alla lager utom bakgrundslager',
+    click() {
+      viewer.dispatch('active:turnonlayers');
+    },
+    style: {
+      'align-self': 'center',
+      'padding-right': '6px'
+    },
+    icon: '#ic_visibility_24px',
+    iconStyle: {
+      fill: '#7a7a7a'
+    }
+  });
 
   const layerSearchInput = Input({
     cls: 'o-search-layer-field placeholder-text-smaller smaller',
@@ -493,12 +517,12 @@ const Legend = function Legend(options = {}) {
     },
     onAdd(evt) {
       viewer = evt.target;
-      /*
-      if (turnOnLayersControl) { //FM (Tänd alla lager deaktiverad)
+      if (turnOffLayersControl) {
+        viewer.on('active:turnofflayers', turnOffAllLayers);
+      }
+      if (turnOnLayersControl) {
         viewer.on('active:turnonlayers', turnOnAllLayers);
-      }//Falk-mod slut
-      */
-      viewer.on('active:turnofflayers', turnOffAllLayers);
+      }
       viewer.on('active:togglevisibleLayers', toggleShowVisibleLayers);
 
       const backgroundLayers = viewer.getLayersByProperty('group', 'background').reverse();
@@ -520,8 +544,10 @@ const Legend = function Legend(options = {}) {
     },
     onRender() {
       const layerControlCmps = [];
+      if (turnOnLayersControl) layerControlCmps.push(turnOnLayersButton);
       if (turnOffLayersControl) layerControlCmps.push(turnOffLayersButton);
       const layerControl = El({
+        cls: 'grow flex justify-end align-center no-shrink',
         components: layerControlCmps
       });
       mainContainerEl = document.getElementById(mainContainerCmp.getId());
