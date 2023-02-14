@@ -12,7 +12,6 @@ const Editor = function Editor(options = {}) {
   let editorButton;
   let target;
   let viewer;
-  let hidden = false;
   let isVisible = isActive;
   let toolbarVisible = false;
   let lasteditlayer;
@@ -129,13 +128,13 @@ const Editor = function Editor(options = {}) {
       });
     },
     hide() {
-      document.getElementById(editorButton.getId()).classList.add("hidden");
+      document.getElementById(editorButton.getId()).classList.add('hidden');
       if (toolbarVisible) {
         editorToolbar.toggleToolbar(false);
       }
     },
     unhide() {
-      document.getElementById(editorButton.getId()).classList.remove("hidden");
+      document.getElementById(editorButton.getId()).classList.remove('hidden');
       if (toolbarVisible) {
         editorToolbar.toggleToolbar(true);
       }
