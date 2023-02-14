@@ -644,7 +644,7 @@ const Legend = function Legend(options = {}) {
       if (falk_externalurl) {
         falk_externalurl_content.forEach((url) => {
           const urlsplit = url.split(',');
-          falk_externallinks = falk_externallinks + `<li><a href="${urlsplit[1]}">${urlsplit[0]}${externalurlicon.render()}</a></li>`
+          falk_externallinks = falk_externallinks + `<li><a target="_blank" href="${urlsplit[1]}">${urlsplit[0]}${externalurlicon.render()}</a></li>`
         });
         falkexternalcmp = Component({
           render() {
