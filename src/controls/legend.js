@@ -16,9 +16,8 @@ const Legend = function Legend(options = {}) {
     contentCls,
     contentStyle,
     turnOnLayersControl = false,
-    falklink1url,falklink2url,falklink3url,falklink4url ='',
-    falklink1text,falklink2text,falklink3text,falklink4text ='',
-    falkexternal,
+    falk_externalurl_content, //FM+
+    falk_externalurl, //FM+
     name = 'legend',
     labelOpacitySlider = '',
     visibleLayersControl = false,
@@ -63,6 +62,7 @@ const Legend = function Legend(options = {}) {
   let isExpanded;
   let toolsCmp;
   let falkexternalcmp;
+  let falk_externallinks = ''; //FM+
 
   const cls = `${clsSettings} control bottom-right box overflow-hidden flex row o-legend`.trim();
   const style = dom.createStyle(Object.assign({}, { width: 'auto' }, styleSettings));
@@ -634,26 +634,26 @@ const Legend = function Legend(options = {}) {
         },
         components: baselayerCmps
       });
-      //FM skapar länkar i legenden
+      //FMB skapar länkar i legenden
       const externalurlicon = Icon({
         icon: '#ic_launch_24px',
         cls: 'icon-smallest compact round',
       });
-      falkexternalcmp = Component({render() {return ``;}});
-      
-      if (falkexternal) {
-       falkexternalcmp = Component({
-        render() {
-          return `<div class="falk-external-link">
-          <a href="${falklink1url}" target="_blank">${falklink1text}${externalurlicon.render()}</a>
-          <a href="${falklink2url}" target="_blank">${falklink2text}${externalurlicon.render()}</a>
-          <a href="${falklink3url}" target="_blank">${falklink3text}${externalurlicon.render()}</a>
-          <a href="${falklink4url}" target="_blank">${falklink4text}${externalurlicon.render()}</a>
-          </div>`;
-        }  
-      });
-    }//FM slut
-      const mainContainerComponents = [falkexternalcmp,overlaysCmp, visibleOverlaysCmp, toolsCmp, baselayersCmp];//FM falkexternalcmp
+      falkexternalcmp = Component({ render() { return ``; } });
+
+      if (falk_externalurl) {
+        falk_externalurl_content.forEach((url) => {
+          const urlsplit = url.split(',');
+          falk_externallinks = falk_externallinks + `<li><a href="${urlsplit[1]}">${urlsplit[0]}${externalurlicon.render()}</a></li>`
+        });
+        falkexternalcmp = Component({
+          render() {
+            return `<div class="falk-external-link">${falk_externallinks}</div>`;
+          }
+        });
+      }
+      //FMS slut
+      const mainContainerComponents = [falkexternalcmp, overlaysCmp, visibleOverlaysCmp, toolsCmp, baselayersCmp];//FM falkexternalcmp
 
       mainContainerCmp = El({
         cls: 'flex column overflow-hidden relative',
