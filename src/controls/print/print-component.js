@@ -249,9 +249,9 @@ const PrintComponent = function PrintComponent(options = {}) {
   });
 
   const printMapComponent = PrintMap({ logo, northArrow, map, viewer, showNorthArrow, printLegend, showPrintLegend });
-
+  // FM cls falk-menu-close for external styling on menu close button
   const closeButton = Button({
-    cls: 'fixed top-right medium round icon-smaller light box-shadow z-index-ontop-high falk-left',
+    cls: 'fixed top-right medium round icon-smaller light box-shadow z-index-ontop-high falk-menu-close',
     icon: '#ic_close_24px',
     ariaLabel: 'Stäng'
   });
@@ -663,12 +663,12 @@ const PrintComponent = function PrintComponent(options = {}) {
             style="margin-bottom: 4rem; ${showMargins ? `padding: ${getPrintPadding()}` : ''}">
             <div class="flex column no-margin width-full height-full overflow-hidden">
   ${pageTemplate({
-    descriptionComponent, printMapComponent, titleComponent, footerComponent //Falk-mod lägger till klassen falk-right flyttar knappar till höger
-  })}                                       
+    descriptionComponent, printMapComponent, titleComponent, footerComponent // FM cls falk-tools for external styling on menu
+  })}
             </div>
           </div>
         </div>
-        <div id="o-print-tools-left" class="top-left fixed no-print flex column spacing-vertical-small z-index-ontop-top height-full falk-right">
+        <div id="o-print-tools-left" class="top-left fixed no-print flex column spacing-vertical-small z-index-ontop-top height-full falk-tools">
           ${printSettings.render()}
           ${printInteractionToggle.render()}
         </div>

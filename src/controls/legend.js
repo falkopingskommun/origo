@@ -16,8 +16,8 @@ const Legend = function Legend(options = {}) {
     contentCls,
     contentStyle,
     turnOnLayersControl = false,
-    falk_externalurl_content, //FM+
-    falk_externalurl, //FM+
+    falkExternalurlContent, // FM+
+    falkExternalurl, // FM+
     name = 'legend',
     labelOpacitySlider = '',
     visibleLayersControl = false,
@@ -62,7 +62,7 @@ const Legend = function Legend(options = {}) {
   let isExpanded;
   let toolsCmp;
   let falkexternalcmp;
-  let falk_externallinks = ''; //FM+
+  let falkExternallinks = ''; // FM+
 
   const cls = `${clsSettings} control bottom-right box overflow-hidden flex row o-legend`.trim();
   const style = dom.createStyle(Object.assign({}, { width: 'auto' }, styleSettings));
@@ -242,8 +242,8 @@ const Legend = function Legend(options = {}) {
     if (!visibleLayersControl) return;
     visibleLayersViewActive = active;
     if (visibleLayersViewActive) {
-      layerSwitcherEl.classList.remove('falk_legend_expanded'); //FM+ Ändrar css inställning när legend minimeras.
-      layerSwitcherEl.classList.add('falk_legend_minimized');  //FM+ 
+      layerSwitcherEl.classList.remove('falk_legend_expanded'); // FM+ Ändrar css inställning när legend minimeras.
+      layerSwitcherEl.classList.add('falk_legend_minimized'); // FM+
       document.getElementById(overlaysCmp.getId()).classList.add('hidden');
       document.getElementById(visibleOverlaysCmp.getId()).classList.remove('hidden');
       document.getElementById(showAllVisibleLayersButton.getId()).classList.remove('hidden');
@@ -251,8 +251,8 @@ const Legend = function Legend(options = {}) {
       visibleOverlaysCmp.dispatch('readOverlays');
       document.getElementById(toolsCmp.getId()).classList.add('hidden');
     } else {
-      layerSwitcherEl.classList.remove('falk_legend_minimized'); //FM+ Ändrar css inställning när legend maximeras.
-      layerSwitcherEl.classList.add('falk_legend_expanded'); //FM+
+      layerSwitcherEl.classList.remove('falk_legend_minimized'); // FM+ Ändrar css inställning när legend maximeras.
+      layerSwitcherEl.classList.add('falk_legend_expanded'); // FM+
       document.getElementById(overlaysCmp.getId()).classList.remove('hidden');
       document.getElementById(visibleOverlaysCmp.getId()).classList.add('hidden');
       document.getElementById(showAllVisibleLayersButton.getId()).classList.add('hidden');
@@ -558,7 +558,7 @@ const Legend = function Legend(options = {}) {
         toggleVisibility();
       });
       window.addEventListener('resize', updateMaxHeight);
-      //if (turnOnLayersControl) this.addButtonToTools(turnOnLayersButton); //FM (Tänd alla lager deaktiverad)
+      // if (turnOnLayersControl) this.addButtonToTools(turnOnLayersButton); // FM (Tänd alla lager deaktiverad)
       if (layerControlCmps.length > 0) this.addButtonToTools(layerControl);
       if (searchLayersControl) this.addButtonToTools(layerSearchInput);
       initAutocomplete();
@@ -592,7 +592,7 @@ const Legend = function Legend(options = {}) {
 
       const closeButtonState = isExpanded ? 'initial' : 'hidden';
       closeButton = Button({
-        cls: 'icon-smaller small round grey-lightest falk-left', //Falk-mod lägger till klassen falk-left flyttar lager stängningsknapp till vänster
+        cls: 'icon-smaller small round grey-lightest falk-menu-close', // FM cls falk-menu-close for external styling on menu close button
         icon: '#ic_close_24px',
         state: closeButtonState,
         validStates: ['initial', 'hidden'],
@@ -626,34 +626,34 @@ const Legend = function Legend(options = {}) {
       baselayerCmps.push(legendControlCmp);
 
       const baselayersCmp = El({
-        cls: 'flex padding-small no-shrink falk-bg-iconer', //Falk-mod lägger till klassen falk-bg-iconer ikoner för bakgrunskarta flyttas till höger
+        cls: 'flex padding-small no-shrink falk-bg-iconer', // FM lägger till klassen falk-bg-iconer ikoner för bakgrunskarta flyttas till höger
         style: {
           'background-color': '#fff',
-          height: '80px', //FM
+          height: '80px', // FM
           'border-top': '1px solid #dbdbdb'
         },
         components: baselayerCmps
       });
-      //FMB skapar länkar i legenden
+      // FMB skapar länkar i legenden
       const externalurlicon = Icon({
         icon: '#ic_launch_24px',
-        cls: 'icon-smallest compact round',
+        cls: 'icon-smallest compact round'
       });
-      falkexternalcmp = Component({ render() { return ``; } });
+      falkexternalcmp = Component({ render() { return ''; } });
 
-      if (falk_externalurl) {
-        falk_externalurl_content.forEach((url) => {
+      if (falkExternalurl) {
+        falkExternalurlContent.forEach((url) => {
           const urlsplit = url.split(',');
-          falk_externallinks = falk_externallinks + `<li><a target="_blank" href="${urlsplit[1]}">${urlsplit[0]}${externalurlicon.render()}</a></li>`
+          falkExternallinks += `<li><a target="_blank" href="${urlsplit[1]}">${urlsplit[0]}${externalurlicon.render()}</a></li>`;
         });
         falkexternalcmp = Component({
           render() {
-            return `<div class="falk-external-link">${falk_externallinks}</div>`;
+            return `<div class="falk-external-link">${falkExternallinks}</div>`;
           }
         });
       }
-      //FMS slut
-      const mainContainerComponents = [falkexternalcmp, overlaysCmp, visibleOverlaysCmp, toolsCmp, baselayersCmp];//FM falkexternalcmp
+      // FMS slut
+      const mainContainerComponents = [falkexternalcmp, overlaysCmp, visibleOverlaysCmp, toolsCmp, baselayersCmp]; // FM falkexternalcmp
 
       mainContainerCmp = El({
         cls: 'flex column overflow-hidden relative',
@@ -678,7 +678,7 @@ const Legend = function Legend(options = {}) {
         icon: '#ic_layers_24px',
         tooltipText: 'Lager',
         tooltipPlacement: 'west',
-        cls: `control icon-small medium round absolute light bottom-right falk-left${layerButtonCls}`, //Falk-mod lägger till klassen falk-left flyttar lager stängningsknapp till vänster
+        cls: `control icon-small medium round absolute light bottom-right falk-menu-close${layerButtonCls}`, // FM cls falk-menu-close for external styling on menu close button
         click() {
           if (!isExpanded) {
             overlaysCmp.dispatch('expand');

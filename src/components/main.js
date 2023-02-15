@@ -10,15 +10,15 @@ export default function Main(options = {}) {
   const mapTools = El({ cls: 'o-maptools flex column relative transparent spacing-vertical-small' });
   const miscTools = El({ cls: 'o-misc flex column relative transparent spacing-vertical-small' });
   const bottomTools = El({ cls: 'o-tools-bottom absolute transparent bottom-left width-full no-margin' });
-
+  // FM added cls falk-tools for external styling on menu button
   return Component({
     getBottomTools: () => bottomTools,
     getNavigation: () => navigation,
     getMapTools: () => mapTools,
     getMiscTools: () => miscTools,
-    render: function render() {                         //Falk-mod lägger till klassen falk-right, meny knappar flyttas till höger sida
+    render: function render() {
       return `<div id=${this.getId()} class="${cls}">
-                <div id="o-tools-left" class="box top-left-special transparent flex column falk-right"> 
+                <div id="o-tools-left" class="box top-left-special transparent flex column falk-tools"> 
                   ${navigation.render()}
                   <div style="width: 34px">
                     ${mapTools.render()}
