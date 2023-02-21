@@ -825,9 +825,9 @@ function onAttributesSave(features, attrs) {
                 multicheckboxValues.push(checkbox.value);
               }
             });
-            editEl[attribute.name] = multicheckboxValues.join(';');
+            editEl[attribute.name] = multicheckboxValues.join(', ');
           } else {
-            // FM regular single checkbox
+            // FM standard single checkbox
             const checkedValue = (attribute.config && attribute.config.checkedValue) || 1;
             const uncheckedValue = (attribute.config && attribute.config.uncheckedValue) || 0;
             editEl[attribute.name] = document.getElementById(attribute.elId).checked ? checkedValue : uncheckedValue;

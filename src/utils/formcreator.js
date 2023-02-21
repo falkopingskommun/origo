@@ -19,7 +19,7 @@ export default function createForm(object) {
             el = `<div><label>${label}</label><br><textarea id="${id}"${maxLength}rows="3">${val}</textarea></div>`;
             break;
         case 'checkbox':
-            // FMB checkbox with options for multicheckbox and optional textbox
+            // FMB checkbox with options for multicheckbox and optional textbox that need some more work
             const textboxVal = val && val.indexOf(':') > -1 ? val.split(':')[1] : '';
             checked = val ? ' checked' : '';
             const checkboxEl = `<input type="checkbox" id="${id}" value="${val.split(':')[0]}"${checked} />`;
