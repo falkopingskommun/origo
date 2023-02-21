@@ -760,7 +760,21 @@ function onAttributesAbort(features) {
     });
   }
 }
+// FMB - Closes editorform
+function onAttributesCancel() {
+  const cancelBtnEl = document.getElementById(`o-cancel-button-${currentLayer}`);
+  if (cancelBtnEl !== null) {
+    cancelBtnEl.addEventListener('click', (e) => {
+      cancelBtnEl.blur();
 
+      modal.closeModal();
+      // The modal does not fire close event when it is closed externally
+      onModalClosed();
+      e.preventDefault();
+    });
+  }
+}
+// FMS
 /**
  * Sets up an eventlistener on the attribute editor form save button.
  * @param {Collection} features The features that should be updated
@@ -1203,7 +1217,7 @@ function editAttributes(feat) {
       attachmentsForm = `<div id="o-attach-form-${currentLayer}"></div>`;
     }
 
-    let form = `<div id="o-form">${formElement}${relatedTablesFormHTML}${attachmentsForm}<br><div class="o-form-save"><input id="o-save-button-${currentLayer}" type="button" value="OK" aria-label="OK"></input></div></div>`;
+    let form = `<div id="o-form">${formElement}${relatedTablesFormHTML}${attachmentsForm}<br><div class="o-form-save"><input id="o-save-button-${currentLayer}" type="button" value="Spara och uppdatera" aria-label="Spara och uppdatera"></input> <input id="o-cancel-button-${currentLayer}" type="button" value="Avbryt" aria-label="Avbryt"></input></div></div>`; // FM - Adds a cancel button
     if (autoCreatedFeature) {
       form = `<div id="o-form">${formElement}${relatedTablesFormHTML}${attachmentsForm}<br><div class="o-form-save"><input id="o-save-button-${currentLayer}" type="button" value="Spara" aria-label="Spara"></input><input id="o-abort-button-${currentLayer}" type="button" value="Ta bort" aria-label="Ta bort"></input></div></div>`;
       autoCreatedFeature = false;
@@ -1260,9 +1274,10 @@ function editAttributes(feat) {
         obj.addListener(obj);
       }
     });
-
+    onAttributesCancel(features) // FM+
     onAttributesSave(features, attributeObjects);
     onAttributesAbort(features);
+    
   }
 }
 
