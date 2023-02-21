@@ -770,6 +770,7 @@ function onAttributesSave(features, attrs) {
   document.getElementById(`o-save-button-${currentLayer}`).addEventListener('click', (e) => {
     const editEl = {};
     const valid = {};
+    const multicheckboxValues = [];
     const fileReaders = [];
     attrs.forEach((attribute) => {
       // Get the input container class
@@ -777,21 +778,46 @@ function onAttributesSave(features, attrs) {
       // Get the input attributes
       // FIXME: Don't have to get from DOM, the same values are in 'attribute'
       // and it would be enough to call getElementId once anyway (called numerous times later on).
-      const inputType = document.getElementById(attribute.elId).getAttribute('type');
-      const inputValue = document.getElementById(attribute.elId).value;
-      const inputName = document.getElementById(attribute.elId).getAttribute('name');
-      const inputId = document.getElementById(attribute.elId).getAttribute('id');
-      const inputRequired = document.getElementById(attribute.elId).required;
+      // FM multicheckbox, some default values added, should be fixed in a better way later on.
+      const inputTypeElement = document.getElementById(attribute.elId);
+      const inputType = inputTypeElement ? inputTypeElement.getAttribute('type') : 'checkbox';
 
+      const inputValueElement = document.getElementById(attribute.elId);
+      const inputValue = inputValueElement ? inputValueElement.value : 'Empty';
+
+      const inputNameElement = document.getElementById(attribute.elId);
+      const inputName = inputNameElement ? inputNameElement.getAttribute('name') : 'Empty';
+
+      const inputIdElement = document.getElementById(attribute.elId);
+      const inputId = inputIdElement ? inputIdElement.getAttribute('id') : 'Empty';
+
+      const inputRequiredElement = document.getElementById(attribute.elId);
+      const inputRequired = inputRequiredElement ? inputRequiredElement.required : 'Empty';
       // If hidden element it should be excluded
       // By sheer luck, this prevents attributes to be changed in batch edit mode when checkbox is not checked.
       // If this code is changed, it may be necessary to excplict check if the batch edit checkbox is checked for this attribute.
       if (!document.querySelector(containerClass) || document.querySelector(containerClass).classList.contains('o-hidden') === false) {
         // Check if checkbox. If checkbox read state.
         if (inputType === 'checkbox') {
-          const checkedValue = (attribute.config && attribute.config.checkedValue) || 1;
-          const uncheckedValue = (attribute.config && attribute.config.uncheckedValue) || 0;
-          editEl[attribute.name] = document.getElementById(attribute.elId).checked ? checkedValue : uncheckedValue;
+          // FM Check if checkbox contains options then handle as multicheckbox, textbox option need some more work
+          if (attribute.options && attribute.options.length > 0) {
+            const checkboxes = document.querySelectorAll(`input[name="${attribute.name}"]:checked`);
+            checkboxes.forEach((checkbox) => {
+              if (checkbox.nextElementSibling && checkbox.nextElementSibling.type === 'text') {
+                if (checkbox.nextElementSibling.value) {
+                  multicheckboxValues.push(checkbox.nextElementSibling.value.trim());
+                }
+              } else {
+                multicheckboxValues.push(checkbox.value);
+              }
+            });
+            editEl[attribute.name] = multicheckboxValues.join(';');
+          } else {
+            // FM regular single checkbox
+            const checkedValue = (attribute.config && attribute.config.checkedValue) || 1;
+            const uncheckedValue = (attribute.config && attribute.config.uncheckedValue) || 0;
+            editEl[attribute.name] = document.getElementById(attribute.elId).checked ? checkedValue : uncheckedValue;
+          }
         } else if (attribute.type === 'searchList') {
           // SearchList may have its value in another place than the input element itself. Query the "Component" instead.
           // Note that inputValue still contains the value of the input element, which is  used to validate required.
