@@ -13,7 +13,7 @@ import getFeatureInfo from './getfeatureinfo';
 import replacer from './utils/replacer';
 import SelectedItem from './models/SelectedItem';
 import attachmentclient from './utils/attachmentclient';
-import getAttributes, { getContent } from './getattributes';
+import getAttributes, { getContent, featureinfotemplates } from './getattributes';
 import relatedtables from './utils/relatedtables';
 
 const styleTypes = StyleTypes();
@@ -699,7 +699,8 @@ const Featureinfo = function Featureinfo(options = {}) {
     },
     render,
     showInfo,
-    showFeatureInfo
+    showFeatureInfo,
+    featureinfotemplates
   });
 };
 

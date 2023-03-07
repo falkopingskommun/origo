@@ -1,4 +1,4 @@
-import { Component, Modal, Button, Collapse, CollapseHeader, dom } from '../../ui'; //falk mod 2021-06-15
+import { Component, Modal, Button, Collapse, CollapseHeader, dom } from '../../ui'; // FM 2021-06-15
 import GroupList from './grouplist';
 /**
  * The Group component can be a group or a subgroup,
@@ -14,15 +14,17 @@ const Group = function Group(viewer, options = {}) {
     title,
     name,
     parent,
-    abstract, //abstract visas direkt under lagret i legenden (orginal)
-    abstractbtnurl, //falk mod, skapar infoknapp som öppnar url i modal
-    abstractbtnmodal, //falk mod, skapar infoknapp som öppnar abstract i modal
-    abstractbtnug, //falk mod, sätts till true om abstractmodal eller abstracturl används för temalager, info knappen hamnar under gruppen (ug)
+    abstract, // FM abstract visas direkt under lagret i legenden (orginal)
+    abstractbtnurl, // FM, skapar infoknapp som öppnar url i modal
+    abstractbtnmodal, // FM skapar infoknapp som öppnar abstract i modal
+    abstractbtnug, // FM sätts till true om abstractmodal eller abstracturl används för temalager, info knappen hamnar under gruppen (ug)
     position = 'top',
     type = 'group',
     autoExpand = true,
     exclusive = false,
-    toggleAll = true
+    toggleAll = true,
+    draggable = false,
+    zIndexStart = 0.1
   } = options;
 
   const stateCls = {
@@ -35,6 +37,7 @@ const Group = function Group(viewer, options = {}) {
   let visibleState = 'all';
   let groupEl;
   let modal;
+  let selectedItem;
 
   const listCls = type === 'grouplayer' ? 'divider-start padding-left padding-top-small' : '';
   const groupList = GroupList({ viewer, cls: listCls, abstract, abstractbtnurl, abstractbtnmodal, abstractbtnug });
@@ -51,7 +54,7 @@ const Group = function Group(viewer, options = {}) {
 
   const getVisible = () => visibleState;
 
-  //falk-mod skapar infoknapp
+  // FM skapar infoknapp
   const iframe1 = '<iframe width="600px" src="'
   const iframe2 = '"></iframe>'
   let modalstyle = ''
@@ -64,7 +67,7 @@ const Group = function Group(viewer, options = {}) {
   if (abstractbtnmodal) abstractcontent = abstractbtnmodal;
 
   const infoButton = Button({
-    cls: 'icon-smaller compact round falk-linear', //FM
+    cls: 'icon-smaller compact round falk-linear', // FM
     icon: '#fa-info-circle',
 
     click() {
@@ -78,9 +81,9 @@ const Group = function Group(viewer, options = {}) {
       this.addComponent(modal);
     },
   });
-  //falk-mod slut
+  // FM slut
   const tickButton = !exclusive && toggleAll ? Button({
-    cls: 'icon-smaller round small falk-linear', //FM
+    cls: 'icon-smaller round small falk-linear', // FM
     click() {
       const eventType = visibleState === 'all' ? 'untick:all' : 'tick:all';
       const tickEvent = new CustomEvent(eventType, {
@@ -110,8 +113,7 @@ const Group = function Group(viewer, options = {}) {
     return Component({
       onInit() {
         this.addComponent(expandButton);
-        if (abstractbtnurl || abstractbtnmodal) //falk mod
-          this.addComponent(infoButton); //falk mod
+        if (abstractbtnurl || abstractbtnmodal) this.addComponent(infoButton); // FM
         if (tickButton) {
           this.addComponent(tickButton);
         }
@@ -128,8 +130,7 @@ const Group = function Group(viewer, options = {}) {
         });
       },
       render() {
-        
-        if (abstractbtnurl || abstractbtnmodal) { //falk mod start
+        if (abstractbtnurl || abstractbtnmodal) { // FM start
           return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
                 <div id="${this.getId()}" class="flex row align-center grow">
                    ${expandButton.render()}
@@ -137,7 +138,7 @@ const Group = function Group(viewer, options = {}) {
                </div>
                ${tickButton ? tickButton.render() : ''}${infoButton.render()}    
               </div>`;
-        }//falk mod slut
+        } // FM slut
         else {
           return `<div class="flex row align-center padding-left text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%; padding-right: 1.875rem">
           <div id="${this.getId()}" class="flex row align-center grow">
@@ -146,7 +147,7 @@ const Group = function Group(viewer, options = {}) {
           </div>
           ${tickButton ? tickButton.render() : ''}
           </div>`;
-          /* old code is falk_rubrik2 needed
+          /* FM old code is falk_rubrik2 needed
           return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
                       <div id="${this.getId()}" class="flex row align-center grow">
                          ${expandButton.render()}
@@ -196,7 +197,7 @@ const Group = function Group(viewer, options = {}) {
 
   const addOverlay = function addOverlay(overlay) {
     groupList.addOverlay(overlay);
-    this.dispatch('add:overlay');
+    this.dispatch('add:overlay', overlay);
   };
 
   const removeOverlay = function removeOverlay(layerName) {
@@ -217,16 +218,71 @@ const Group = function Group(viewer, options = {}) {
     }
   };
 
+  function orderZIndex(list, groupCmp) {
+    const elementIds = [...list.children].map(x => x.id).reverse();
+    const overlayArray = groupCmp.getOverlayList().getOverlays();
+    overlayArray.forEach(element => {
+      const layerIndex = 1 + elementIds.indexOf(element.getId());
+      element.getLayer().setZIndex(zIndexStart + (layerIndex / 100));
+    });
+  }
+
+  function handleDragStart(evt) {
+    selectedItem = evt.target;
+    selectedItem.classList.add('move-item');
+  }
+
+  function handleDragOver(evt) {
+    const event = evt;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  }
+
+  function handleDragEnd(evt, groupCmp) {
+    if (selectedItem) {
+      selectedItem.classList.remove('move-item');
+      orderZIndex(selectedItem.parentElement, groupCmp);
+      selectedItem = null;
+    }
+  }
+
+  function handleDragEnter(evt) {
+    if (selectedItem) {
+      const event = evt;
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+      const list = selectedItem.parentNode;
+      const x = evt.clientX;
+      const y = evt.clientY;
+      let swapItem = document.elementFromPoint(x, y) === null ? selectedItem : document.elementFromPoint(x, y);
+      if (list === swapItem.parentNode) {
+        swapItem = swapItem !== selectedItem.nextSibling ? swapItem : swapItem.nextSibling;
+        list.insertBefore(selectedItem, swapItem);
+      }
+    }
+  }
+
+  function enableDragItem(el, groupCmp) {
+    const item = el;
+    item.setAttribute('draggable', true);
+    item.ondragstart = handleDragStart;
+    item.ondragenter = handleDragEnter;
+    item.ondragover = handleDragOver;
+    item.ondragend = (evt) => { handleDragEnd(evt, groupCmp); };
+  }
+
   return Component({
     addOverlay,
     getEl,
     getOverlayList,
     getVisible,
+    getHeaderCmp() { return headerComponent; },
     name,
     exclusive,
     parent,
     title,
     type,
+    draggable,
     addGroup,
     appendGroup,
     removeGroup,
@@ -243,11 +299,15 @@ const Group = function Group(viewer, options = {}) {
     },
     onInit() {
       this.addComponent(collapse);
-      this.on('add:overlay', () => {
+      this.on('add:overlay', (overlay) => {
         visibleState = groupList.getVisible();
         if (tickButton) {
           tickButton.setState(stateCls[visibleState]);
           tickButton.setIcon(getCheckIcon(visibleState));
+        }
+        if (draggable && typeof overlay.getId === 'function') {
+          const el = document.getElementById(overlay.getId());
+          enableDragItem(el, this);
         }
       });
       this.on('add:group', () => {

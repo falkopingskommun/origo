@@ -1,6 +1,6 @@
 import mapUtils from './maputils';
 import group from './layer/group';
-import type from './layer/layertype';
+import layerType from './layer/layertype';
 
 function onChangeVisible(e) {
   const layer = e.target;
@@ -41,7 +41,7 @@ const Layer = function Layer(optOptions, viewer) {
   const projection = viewer.getProjection();
   const options = optOptions || {};
   const layerOptions = Object.assign({}, defaultOptions, options);
-  const name = layerOptions.name;
+  const name = String(layerOptions.name);
   layerOptions.minResolution = 'minScale' in layerOptions ? mapUtils.scaleToResolution(layerOptions.minScale, projection) : undefined;
   layerOptions.maxResolution = 'maxScale' in layerOptions ? mapUtils.scaleToResolution(layerOptions.maxScale, projection) : undefined;
   layerOptions.extent = layerOptions.extent || viewer.getExtent();
@@ -61,7 +61,7 @@ const Layer = function Layer(optOptions, viewer) {
   }
 
   if (layerOptions.type) {
-    const layer = type[layerOptions.type](layerOptions, viewer);
+    const layer = layerType[layerOptions.type](layerOptions, viewer);
     layer.once('postrender', onChangeVisible);
     return layer;
   }
@@ -81,6 +81,6 @@ function groupLayer(options, viewer) {
   throw new Error('Group layer has no layers');
 }
 
-type.GROUP = groupLayer;
+layerType.GROUP = groupLayer;
 
 export default Layer;
