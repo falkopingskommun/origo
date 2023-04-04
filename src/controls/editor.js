@@ -1,5 +1,4 @@
 import { Component, Button, dom } from '../ui';
-import dispatcher from './editor/editdispatcher';
 import editorToolbar from './editor/editortoolbar';
 import EditHandler from './editor/edithandler';
 
@@ -18,8 +17,6 @@ const Editor = function Editor(options = {}) {
 
   /** The handler were all state is kept */
   let editHandler;
-  
-
   const toggleState = function toggleState() {
     const detail = {
       name: 'editor',
@@ -54,26 +51,25 @@ const Editor = function Editor(options = {}) {
     editHandler.editAttributesDialog(featureId, layerName);
   }
 
-  // FMB - Släcker det aktiva redigeringslagret och tänder
+  // FMB Släcker det aktiva redigeringslagret och tänder
   const turnOnLastEditableLayer = function turnOnLastEditableLayer() {
-    if (lasteditlayer)
-    {
-    console.log(lasteditlayer)
-    lasteditlayer.setVisible(true)
+    if (lasteditlayer) {
+      lasteditlayer.setVisible(true);
     }
   };
-  
+
   const turnOffEditableLayers = function turnOffEditableLayers() {
     const layers = viewer.getLayersByProperty('editable', true);
     layers.forEach((el) => {
-      if (el.values_.visible == true) {
-        lasteditlayer = el
+      // eslint-disable-next-line no-underscore-dangle
+      if (el.values_.visible === true) {
+        lasteditlayer = el;
         el.setVisible(false);
       }
       el.setVisible(false);
     });
   };
-  //FMS
+  // FMS
   return Component({
     name: 'editor',
     onAdd(evt) {
@@ -95,13 +91,13 @@ const Editor = function Editor(options = {}) {
         isActive
       });
       editHandler = EditHandler(handlerOptions, viewer);
-
+      // FM Turn on and off last edited layer
       viewer.on('toggleClickInteraction', (detail) => {
         if (detail.name === 'editor' && detail.active) {
           editorButton.dispatch('change', { state: 'active' });
-          turnOnLastEditableLayer() //FM+
+          turnOnLastEditableLayer();
         } else {
-          turnOffEditableLayers() //FM+
+          turnOffEditableLayers();
           editorButton.dispatch('change', { state: 'initial' });
         }
       });

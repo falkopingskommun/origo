@@ -8,7 +8,7 @@ const createForm = function createForm(obj) {
   const type = obj.type;
   const maxLength = obj.maxLength ? ` maxlength="${obj.maxLength}"` : '';
   const dropdownOptions = obj.options || [];
-  const multicheckboxOptions = obj.options || []; //FM multicheckbox options
+  const multicheckboxOptions = obj.options || []; // FM multicheckbox options
   const today = new Date();
   const isoDate = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString();
   const elDiv = document.createElement('div');
@@ -39,12 +39,12 @@ const createForm = function createForm(obj) {
           const option = opt.split(':')[0];
           const subtype = opt.split(':')[1];
           let textboxVal;
-          let disable;
+          // let disable;
           // FM subtype textbox need some more work
           if (subtype === 'textbox') {
             checked = val[val.length - 1] && multicheckboxOptions.indexOf(val[val.length - 1]) === -1 ? ' checked' : '';
             textboxVal = checked ? val[val.length - 1] : '';
-            disable = checked ? '' : ' disabled';
+            // disable = checked ? '' : ' disabled';
             el += `<input id="${id}-${index}" type="checkbox" name="${name}" data-index="${index}" value="${option}"${checked}> ${option}: `;
             el += `<input type="text" value="${textboxVal}"${maxLength} style="width: auto; padding:0; margin:0; line-height:1.3rem;" autocomplete="off">`;
             el += '<br>';

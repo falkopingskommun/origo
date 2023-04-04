@@ -1274,10 +1274,9 @@ function editAttributes(feat) {
         obj.addListener(obj);
       }
     });
-    onAttributesCancel(features) // FM+
+    onAttributesCancel(features); // FM+
     onAttributesSave(features, attributeObjects);
     onAttributesAbort(features);
-    
   }
 }
 
