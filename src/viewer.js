@@ -44,6 +44,7 @@ const Viewer = function Viewer(targetOption, options = {}) {
     resolutions = null,
     capabilitiesURL = null,
     layers: layerOptions = [],
+    layerParams = {},
     map: mapName,
     params: urlParams = {},
     proj4Defs,
@@ -412,7 +413,11 @@ const Viewer = function Viewer(targetOption, options = {}) {
     }
   };
 
-  const addLayer = function addLayer(layerProps, insertBefore) {
+  const addLayer = function addLayer(thisProps, insertBefore) {
+    let layerProps = thisProps;
+    if (thisProps.layerParam && layerParams[thisProps.layerParam]) {
+      layerProps = Object.assign({}, layerParams[thisProps.layerParam], thisProps);
+    }
     const layer = Layer(layerProps, this);
     addLayerStylePicker(layerProps);
     if (insertBefore) {
