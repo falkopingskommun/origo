@@ -14,7 +14,7 @@ const Help = function Help(options = {}) {
       icon: '#ic_info_outline_24px'
     },
     Draw: {
-      text: 'Startar ritverktyget',
+      text: 'Ritaverktyg, lägg till tillfälliga punkter, linjer, ytor eller texter. Glöm inte att spara filen eller skriva ut till pdf/bild om det ska behållas',
       icon: '#fa-pencil'
     },
     ZoomIn: {
@@ -117,10 +117,6 @@ const Help = function Help(options = {}) {
       text: 'Visa fastighet genom att klicka i kartan',
       icon: '#ic_crop_house_24px'
     },
-    Draw: {
-      text: 'Rita i kartan, lägg till tillfälliga punkter, linjer, ytor eller texter. Glöm inte skriva ut till pdf eller bild om det ska behållas',
-      icon: '#fa-pencil'
-    },
     Download: {
       text: 'Hämta data till fil, tänd först lager i Nedladdningsbara lager och zooma till önskad utbredning',
       icon: '#ic_get_app_24px'
@@ -128,8 +124,7 @@ const Help = function Help(options = {}) {
     Legendvisiblelayers: {
       text: 'Minimera legenden/lagerlistan så den bara visar tända lager',
       icon: '#ic_close_fullscreen_24px'
-    },
-    
+    }
   };
 
   const modalContent = () => {
@@ -143,7 +138,7 @@ const Help = function Help(options = {}) {
         style: iconStyle
       });
       if (urlEl) {
-        textEl = "<a href='" + urlEl + "' target=_'blank'>" + textEl + "</a>"
+        textEl = `<a href="${urlEl}" target="_blank">${textEl}</a>`; // FM Fix Lint
       }
       const list = `<li class="flex ${cls}"><span class="flex icon icon-medium padding-x-large">${controlIcons.render()}</span>${textEl}</li>`;
       contentItems.push(list);
