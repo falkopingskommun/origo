@@ -55,10 +55,10 @@ const Group = function Group(viewer, options = {}) {
   const getVisible = () => visibleState;
 
   // FM skapar infoknapp
-  const iframe1 = '<iframe width="600px" src="'
-  const iframe2 = '"></iframe>'
-  let modalstyle = ''
-  let abstractcontent = ''
+  const iframe1 = '<iframe width="600px" src="';
+  const iframe2 = '"></iframe>';
+  let modalstyle = '';
+  let abstractcontent = '';
   if (!abstractbtnurl && !abstractbtnmodal) abstractcontent = title;
   if (abstractbtnurl) {
     abstractcontent = iframe1 + abstractbtnurl + iframe2;
@@ -72,14 +72,14 @@ const Group = function Group(viewer, options = {}) {
 
     click() {
       modal = Modal({
-        title: title,
+        title,
         content: abstractcontent,
         newTabUrl: abstractbtnurl,
         style: modalstyle,
-        target: viewer.getId(),
+        target: viewer.getId()
       });
       this.addComponent(modal);
-    },
+    }
   });
   // FM slut
   const tickButton = !exclusive && toggleAll ? Button({
@@ -130,7 +130,7 @@ const Group = function Group(viewer, options = {}) {
         });
       },
       render() {
-        if (abstractbtnurl || abstractbtnmodal) { // FM start
+        if (abstractbtnurl || abstractbtnmodal) { // FMB
           return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
                 <div id="${this.getId()}" class="flex row align-center grow">
                    ${expandButton.render()}
@@ -138,25 +138,14 @@ const Group = function Group(viewer, options = {}) {
                </div>
                ${tickButton ? tickButton.render() : ''}${infoButton.render()}    
               </div>`;
-        } // FM slut
-        else {
-          return `<div class="flex row align-center padding-left text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%; padding-right: 1.875rem">
+        } // FMS
+        return `<div class="flex row align-center padding-left text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%; padding-right: 1.875rem">
           <div id="${this.getId()}" class="flex row align-center grow">
              ${expandButton.render()}
               <span class="grow padding-x-small falk_rubrik2" style="word-break: break-all;">${title}</span>
           </div>
           ${tickButton ? tickButton.render() : ''}
           </div>`;
-          /* FM old code is falk_rubrik2 needed
-          return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
-                      <div id="${this.getId()}" class="flex row align-center grow">
-                         ${expandButton.render()}
-                          <span class="grow padding-x-small falk_rubrik2"> ${title}</span>
-                      </div>
-                      ${tickButton ? tickButton.render() : ''}
-                      </div>`;
-            */
-        }
       }
     });
   };
