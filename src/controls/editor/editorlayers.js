@@ -7,16 +7,9 @@ const createElement = utils.createElement;
 let viewer;
 let dropdown;
 
-export default function editorLayers(editableLayers, v, optOptions = {}) {
+export default function editorLayers(editableLayersParam, v, optOptions = {}) {
   viewer = v;
-  for (let i = 0; i < editableLayers.length; i++) {
-    let secure = viewer.getLayer(editableLayers[i]).get('secure');
-    if (secure === true) {
-      editableLayers.splice(i, 1);
-      i--;
-    }
-  }
-  editableLayers.reverse();
+  const editableLayers = editableLayersParam.filter(layer => !viewer.getLayer(layer).get('secure')).reverse();
   function selectionModel(layerNames) {
     const selectOptions = layerNames.map((layerName) => {
       const obj = {};
