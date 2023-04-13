@@ -1,21 +1,22 @@
-import { Component, Modal, Button} from '../../ui'; //FM 2021-06-16
+import { Component, Modal, Button } from '../../ui'; // FM 2021-06-16
+
 const LayerList = function LayerList(options, isRootGroup = false) {
   const {
     cls: clsSettings = '',
-    viewer, //FM
-    abstract, abstractbtnmodal, abstractbtnurl, title, abstractbtnug //FM
+    viewer, // FM
+    abstract, abstractbtnmodal, abstractbtnurl, title, abstractbtnug // FM
   } = options;
 
   let cls = `${clsSettings} list divider-end`.trim();
   if (isRootGroup) {
     cls = `${clsSettings} list divider-end-rootgroup`.trim();
   }
-  
+
   const overlaysStore = {};
   const groupStore = {};
   let el;
   let target;
-  let modal; //FM
+  let modal; // FM
 
   const getEl = () => el;
 
@@ -95,36 +96,38 @@ const LayerList = function LayerList(options, isRootGroup = false) {
     }
   };
 
-    //FM skapar infoknapp
-    const iframe1 = '<iframe width="600px" src="'
-    const iframe2 = '"></iframe>'
-    let abstractcontent = ''
-    let modalstyle = ''
-    if (!abstractbtnurl && !abstractbtnmodal) abstractcontent = title;
-    if (abstractbtnurl) {
-      abstractcontent = iframe1+abstractbtnurl+iframe2;
-      modalstyle = 'width:600px';}
-    if (abstractbtnmodal) abstractcontent = abstractbtnmodal;
-    if (abstractbtnug) {
-      abstractcontent = iframe1+abstractbtnug+iframe2;
-      modalstyle = 'width:600px';}
-    
+  // FMB skapar infoknapp
+  const iframe1 = '<iframe width="600px" src="';
+  const iframe2 = '"></iframe>';
+  let abstractcontent = '';
+  let modalstyle = '';
+  if (!abstractbtnurl && !abstractbtnmodal) abstractcontent = title;
+  if (abstractbtnurl) {
+    abstractcontent = iframe1 + abstractbtnurl + iframe2;
+    modalstyle = 'width:600px';
+  }
+  if (abstractbtnmodal) abstractcontent = abstractbtnmodal;
+  if (abstractbtnug) {
+    abstractcontent = iframe1 + abstractbtnug + iframe2;
+    modalstyle = 'width:600px';
+  }
+
   const infoButton = Button({
     cls: 'falk_btn',
     icon: '#fa-info-circle',
     text: 'Läs mer',
 
-  click() {
-    modal = Modal({
-      title: title,
-      content: abstractcontent,
-      newTabUrl: abstractbtnurl,
-      style: modalstyle,
-      target: viewer.getId(),
-    });
-    this.addComponent(modal);
-  },
-}); //falk mod slut
+    click() {
+      modal = Modal({
+        title,
+        content: abstractcontent,
+        newTabUrl: abstractbtnurl,
+        style: modalstyle,
+        target: viewer.getId()
+      });
+      this.addComponent(modal);
+    }
+  }); // FMS
 
   return Component({
     addGroup,
@@ -141,13 +144,13 @@ const LayerList = function LayerList(options, isRootGroup = false) {
           render() {
             return `<li><div id="${this.getId()}">
             <div class="padding-small padding-x text-smaller falk-group-abstract">${abstract}</div>
-            </div></li>`; //FM change to smaller text and add falk css
+            </div></li>`; // FM change to smaller text and add falk css
           }
         });
         this.addComponent(groupAbstract);
       }
-      if (abstractbtnug) { //FM lägger till infoknapp under temagruppen om abstractbtnug är true
-        this.addComponent(infoButton); //FM
+      if (abstractbtnug) { // FM lägger till infoknapp under temagruppen om abstractbtnug är true
+        this.addComponent(infoButton); // FM
       }
       this.on('add', (evt) => {
         if (evt.target) {
