@@ -30,7 +30,7 @@ export default function Modal(options = {}) {
     closeIcon = '#ic_close_24px',
     style = '',
     newTabUrl = '',
-    copyInputfield = false,
+    copyInputfield = false
   } = options;
 
   let modal;
@@ -83,6 +83,13 @@ export default function Modal(options = {}) {
         headerCmps.push(newTabButton);
       }
 
+      function copyinput() {
+        const copyText = document.getElementById('input-sharemap');
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+      }
+
       if (copyInputfield) {
         copyInputfieldBtn = Button({
           cls: 'small round margin-top-smaller margin-bottom-auto margin-right icon-smaller grey-lightest no-shrink',
@@ -94,13 +101,6 @@ export default function Modal(options = {}) {
         headerCmps.push(copyInputfieldBtn);
       }
 
-      function copyinput() {
-        var copyText = document.getElementById("input-sharemap");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(copyText.value);
-      }
-      
       closeButton = Button({
         cls: 'small round margin-top-smaller margin-bottom-auto margin-right icon-smaller grey-lightest no-shrink',
         icon: closeIcon,
