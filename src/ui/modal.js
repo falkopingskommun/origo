@@ -2,7 +2,6 @@ import Component from './component';
 import Element from './element';
 import Button from './button';
 import { html } from './dom/dom';
-import utils from '../utils';
 
 /**
  * Creates a modal and displays it. The modal is created as a div tag that is attached to the DOM as a child of the options.target element.
@@ -40,7 +39,7 @@ export default function Modal(options = {}) {
   let contentEl;
   let closeButton;
   let newTabButton;
-  let copyInputfieldBtn;
+
   /** The component itself. Used to enable events */
   let component;
 
@@ -83,19 +82,25 @@ export default function Modal(options = {}) {
         headerCmps.push(newTabButton);
       }
 
-      function copyinput() {
+      async function copyInput() {
         const copyText = document.getElementById('input-sharemap');
         copyText.select();
-        copyText.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(copyText.value);
+        copyText.setSelectionRange(0, 9999);
+        try {
+          await navigator.permissions.query({ name: 'clipboard-write' });
+          await navigator.clipboard.writeText(copyText.value);
+          copyText.setSelectionRange(0, 9999);
+        } catch (err) {
+          console.error('Fel vid kopiering av text: ', err);
+        }
       }
 
       if (copyInputfield) {
-        copyInputfieldBtn = Button({
+        const copyInputfieldBtn = Button({
           cls: 'small round margin-top-smaller margin-bottom-auto margin-right icon-smaller grey-lightest no-shrink',
           icon: '#ic_content_copy_24px',
           click() {
-            copyinput();
+            copyInput();
           }
         });
         headerCmps.push(copyInputfieldBtn);
