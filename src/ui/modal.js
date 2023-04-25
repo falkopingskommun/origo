@@ -2,6 +2,7 @@ import Component from './component';
 import Element from './element';
 import Button from './button';
 import { html } from './dom/dom';
+import isEmbedded from '../utils/isembedded';
 
 /**
  * Creates a modal and displays it. The modal is created as a div tag that is attached to the DOM as a child of the options.target element.
@@ -47,6 +48,10 @@ export default function Modal(options = {}) {
     modal.parentNode.removeChild(modal);
   };
 
+  const getEmbedded = function getEmbedded() {
+    return isEmbedded(this.getTarget());
+  };
+
   return Component({
     closeModal,
     /** Hides the modal (does not close it) */
@@ -81,7 +86,7 @@ export default function Modal(options = {}) {
         });
         headerCmps.push(newTabButton);
       }
-
+      // FM Copy to clipboard
       async function copyInput() {
         const copyText = document.getElementById('input-sharemap');
         copyText.select();
@@ -94,8 +99,8 @@ export default function Modal(options = {}) {
           console.error('Fel vid kopiering av text: ', err);
         }
       }
-
-      if (copyInputfield) {
+      // FM bacause of iframe clipboard security policys only show copy input button when not embedd
+      if (copyInputfield && getEmbedded === false) {
         const copyInputfieldBtn = Button({
           cls: 'small round margin-top-smaller margin-bottom-auto margin-right icon-smaller grey-lightest no-shrink',
           icon: '#ic_content_copy_24px',
