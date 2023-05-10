@@ -826,7 +826,8 @@ function onAttributesSave(features, attrs) {
                 multicheckboxValues.push(checkbox.value);
               }
             });
-            editEl[attribute.name] = multicheckboxValues.join('; ');
+            const delimiterValue = attribute.delimiter || '; ';
+            editEl[attribute.name] = multicheckboxValues.join(delimiterValue);
           } else {
             // FM standard single checkbox
             const checkedValue = (attribute.config && attribute.config.checkedValue) || 1;
