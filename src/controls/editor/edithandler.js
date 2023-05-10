@@ -784,7 +784,6 @@ function onAttributesSave(features, attrs) {
   document.getElementById(`o-save-button-${currentLayer}`).addEventListener('click', (e) => {
     const editEl = {};
     const valid = {};
-    const multicheckboxValues = [];
     const fileReaders = [];
     attrs.forEach((attribute) => {
       // Get the input container class
@@ -793,6 +792,8 @@ function onAttributesSave(features, attrs) {
       // FIXME: Don't have to get from DOM, the same values are in 'attribute'
       // and it would be enough to call getElementId once anyway (called numerous times later on).
       // FM multicheckbox, some default values added, should be fixed in a better way later on.
+      const multicheckboxValues = [];
+
       const inputTypeElement = document.getElementById(attribute.elId);
       const inputType = inputTypeElement ? inputTypeElement.getAttribute('type') : 'checkbox';
 
@@ -825,7 +826,7 @@ function onAttributesSave(features, attrs) {
                 multicheckboxValues.push(checkbox.value);
               }
             });
-            editEl[attribute.name] = multicheckboxValues.join(', ');
+            editEl[attribute.name] = multicheckboxValues.join('; ');
           } else {
             // FM standard single checkbox
             const checkedValue = (attribute.config && attribute.config.checkedValue) || 1;

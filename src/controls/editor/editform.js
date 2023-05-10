@@ -39,7 +39,6 @@ const createForm = function createForm(obj) {
           const option = opt.split(':')[0];
           const subtype = opt.split(':')[1];
           let textboxVal;
-          // let disable;
           // FM subtype textbox need some more work
           if (subtype === 'textbox') {
             checked = val[val.length - 1] && multicheckboxOptions.indexOf(val[val.length - 1]) === -1 ? ' checked' : '';
