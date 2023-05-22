@@ -10,6 +10,7 @@ import SizeControl from './size-control';
 import TitleControl from './title-control';
 import CreatedControl from './created-control';
 import NorthArrowControl from './north-arrow-control';
+import EditLayerControl from './edit-layer-control'; // FM+
 import PrintLegendControl from './print-legend-control';
 import RotationControl from './rotation-control';
 import SetScaleControl from './set-scale-control';
@@ -48,6 +49,7 @@ const PrintSettings = function PrintSettings(options = {}) {
     showCreated,
     showScale,
     showNorthArrow,
+    showEditLayer, // FM+
     showPrintLegend,
     rotation,
     rotationStep
@@ -60,6 +62,7 @@ const PrintSettings = function PrintSettings(options = {}) {
   let printSettingsContainer;
   let customSizeControl;
   let northArrowControl;
+  let editLayerControl; // FM+
   let printLegendControl;
   let rotationControl;
   let setScaleControl;
@@ -168,6 +171,7 @@ const PrintSettings = function PrintSettings(options = {}) {
       }) : undefined;
       const showScaleControl = ShowScaleControl({ checked: showScale });
       northArrowControl = NorthArrowControl({ showNorthArrow });
+      editLayerControl = EditLayerControl({ showEditLayer }); // FM+
       printLegendControl = PrintLegendControl({ showPrintLegend });
       rotationControl = map.getView().getConstraints().rotation(180) === 180 ? RotationControl({ rotation, rotationStep, map }) : undefined;
       customSizeControl = CustomSizeControl({
@@ -197,6 +201,7 @@ const PrintSettings = function PrintSettings(options = {}) {
             titleControl,
             createdControl,
             northArrowControl,
+            editLayerControl, // FM+
             rotationControl,
             setScaleControl,
             resolutionControl,
@@ -205,7 +210,7 @@ const PrintSettings = function PrintSettings(options = {}) {
           });
         }
       });
-      const components = [customSizeControl, marginControl, orientationControl, sizeControl, titleControl, descriptionControl, createdControl, northArrowControl, printLegendControl, setScaleControl, showScaleControl];
+      const components = [customSizeControl, marginControl, orientationControl, sizeControl, titleControl, descriptionControl, createdControl, northArrowControl, editLayerControl, printLegendControl, setScaleControl, showScaleControl]; // FM
       if (rotationControl) { components.push(rotationControl); }
       if (resolutions.length > 1) { components.push(resolutionControl); }
       contentComponent.addComponents(components);
@@ -233,6 +238,7 @@ const PrintSettings = function PrintSettings(options = {}) {
       titleControl.on('change:titleAlign', (evt) => this.dispatch('change:titleAlign', evt));
       createdControl.on('change:check', (evt) => this.dispatch('change:created', evt));
       northArrowControl.on('change:check', (evt) => this.dispatch('change:northarrow', evt));
+      editLayerControl.on('change:check', (evt) => this.dispatch('change:editlayer', evt)); // FM+
       printLegendControl.on('change:check', (evt) => this.dispatch('change:printlegend', evt));
       if (resolutionControl) {
         resolutionControl.on('change:resolution', (evt) => this.dispatch('change:resolution', evt));

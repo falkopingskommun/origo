@@ -55,6 +55,7 @@ const Editor = function Editor(options = {}) {
   const turnOnLastEditableLayer = function turnOnLastEditableLayer() {
     if (lasteditlayer) {
       lasteditlayer.setVisible(true);
+      lasteditlayer.setZIndex(0); // FM För att tända senast tända lager i print läge
     }
   };
 
@@ -65,6 +66,7 @@ const Editor = function Editor(options = {}) {
       if (el.values_.visible === true) {
         lasteditlayer = el;
         el.setVisible(false);
+        el.setZIndex(99); // FM För att tända senast tända lager i print läge
       }
       el.setVisible(false);
     });

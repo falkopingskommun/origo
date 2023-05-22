@@ -35,6 +35,7 @@ export default function PrintMap(options = {}) {
       this.addComponent(bottomRightMapControls);
       this.on('change:toggleNorthArrow', this.toggleNorthArrow.bind(this));
       this.on('change:togglePrintLegend', this.togglePrintLegend.bind(this));
+      this.on('change:toggleEditLayer', this.toggleEditLayer.bind(this)); // FM+
       this.on('change:toggleScale', this.toggleScale.bind(this));
       this.on('change:setDPI', this.setDpi.bind(this));
     },
@@ -60,6 +61,24 @@ export default function PrintMap(options = {}) {
       showPrintLegend = !showPrintLegend;
       printLegendComponent.setVisible(display);
     },
+    toggleEditLayer(display) {
+      showPrintLegend = !showPrintLegend;
+      printLegendComponent.setVisible(display);
+
+      // FMB Tänder lagret med zIndex 99
+      const layers = viewer.getLayers();
+      layers.forEach((el) => {
+        if ((el.state_.visible) && (el.state_.zIndex == '99')) {
+          el.setVisible(false);
+          console.log("Edit layer turned off")
+        }
+        else if (el.state_.zIndex == '99') {
+          el.setVisible(true);
+          console.log("Edit layer turned on")
+        }
+      });
+    },
+      // FMS 
     async addPrintControls() {
       const el = document.getElementById(bottomLeftMapControls.getId());
       el.appendChild(dom.html(logoComponent.render()));

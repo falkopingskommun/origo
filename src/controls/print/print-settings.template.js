@@ -8,6 +8,7 @@ export default function printTemplate({
   titleControl,
   createdControl,
   northArrowControl,
+  editLayerControl, // FM+ även kontrollen i div nedan
   rotationControl,
   setScaleControl,
   resolutionControl,
@@ -54,6 +55,11 @@ export default function printTemplate({
     <div class="flex padding-right-small">
       <div class="grow text-normal">Visa legend</div>
       ${printLegendControl.render()}
+    </div>
+    <div class="padding-top-large"></div>
+    <div class="flex padding-right-small">
+      <div class="grow text-normal">Visa redigeringslager</div>
+      ${editLayerControl.render()}
     </div>
     <div class="padding-bottom-large">
       ${rotationControl ? rotationControl.render() : ''}
