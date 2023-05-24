@@ -48,11 +48,13 @@ export const renderIcon = {
   Circle(options = {}, circleSize = size) {
     const fillOptions = options.fill || {};
     const strokeOptions = options.stroke || {};
-    const {
+    let {
       color: fillColor
     } = fillOptions;
+    let {
+      color: strokeColor
+    } = strokeOptions;
     const {
-      color: strokeColor,
       lineDash,
       width: widthOption = 2
     } = strokeOptions;
@@ -62,9 +64,15 @@ export const renderIcon = {
     const width = widthOption > 4 ? 4 : widthOption;
     const radius = radiusOption - width;
     let stroke = 'stroke: none;';
+    if (strokeColor && typeof strokeColor === 'object') {
+      strokeColor = `rgba(${strokeColor[0]},${strokeColor[1]},${strokeColor[2]},${strokeColor[3] || 1})`;
+    }
     if (strokeColor) {
       const strokeDasharray = lineDash ? 'stroke-dasharray: 4 4;' : '';
       stroke = `stroke: ${strokeColor}; stroke-width: ${width}; ${strokeDasharray}`;
+    }
+    if (typeof fillColor === 'object') {
+      fillColor = `rgba(${fillColor[0]},${fillColor[1]},${fillColor[2]},${fillColor[3] || 1})`;
     }
     const fill = fillColor ? `fill: ${fillColor};` : 'fill: none;';
     const centerDistance = circleSize / 2;
