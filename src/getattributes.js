@@ -201,7 +201,7 @@ const getContent = {
     let transcoords = coords;
     let prefix_north = attribute.prefix_north ?? '<b>N: </b>';
     let prefix_east = attribute.prefix_east ?? '<b>E: </b>';
-    let from = attribute.from ?? 'EPSG:3008'; //Defaults to EPSG:3008
+    let from = attribute.from ?? 'EPSG:3008'; // Defaults to EPSG:3008
     let to = attribute.to ?? 'EPSG:3008';
     if (from !== to) {
       transcoords = transformCoords(coords, from, to);

@@ -22,9 +22,9 @@ import op_dagvattenStyle from './stylefunctions/falk_op_dagvatten_hatch';
 import op_dricksvattenStyle from './stylefunctions/falk_op_dricksvatten_hatch';
 import mex_belastningStyle from './stylefunctions/falk_mex_bel_mod';
 import upplatelseStyle from './stylefunctions/falk_upplatelse_mod';
-import ritlager_ytaStyle from './stylefunctions/falk_ritlager_yta';
-import ritlager_linjeStyle from './stylefunctions/falk_ritlager_linje';
-import ritlager_punktStyle from './stylefunctions/falk_ritlager_punkt';
+import ritlagerYtaStyle from './stylefunctions/falk_ritlager_yta';
+import ritlagerLinjeStyle from './stylefunctions/falk_ritlager_linje';
+import ritlagerPunktStyle from './stylefunctions/falk_ritlager_punkt';
 import markplanering_ytaStyle from './stylefunctions/falk_markplanering_y';
 
 const customStyles = {
@@ -52,11 +52,10 @@ const customStyles = {
   op_dricksvatten: op_dricksvattenStyle,
   mex_belastningStyle: mex_belastningStyle,
   upplatelseStyle: upplatelseStyle,
-  ritlager_yta: ritlager_ytaStyle,
-  ritlager_linje: ritlager_linjeStyle,
-  ritlager_punkt: ritlager_punktStyle,
-  markplanering_yta: markplanering_ytaStyle,
-  
+  ritlager_yta: ritlagerYtaStyle,
+  ritlager_linje: ritlagerLinjeStyle,
+  ritlager_punkt: ritlagerPunktStyle,
+  markplanering_yta: markplanering_ytaStyle
 };
 
 export default function styleFunctions(customStyle, params) {

@@ -339,7 +339,7 @@ const OverlayLayer = function OverlayLayer(options) {
       // FMB Abstractbtnurl stöd
       if (abstractbtnurl) {
         if (abstractbtnurl) {
-          abstractcontent = '<iframe width="600px" src="' + abstractbtnurl + '"></iframe>';
+          abstractcontent = `<iframe width="600px" src="${abstractbtnurl}"></iframe>`;
           modalstyle = 'width:600px';
         }
 
