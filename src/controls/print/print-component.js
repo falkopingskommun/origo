@@ -26,7 +26,6 @@ const PrintComponent = function PrintComponent(options = {}) {
     logo,
     northArrow,
     printLegend,
-    editlayer, // FM+
     filename = 'origo-map',
     map,
     target,
@@ -68,8 +67,7 @@ const PrintComponent = function PrintComponent(options = {}) {
     showCreated,
     showScale,
     showNorthArrow,
-    showPrintLegend,
-    showEditLayer // FM+
+    showPrintLegend
   } = options;
 
   let pageElement;
@@ -252,8 +250,8 @@ const PrintComponent = function PrintComponent(options = {}) {
     }
   });
 
-  const printMapComponent = PrintMap({ logo, northArrow, map, viewer, showNorthArrow, printLegend, showPrintLegend, editlayer, showEditLayer }); // FM editlayer
-  // FM cls falk-menu-close for external styling on menu close button
+  const printMapComponent = PrintMap({ logo, northArrow, map, viewer, showNorthArrow, printLegend, showPrintLegend});
+
   const closeButton = Button({
     cls: 'fixed top-right medium round icon-smaller light box-shadow z-index-ontop-high falk-menu-close',
     icon: '#ic_close_24px',
@@ -327,7 +325,6 @@ const PrintComponent = function PrintComponent(options = {}) {
     showScale,
     showNorthArrow,
     showPrintLegend,
-    showEditLayer, // FM+
     rotation,
     rotationStep,
     viewerResolutions: originalResolutions
@@ -395,7 +392,6 @@ const PrintComponent = function PrintComponent(options = {}) {
       printSettings.on('change:created', this.toggleCreated.bind(this));
       printSettings.on('change:northarrow', this.toggleNorthArrow.bind(this));
       printSettings.on('change:printlegend', this.togglePrintLegend.bind(this));
-      printSettings.on('change:editlayer', this.toggleEditLayer.bind(this)); // FM+
       printSettings.on('change:resolution', this.changeResolution.bind(this));
       printSettings.on('change:scale', this.changeScale.bind(this));
       printSettings.on('change:showscale', this.toggleScale.bind(this));
@@ -487,12 +483,6 @@ const PrintComponent = function PrintComponent(options = {}) {
       showPrintLegend = !showPrintLegend;
       printMapComponent.dispatch('change:togglePrintLegend', { showPrintLegend });
     },
-    // FMB
-    toggleEditLayer() {
-      showEditLayer = !showEditLayer;
-      printMapComponent.dispatch('change:toggleEditLayer', { showEditLayer });
-    },
-    // FMS
     close() {
       if (deviceOnIos) {
         // Reset pixelRatio

@@ -56,7 +56,6 @@ const Editor = function Editor(options = {}) {
   const turnOnLastEditableLayer = function turnOnLastEditableLayer() {
     if (lasteditlayer) {
       lasteditlayer.setVisible(true);
-      lasteditlayer.setZIndex(0); // FM För att tända senast tända lager i print läge
     }
   };
 
@@ -67,9 +66,18 @@ const Editor = function Editor(options = {}) {
       if (el.values_.visible === true) {
         lasteditlayer = el;
         el.setVisible(false);
-        el.setZIndex(99); // FM För att tända senast tända lager i print läge
       }
       el.setVisible(false);
+    });
+  };
+
+  const setEditableLayers = function setEditableLayers() {
+    const layers = viewer.getLayersByProperty('editable', true);
+    layers.forEach((el) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (el.values_.visible === true) {
+        lasteditlayer = el;
+      }
     });
   };
   // FMS
@@ -101,8 +109,12 @@ const Editor = function Editor(options = {}) {
         if (detail.name === 'editor' && detail.active) {
           editorButton.dispatch('change', { state: 'active' });
           turnOnLastEditableLayer();
-        } else {
+        }
+        else if (detail.name === 'editor') {
           turnOffEditableLayers();
+          editorButton.dispatch('change', { state: 'initial' });
+        } else {
+          setEditableLayers();
           editorButton.dispatch('change', { state: 'initial' });
         }
       });
