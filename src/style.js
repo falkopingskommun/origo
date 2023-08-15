@@ -96,9 +96,9 @@ function createStyleOptions(orgStyleParams, scaleToDpi) {
         };
         break;
       case 'startPoint':
-          styleOptions.geometry = function startPoint(feature) {
-            const coordinates = feature.getGeometry().getFirstCoordinate();
-            return new Point(coordinates);
+        styleOptions.geometry = function startPoint(feature) {
+          const coordinates = feature.getGeometry().getFirstCoordinate();
+          return new Point(coordinates);
         };
         break;
       default:
