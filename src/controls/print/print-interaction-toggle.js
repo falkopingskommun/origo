@@ -64,7 +64,7 @@ export default function PrintInteractionToggle(options = {}) {
       this.dispatch('render');
     },
     render() {
-      if (!mapInteractionsActive) {
+      if (mapInteractionsActive !== true) {
         onInitial();
         mapInteractionToggleButton.setState('initial');
       }
