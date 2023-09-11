@@ -718,9 +718,12 @@ const Featureinfo = function Featureinfo(options = {}) {
         map.on('pointermove', evt => {
           if (!pointerActive || evt.dragging) return;
           let cursor = '';
-          const features = map.getFeaturesAtPixel(evt.pixel, { layerFilter(layer) {
-            return layer.get('queryable');
-          }
+          // FM hitTolerance added below for hoverpointer to change according to hitTolerance
+          const features = map.getFeaturesAtPixel(evt.pixel, {
+            hitTolerance,
+            layerFilter(layer) {
+              return layer.get('queryable');
+            }
           });
           if (features.length > 0) {
             cursor = 'pointer';
