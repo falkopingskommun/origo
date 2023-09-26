@@ -718,7 +718,7 @@ const Featureinfo = function Featureinfo(options = {}) {
         map.on('pointermove', evt => {
           if (!pointerActive || evt.dragging) return;
           let cursor = '';
-          // FM hitTolerance added below for hoverpointer to change according to hitTolerance
+          // FM hitTolerance added for hover cursor pointer to change according to hitTolerance
           const features = map.getFeaturesAtPixel(evt.pixel, {
             hitTolerance,
             layerFilter(layer) {
