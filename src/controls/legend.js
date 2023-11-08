@@ -181,10 +181,23 @@ const Legend = function Legend(options = {}) {
 
   const turnOffLayersButton = Button({
     cls: 'round compact icon-small margin-x-smaller',
-    title: 'Släck alla lager',
+    title: '• Släck alla lager\n•• Släck alla menyer', // FM
     click() {
       viewer.dispatch('active:turnofflayers');
     },
+    // FMB Close all menus
+    ondblclick() {
+      Array.from(document.getElementsByClassName("falk-exp")).forEach(function (item) {
+        item.style.height = `0px`
+        item.classList.remove('falk-exp');
+        item.classList.remove('expanded')
+      });
+      Array.from(document.getElementsByClassName("falk-exp-button")).forEach(function (item) {
+        item.classList.remove('expanded')
+        item.classList.remove('falk-exp-button')
+      });
+    },
+    // FMS
     style: {
       'align-self': 'center',
       'padding-right': '6px'
