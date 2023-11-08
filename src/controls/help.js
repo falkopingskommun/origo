@@ -38,7 +38,7 @@ const Help = function Help(options = {}) {
       icon: '#ic_near_me_24px'
     },
     Measure: {
-      text: 'Mät avtånd och ytor',
+      text: 'Mät avstånd och ytor',
       icon: '#ic_straighten_24px'
     },
     Mapmenu: {

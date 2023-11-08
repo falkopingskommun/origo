@@ -2,6 +2,7 @@ import Component from './component';
 import Element from './element';
 import Button from './button';
 import { html } from './dom/dom';
+import utils from '../utils';
 import isEmbedded from '../utils/isembedded';
 
 /**
@@ -124,7 +125,7 @@ export default function Modal(options = {}) {
       headerCmps.push(closeButton);
 
       headerEl = Element({
-        cls: 'flex row justify-end grey-lightest',
+        cls: 'flex row justify-end grey-lightest draggable',
         components: headerCmps
       });
       const elOptions = { cls: 'o-modal-content' };
@@ -152,6 +153,8 @@ export default function Modal(options = {}) {
     },
     onRender() {
       modal = document.getElementById(this.getId());
+      const modalBox = modal.getElementsByClassName('o-modal')[0];
+      utils.makeElementDraggable(modalBox);
       document.getElementById(screenEl.getId()).addEventListener('click', () => {
         if (!isStatic) {
           closeButton.dispatch('click');

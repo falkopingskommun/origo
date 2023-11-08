@@ -149,8 +149,7 @@ const Editor = function Editor(options = {}) {
         if (detail.name === 'editor' && detail.active) {
           editorButton.dispatch('change', { state: 'active' });
           turnOnLastEditableLayer();
-        }
-        else if (detail.name === 'editor') {
+        } else if (detail.name === 'editor') {
           turnOffEditableLayers();
           editorButton.dispatch('change', { state: 'initial' });
         } else {
