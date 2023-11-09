@@ -27,7 +27,7 @@ const Legend = function Legend(options = {}) {
     searchLayersControl = false,
     searchLayersMinLength = 2,
     searchLayersLimit = 10,
-    searchLayersTheme = 'black',
+    searchLayersTheme = 'black', // FM default value
     searchLayersGroupsNot = ['none'],
     searchLayersParameters = ['name', 'title'],
     searchLayersPlaceholderText = 'Sök lager'
@@ -548,7 +548,8 @@ const Legend = function Legend(options = {}) {
           return suggestionValue.toLowerCase().includes(userInput.toLowerCase()) ? suggestionValue : false;
         }
       });
-      input.parentNode.classList.add(searchLayersTheme);
+      awesomplete.ul.style.maxHeight = `${calcMaxHeight(getTargetHeight()) / 2}px`;
+      input.parentNode.classList.add(searchLayersTheme); // FM option for searchLayersTheme
       input.parentNode.classList.add('grow');
       input.addEventListener('keyup', (e) => {
         const keyCode = e.keyCode;
