@@ -1,3 +1,4 @@
+import Point from 'ol/geom/Point'; // FM+
 import EsriJSON from 'ol/format/EsriJSON';
 import VectorSource from 'ol/source/Vector';
 import * as loadingstrategy from 'ol/loadingstrategy';
@@ -33,14 +34,26 @@ function createSource({
           '&returnIdsOnly=false&returnCountOnly=false',
           '&geometryPrecision=2',
           `&outSR=${esriSrs}${queryFilter}`].join(''));
-      fetch(url).then(response => response.json()).then((data) => {
-        const features = esrijsonFormat.readFeatures(data, {
-          featureProjection: projection
-        });
-        if (features.length > 0) {
-          that.addFeatures(features);
-        }
-      }).catch(error => console.warn(error));
+      // FMB for multipoint support when cluster style is used
+      fetch(url)
+        .then(response => response.json())
+        .then((data) => {
+          const features = esrijsonFormat.readFeatures(data, {
+            featureProjection: projection
+          });
+          if (features.length > 0) {
+            features.forEach(feature => {
+              if (feature.getGeometry().getType() === 'MultiPoint') {
+                const coordinates = feature.getGeometry().getCoordinates();
+                const pointGeometry = new Point(coordinates[0]);
+                feature.setGeometry(pointGeometry);
+              }
+              that.addFeature(feature);
+            });
+          }
+        })
+        .catch(error => console.warn(error));
+      // FMS for multipoint support when cluster style is used
     },
     strategy: loadingstrategy.bbox
   });
