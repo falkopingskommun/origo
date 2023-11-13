@@ -16,7 +16,6 @@ export default function Button(options = {}) {
     iconStyle = {},
     click,
     mouseenter,
-    ondblclick, // FM+
     style: styleSettings,
     textCls = '',
     tooltipText,
@@ -116,14 +115,6 @@ export default function Button(options = {}) {
           this.un('mouseenter', mouseenter);
         });
       }
-      // FMB
-      if (ondblclick) {
-        this.on('dblclick', ondblclick.bind(this));
-        this.on('clear', () => {
-          this.un('dblclick', ondblclick.bind(this));
-        });
-      }
-      // FMS
     },
     onRender() {
       buttonEl = document.getElementById(this.getId());
@@ -135,12 +126,6 @@ export default function Button(options = {}) {
         this.dispatch('mouseenter');
         e.preventDefault();
       });
-      // FMB
-      buttonEl.addEventListener('dblclick', (e) => {
-        this.dispatch('dblclick');
-        e.preventDefault();
-      });
-      // FMS
       if (validStates.indexOf(state) > 0) {
         buttonEl.classList.add(state);
       }

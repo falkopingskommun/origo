@@ -50,10 +50,8 @@ export default function Collapse(options = {}) {
   };
 
   const expand = function expand() {
-    if (!containerEl.classList.contains("falk-exp")) { // FM
+    if (!expanded) {
       collapseEl.classList.add('expanded');
-      collapseEl.classList.add('falk-exp-button'); // FM
-      containerEl.classList.add('falk-exp'); // FM
       const newHeight = contentEl.offsetHeight;
       const newWidth = contentEl.scrollWidth;
       if (collapseY) containerEl.style.height = `${newHeight}px`;
@@ -65,11 +63,9 @@ export default function Collapse(options = {}) {
   };
 
   const collapse = function collapse() {
-    if (containerEl.classList.contains("falk-exp")) { // FM
+    if (expanded) {
       const collapseSize = 0;
       collapseEl.classList.remove('expanded');
-      collapseEl.classList.remove('falk-exp-button'); // FM
-      containerEl.classList.remove('falk-exp'); // FM
       const currentHeight = contentEl.offsetHeight;
       const currentWidth = contentEl.scrollWidth;
       const elementTransition = containerEl.style.transition;
@@ -92,7 +88,7 @@ export default function Collapse(options = {}) {
   const toggle = function toggle(evt) {
     evt.preventDefault();
     if (!bubble) evt.stopPropagation();
-    if ((containerEl.classList.contains("falk-exp"))) { // FM
+    if (expanded) {
       this.collapse();
     } else {
       this.expand();
