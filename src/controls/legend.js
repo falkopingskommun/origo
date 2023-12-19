@@ -7,6 +7,7 @@ import Overlays from './legend/overlays';
 import VisibleOverlays from './legend/visibleOverlays';
 import LayerProperties from './legend/overlayproperties';
 import PopupMenu from '../ui/popupmenu';
+import Collapse from '../ui/collapse';
 
 const Legend = function Legend(options = {}) {
   const {
@@ -187,14 +188,15 @@ const Legend = function Legend(options = {}) {
     },
     // FMB Close all menus
     ondblclick() {
-      Array.from(document.getElementsByClassName("falk-exp")).forEach(function (item) {
+
+      Array.from(document.getElementsByClassName("collapse-container")).forEach(function (item) {
+        if (item.style.height != '0' && item.style.height != '100%')
+        {
         item.style.height = `0px`
-        item.classList.remove('falk-exp');
-        item.classList.remove('expanded')
+      }
       });
-      Array.from(document.getElementsByClassName("falk-exp-button")).forEach(function (item) {
+      Array.from(document.getElementsByClassName("collapse expanded")).forEach(function (item) {
         item.classList.remove('expanded')
-        item.classList.remove('falk-exp-button')
       });
     },
     // FMS
@@ -797,6 +799,7 @@ const Legend = function Legend(options = {}) {
             toggleVisibility();
           }
         }
+        
       });
       this.addComponent(layerButton);
       const el = dom.html(layerButton.render());

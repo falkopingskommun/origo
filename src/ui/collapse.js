@@ -50,10 +50,9 @@ export default function Collapse(options = {}) {
   };
 
   const expand = function expand() {
-    if (!containerEl.classList.contains("falk-exp")) { // FM
+    //if (!expanded) {
+    if (!collapseEl.classList.contains("expanded")) { // FM
       collapseEl.classList.add('expanded');
-      collapseEl.classList.add('falk-exp-button'); // FM
-      containerEl.classList.add('falk-exp'); // FM
       const newHeight = contentEl.offsetHeight;
       const newWidth = contentEl.scrollWidth;
       if (collapseY) containerEl.style.height = `${newHeight}px`;
@@ -65,22 +64,22 @@ export default function Collapse(options = {}) {
   };
 
   const collapse = function collapse() {
-    if (containerEl.classList.contains("falk-exp")) { // FM
-      const collapseSize = 0;
+    //if (expanded) {
+    if (collapseEl.classList.contains("expanded")) { // FM
+    const collapseSize = 0;
       collapseEl.classList.remove('expanded');
-      collapseEl.classList.remove('falk-exp-button'); // FM
-      containerEl.classList.remove('falk-exp'); // FM
       const currentHeight = contentEl.offsetHeight;
       const currentWidth = contentEl.scrollWidth;
       const elementTransition = containerEl.style.transition;
       containerEl.style.transition = '';
       setTabIndex(-1);
       requestAnimationFrame(() => {
-        if (collapseY) containerEl.style.height = `${currentHeight}px`;
-        if (collapseX) containerEl.style.width = `${currentWidth}px`;
+       // if (collapseY) containerEl.style.height = `${currentHeight}px`;
+       // if (collapseX) containerEl.style.width = `${currentWidth}px`;
         containerEl.style.transition = elementTransition;
 
         requestAnimationFrame(() => {
+          console.log("y",collapseY,"x",collapseX)
           if (collapseY) containerEl.style.height = `${collapseSize}px`;
           if (collapseX) containerEl.style.width = `${collapseSize}px`;
         });
@@ -92,7 +91,8 @@ export default function Collapse(options = {}) {
   const toggle = function toggle(evt) {
     evt.preventDefault();
     if (!bubble) evt.stopPropagation();
-    if ((containerEl.classList.contains("falk-exp"))) { // FM
+    //  if (expanded) {
+    if ((collapseEl.classList.contains("expanded"))) { // FM
       this.collapse();
     } else {
       this.expand();
