@@ -19,7 +19,7 @@ function createSource({
   const esrijsonFormat = new EsriJSON();
   const vectorSource = new VectorSource({
     attributions: attribution,
-    loader(extent, resolution, projection) {
+    loader(extent, resolution, projection, success) {
       const that = this;
       let url = sourceUrl.endsWith('/') ? sourceUrl : `${sourceUrl}/`;
       url += id

@@ -26,6 +26,7 @@ import ritlagerYtaStyle from './stylefunctions/falk_ritlager_yta';
 import ritlagerLinjeStyle from './stylefunctions/falk_ritlager_linje';
 import ritlagerPunktStyle from './stylefunctions/falk_ritlager_punkt';
 import markplanering_ytaStyle from './stylefunctions/falk_markplanering_y';
+import op_vattenskyddStyle from './stylefunctions/falk_op_vattenskydd_hatch';
 
 const customStyles = {
   default: defaultStyle,
@@ -55,7 +56,8 @@ const customStyles = {
   ritlager_yta: ritlagerYtaStyle,
   ritlager_linje: ritlagerLinjeStyle,
   ritlager_punkt: ritlagerPunktStyle,
-  markplanering_yta: markplanering_ytaStyle
+  markplanering_yta: markplanering_ytaStyle,
+  op_vattenskydd: op_vattenskyddStyle
 };
 
 export default function styleFunctions(customStyle, params) {
