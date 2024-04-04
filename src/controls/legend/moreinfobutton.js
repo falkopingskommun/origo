@@ -1,4 +1,5 @@
 import { Component, Button, dom } from '../../ui';
+import { Modal } from '../../ui';
 import PopupMenu from '../../ui/popupmenu';
 import exportToFile from '../../utils/exporttofile';
 
@@ -178,6 +179,33 @@ export default function createMoreInfoButton(params) {
     moreInfoButton = Button({
       cls: 'round small icon-smaller no-shrink',
       click() {
+        // FMB Abstractbtnurl stöd för lager
+        
+        if (eventOverlayProps.detail.layer === undefined) {
+          // FM När en grupp med abstract trycks på
+        }
+        else if (layer.values_.abstractbtnurl) {
+          let modal;
+          let abstractcontent = '';
+          let abstractbtnurl = layer.values_.abstractbtnurl
+          let modalstyle = '';
+          abstractcontent = `<iframe width="600px" src="${abstractbtnurl}"></iframe>`;
+          modalstyle = 'width:600px';
+
+          modal = Modal({
+            //title,
+            content: abstractcontent,
+            newTabUrl: abstractbtnurl,
+            style: modalstyle,
+            target: viewer.getId()
+          });
+          this.addComponent(modal);
+          
+        }
+        else {
+          // FM När ett lager utan abstractbtnurl trycks på
+        }
+        // FMS
         if (popupMenuItems.length > 1 || showPopup) {
           togglePopupMenu();
         } else {
@@ -187,7 +215,7 @@ export default function createMoreInfoButton(params) {
       style: {
         'align-self': 'center'
       },
-      icon: '#ic_more_vert_24px',
+      icon: '#fa-info-circle', // FM Orginal (ic_more_vert_24px)
       ariaLabel: 'Visa lagerinfo',
       tabIndex: -1
     });
