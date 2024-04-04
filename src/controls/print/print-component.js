@@ -344,12 +344,14 @@ const PrintComponent = function PrintComponent(options = {}) {
 
   function disablePrintToolbar() {
     printToolbar.setDisabled(true);
-    document.querySelector(`#${printMapSpinner.getId()}`).style.display = '';
+   // FM Rad nedan utkommenterad blir fel i konsol, (själva felet okänt)
+   //document.querySelector(`#${printMapSpinner.getId()}`).style.display = '';
   }
 
   function enablePrintToolbar() {
     printToolbar.setDisabled(false);
-    document.querySelector(`#${printMapSpinner.getId()}`).style.display = 'none';
+    // FM Rad nedan utkommenterad blir fel i konsol, (själva felet okänt)
+    //document.querySelector(`#${printMapSpinner.getId()}`).style.display = 'none';
   }
 
   function updateScaleOnMove() {
