@@ -3,14 +3,13 @@ import Circle from 'ol/style/Circle'; // FM+
 import Stroke from 'ol/style/Stroke'; // FM+
 import { Component, Modal, Button, dom, Collapse } from '../../ui'; // FM
 import { HeaderIcon, Legend } from '../../utils/legendmaker';
-import PopupMenu from '../../ui/popupmenu';
-import exportToFile from '../../utils/exporttofile';
+import createMoreInfoButton from './moreinfobutton';
 
 const OverlayLayer = function OverlayLayer(options) {
   const {
     headerIconCls = '',
     cls: clsSettings = '',
-    icon = '#o_list_24px',
+    icon = '#o_legend_24px',
     iconCls = 'grey-lightest',
     layer,
     position = 'top',
@@ -26,16 +25,13 @@ const OverlayLayer = function OverlayLayer(options) {
   const buttons = [];
   let headerIconClass = headerIconCls;
 
-  const popupMenuItems = [];
-
   const hasStylePicker = viewer.getLayerStylePicker(layer).length > 0;
   const layerIconCls = `round compact icon-small relative no-shrink light ${hasStylePicker ? 'style-picker' : ''}`;
   const cls = `${clsSettings} flex row align-center padding-left padding-right-smaller item wrap`.trim();
   const title = layer.get('title') || 'Titel saknas';
   const name = layer.get('name');
   const secure = layer.get('secure');
-  const abstractbtnurl = layer.get('abstractbtnurl'); // FM+
-  let moreInfoButton;
+  //const abstractbtnurl = layer.get('abstractbtnurl'); // FM+
   let popupMenu;
   let hasExtendedLegend = false;
   let thisComponent;
@@ -55,13 +51,6 @@ const OverlayLayer = function OverlayLayer(options) {
     headerIconClass = iconCls;
     hasExtendedLegend = true;
   }
-
-  const eventOverlayProps = new CustomEvent('overlayproperties', {
-    bubbles: true,
-    detail: {
-      layer
-    }
-  });
 
   const getCheckIcon = (visible) => {
     const isVisible = visible ? checkIcon : uncheckIcon;
@@ -156,232 +145,11 @@ const OverlayLayer = function OverlayLayer(options) {
     }
   });
 
-  const layerInfoMenuItem = Component({
-    onRender() {
-      const labelEl = document.getElementById(this.getId());
-      labelEl.addEventListener('click', (e) => {
-        popupMenu.setVisibility(false);
-        document.getElementById(moreInfoButton.getId()).dispatchEvent(eventOverlayProps);
-        e.preventDefault();
-      });
-    },
-    render() {
-      const labelCls = 'text-smaller padding-x-small grow pointer no-select overflow-hidden';
-      return `<li id="${this.getId()}" class="${labelCls}">Visa lagerinformation</li>`;
-    }
-  });
-  popupMenuItems.push(layerInfoMenuItem);
-
-  if (layer.get('zoomToExtent')) {
-    const zoomToExtentMenuItem = Component({
-      onRender() {
-        const labelEl = document.getElementById(this.getId());
-        labelEl.addEventListener('click', (e) => {
-          const extent = typeof layer.getSource !== 'undefined' && typeof layer.getSource().getExtent !== 'undefined' ? layer.getSource().getExtent() : layer.getExtent();
-          if (layer.getVisible()) {
-            viewer.getMap().getView().fit(extent, {
-              padding: [50, 50, 50, 50],
-              duration: 1000
-            });
-            e.preventDefault();
-          }
-        });
-      },
-      render() {
-        const labelCls = 'text-smaller padding-x-small grow pointer no-select overflow-hidden';
-        return `<li id="${this.getId()}" class="${labelCls}">Zooma till</li>`;
-      }
-    });
-    popupMenuItems.push(zoomToExtentMenuItem);
-  }
-
-  if (layer.get('exportable')) {
-    const exportFormat = layer.get('exportFormat') || layer.get('exportformat');
-    let exportFormatArray = [];
-    if (exportFormat && typeof exportFormat === 'string') {
-      exportFormatArray.push(exportFormat);
-    } else if (exportFormat && Array.isArray(exportFormat)) {
-      exportFormatArray = exportFormat;
-    }
-    const formats = exportFormatArray.map(format => format.toLowerCase()).filter(format => format === 'geojson' || format === 'gpx' || format === 'kml');
-    if (formats.length === 0) { formats.push('geojson'); }
-    formats.forEach((format) => {
-      const exportLayerMenuItem = Component({
-        onRender() {
-          const labelEl = document.getElementById(this.getId());
-          labelEl.addEventListener('click', (e) => {
-            const features = layer.getSource().getFeatures();
-            exportToFile(features, format, {
-              featureProjection: viewer.getProjection().getCode(),
-              filename: layer.get('title') || 'export'
-            });
-            e.preventDefault();
-          });
-        },
-        render() {
-          let exportLabel;
-          if (exportFormatArray.length > 1) {
-            exportLabel = `Spara lager (.${format})`;
-          } else { exportLabel = 'Spara lager'; }
-          const labelCls = 'text-smaller padding-x-small grow pointer no-select overflow-hidden';
-          return `<li id="${this.getId()}" class="${labelCls}">${exportLabel}</li>`;
-        }
-      });
-      popupMenuItems.push(exportLayerMenuItem);
-    });
-  }
-
-  if (layer.get('removable')) {
-    const removeLayerMenuItem = Component({
-      onRender() {
-        const labelEl = document.getElementById(this.getId());
-        labelEl.addEventListener('click', (e) => {
-          const doRemove = (layer.get('promptlessRemoval') === true) || window.confirm('Vill du radera lagret?');
-          if (doRemove) {
-            viewer.getMap().removeLayer(layer);
-            e.preventDefault();
-          }
-        });
-      },
-      render() {
-        const labelCls = 'text-smaller padding-x-small grow pointer no-select overflow-hidden';
-        return `<li id="${this.getId()}" class="${labelCls}">Ta bort lager</li>`;
-      }
-    });
-    popupMenuItems.push(removeLayerMenuItem);
-  }
-
-  // FMB Välja färg för drag and drop
-  if (layer.values_.group === 'egna-lager') {
-    const colorbuttonmenuItem = Component({
-      onRender() {
-        const labelEl = document.getElementById(this.getId());
-
-        labelEl.addEventListener('click', (e) => {
-          inputValue = document.getElementById(layer.ol_uid).value;
-          const features = layer.getSource().getFeatures();
-          const geomtype = features[0].getGeometry().getType();
-
-          if (geomtype === 'LineString') {
-            layer.style_[1].stroke_.color_ = inputValue;
-          }
-          else if (geomtype === 'Polygon') {
-            layer.style_[1].stroke_.color_ = inputValue;
-            layer.style_[2].fill_.color_ = inputValue;
-          }
-          else if (geomtype === 'Point') {
-            const circle = new Style({
-              image: new Circle({
-                radius: 5,
-                fill: null,
-                stroke: new Stroke({
-                  color: inputValue,
-                  width: 3
-                })
-              })
-            });
-            layer.setStyle(circle);
-          }
-          viewer.getMap().getView().fit(layer.getSource().getExtent(), viewer.getMap().getSize()); // Kartan hoppar så färgen uppdateras
-
-          e.preventDefault();
-        });
-      },
-      render() {
-        const labelCls = 'text-smaller padding-x-small grow pointer no-select overflow-hidden';
-
-        return `<li align="center"><input  type="text" id="${layer.ol_uid}" name="head" value="#00ffff"></input></li>
-                  <li class="falk-small-info-text">Anges i formatet Hex (ex: #00ffff)</li>
-          <li id="${this.getId()}" class="${labelCls} falk-hover" align="center"><input class="falk-hover" type="submit" value="Byt färg"></li>`;
-      }
-    });
-    popupMenuItems.push(colorbuttonmenuItem);
-  }
-  // FMS
-
-  const popupMenuList = Component({
-    onInit() {
-      this.addComponents(popupMenuItems);
-    },
-    render() {
-      let html = `<ul id="${this.getId()}">`;
-      popupMenuItems.forEach((item) => {
-        html += `${item.render()}`;
-      });
-      html += '</ul>';
-      return html;
-    }
-  });
-
-  const createPopupMenu = function createPopupMenu() {
-    const moreInfoButtonEl = document.getElementById(moreInfoButton.getId());
-    const onUnfocus = (e) => {
-      if (!moreInfoButtonEl.contains(e.target)) {
-        popupMenu.setVisibility(false);
-      }
-    };
-    popupMenu = PopupMenu({ onUnfocus, cls: 'overlay-popup' });
-    const newDiv = document.createElement('div');
-    newDiv.classList.add('justify-end', 'flex', 'relative', 'basis-100');
-    moreInfoButtonEl.insertAdjacentElement('afterend', newDiv);
-    newDiv.appendChild(dom.html(popupMenu.render()));
-    popupMenu.setContent(popupMenuList.render());
-    popupMenuList.dispatch('render');
-    popupMenu.setVisibility(true);
-  };
-
-  const togglePopupMenu = function togglePopupMenu() {
-    if (!popupMenu) {
-      createPopupMenu();
-    } else {
-      popupMenu.toggleVisibility();
-    }
-  };
-
-  moreInfoButton = Button({
-    cls: 'icon-smaller compact round no-shrink',
-    click() {
-      // FMB Abstractbtnurl stöd
-      if (abstractbtnurl) {
-        if (abstractbtnurl) {
-          abstractcontent = `<iframe width="600px" src="${abstractbtnurl}"></iframe>`;
-          modalstyle = 'width:600px';
-        }
-
-        modal = Modal({
-          title,
-          content: abstractcontent,
-          newTabUrl: abstractbtnurl,
-          style: modalstyle,
-          target: viewer.getId()
-        });
-        this.addComponent(modal);
-        // FMS
-      }
-      if (popupMenuItems.length > 1) {
-        togglePopupMenu();
-      } else {
-        document.getElementById(this.getId()).dispatchEvent(eventOverlayProps);
-      }
-    },
-    style: {
-      'align-self': 'center'
-    },
-    icon: '#fa-info-circle',
-    ariaLabel: 'Visa lagerinfo',
-    tabIndex: -1
-  });
-
+  const moreInfoButton = createMoreInfoButton({ layer, viewer });
   buttons.push(moreInfoButton);
   const ButtonsHtml = `${layerIcon.render()}${label.render()}${toggleButton.render()}${moreInfoButton.render()}`;
 
-  const removeOverlayMenuItem = function removeListeners() {
-    const popupMenuListEl = document.getElementById(popupMenuList.getId());
-    if (popupMenuListEl) { popupMenuListEl.remove(); }
-  };
-
   const onRemove = function onRemove() {
-    removeOverlayMenuItem();
     const el = document.getElementById(this.getId());
     el.remove();
   };

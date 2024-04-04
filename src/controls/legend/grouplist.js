@@ -4,7 +4,12 @@ const LayerList = function LayerList(options, isRootGroup = false) {
   const {
     cls: clsSettings = '',
     viewer, // FM
-    abstract, abstractbtnmodal, abstractbtnurl, title, abstractbtnug // FM
+    abstract, 
+    abstractbtnmodal, //FM
+    abstractbtnurl, //FM
+    title, //FM
+    abstractbtnug, // FM
+    showAbstractInLegend = false
   } = options;
 
   let cls = `${clsSettings} list divider-end`.trim();
@@ -139,7 +144,7 @@ const LayerList = function LayerList(options, isRootGroup = false) {
     removeGroup,
     removeOverlay,
     onInit() {
-      if (abstract) {
+      if (abstract && showAbstractInLegend) {
         const groupAbstract = Component({
           render() {
             return `<li><div id="${this.getId()}">

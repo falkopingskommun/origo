@@ -1,5 +1,8 @@
 import { Component, Modal, Button, Collapse, CollapseHeader, dom } from '../../ui'; // FM 2021-06-15
 import GroupList from './grouplist';
+import createMoreInfoButton from './moreinfobutton';
+import LayerProperties from './overlayproperties';
+
 /**
  * The Group component can be a group or a subgroup,
  * defined by type group or grouplayer. If the
@@ -18,13 +21,17 @@ const Group = function Group(viewer, options = {}) {
     abstractbtnurl, // FM, skapar infoknapp som öppnar url i modal
     abstractbtnmodal, // FM skapar infoknapp som öppnar abstract i modal
     abstractbtnug, // FM sätts till true om abstractmodal eller abstracturl används för temalager, info knappen hamnar under gruppen (ug)
+    showAbstractInLegend = false,
     position = 'top',
     type = 'group',
     autoExpand = true,
     exclusive = false,
     toggleAll = true,
     draggable = false,
-    zIndexStart = 0.1
+    zIndexStart = 0.1,
+    opacityControl = false,
+    zoomToExtent = false,
+    description
   } = options;
 
   const stateCls = {
@@ -40,8 +47,10 @@ const Group = function Group(viewer, options = {}) {
   let selectedItem;
 
   const listCls = type === 'grouplayer' ? 'divider-start padding-left padding-top-small' : '';
-  const groupList = GroupList({ viewer, cls: listCls, abstract, abstractbtnurl, abstractbtnmodal, abstractbtnug });
+  const groupList = GroupList({ viewer, cls: listCls, abstract, showAbstractInLegend, abstractbtnurl, abstractbtnmodal, abstractbtnug });
   visibleState = groupList.getVisible();
+
+  const thisGroup = viewer.getGroup(name);
 
   const getEl = () => groupEl;
 
@@ -96,10 +105,13 @@ const Group = function Group(viewer, options = {}) {
     iconCls: '',
     state: visibleState,
     style: {
-      'align-self': 'flex-end',
+      'align-self': 'center',
       cursor: 'pointer'
     }
   }) : false;
+
+  const moreInfoButton = (opacityControl || zoomToExtent || description || (abstract && !showAbstractInLegend)) ? createMoreInfoButton({ viewer,
+    group: thisGroup }) : false;
 
   const SubGroupHeader = function SubGroupHeader() {
     const expandButton = Button({
@@ -117,6 +129,9 @@ const Group = function Group(viewer, options = {}) {
         if (tickButton) {
           this.addComponent(tickButton);
         }
+        if (moreInfoButton) {
+          this.addComponent(moreInfoButton);
+        }
       },
       onRender() {
         this.dispatch('render');
@@ -130,7 +145,8 @@ const Group = function Group(viewer, options = {}) {
         });
       },
       render() {
-        if (abstractbtnurl || abstractbtnmodal) { // FMB
+        const padding = moreInfoButton ? '0.275rem' : '1.875rem';
+        /*if (abstractbtnurl || abstractbtnmodal) {  // FMB (Gammal kod kan tas bort på sikt utbytt 2024)
           return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
                 <div id="${this.getId()}" class="flex row align-center grow">
                    ${expandButton.render()}
@@ -138,23 +154,44 @@ const Group = function Group(viewer, options = {}) {
                </div>
                ${tickButton ? tickButton.render() : ''}${infoButton.render()}    
               </div>`;
-        } // FMS
-        return `<div class="flex row align-center padding-left text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%; padding-right: 1.875rem">
+        } // FMS */
+       
+        // FMB 
+        if (abstractbtnurl || abstractbtnmodal) { 
+          return `<div class="flex row align-center padding-left padding-right text-smaller pointer collapse-header grey-lightest hover rounded" style="width: 100%;">
           <div id="${this.getId()}" class="flex row align-center grow">
              ${expandButton.render()}
-              <span class="grow padding-x-small falk_rubrik2" style="word-break: break-all;">${title}</span>
-          </div>
-          ${tickButton ? tickButton.render() : ''}
-          </div>`;
+              <span class="grow padding-x-small falk_rubrik2"> ${title}</span>
+         </div>
+         ${tickButton ? tickButton.render() : ''}${infoButton.render()}    
+        </div>`;
+        } 
+        // FMS
+        return `<div class="flex row align-center padding-left text-smaller pointer collapse-header item wrap grey-lightest hover rounded" style="width: 100%; padding-right: ${padding}">
+                <div id="${this.getId()}" class="flex row align-center grow basis-0">
+                   ${expandButton.render()}
+                    <span class="grow padding-x-small falk_rubrik2" style="overflow-wrap: anywhere;">${title}</span>
+                </div>
+                ${tickButton ? tickButton.render() : ''}
+                ${moreInfoButton ? moreInfoButton.render() : ''}
+              </div>`;
       }
     });
   };
   const GroupHeader = function GroupHeader() {
     const headerComponent = CollapseHeader({
-      cls: 'hover padding-x padding-y-small grey-lightest border-bottom text-small falk_rubrik1',
+      cls: 'hover padding-x padding-y-small grey-lightest border-bottom text-small sticky bg-white z-index-low item wrap falk_rubrik1',
+      style: `top: 0;${moreInfoButton ? 'padding-right: 0.275rem' : ''}`,
       icon,
       title
     });
+    if (moreInfoButton) {
+      headerComponent.on('render', function hcRender() {
+        const el = document.getElementById(this.getId());
+        const html = moreInfoButton.render();
+        el.insertAdjacentHTML('beforeend', html);
+      });
+    }
     return headerComponent;
   };
 
@@ -167,6 +204,10 @@ const Group = function Group(viewer, options = {}) {
     contentComponent: groupList,
     collapseX: false
   });
+
+  if (moreInfoButton && type !== 'grouplayer') {
+    collapse.addComponent(moreInfoButton);
+  }
 
   const addGroup = function addGroup(groupCmp) {
     groupList.addGroup(groupCmp);
@@ -360,6 +401,40 @@ const Group = function Group(viewer, options = {}) {
           e.preventDefault();
           e.stopPropagation();
           updateGroupIndication();
+        });
+      }
+      if (moreInfoButton) {
+        groupEl.addEventListener('overlayproperties', (evt) => {
+          const overlaysCmp = viewer.getControlByName('legend').getOverlays();
+          const slidenav = overlaysCmp.slidenav;
+          if (evt.detail.group) {
+            const group = evt.detail.group;
+            const thisParent = this;
+            const label = group.labelOpacitySlider ? group.labelOpacitySlider : '';
+            const layerProperties = LayerProperties({
+              group, viewer, thisParent, labelOpacitySlider: label
+            });
+            slidenav.setSecondary(layerProperties);
+            slidenav.slideToSecondary();
+            // Include back btn and opacity slider in tab order when opened and remove when closed
+            const secondaryEl = document.getElementById(slidenav.getId()).querySelector('.secondary');
+            const backBtn = secondaryEl.getElementsByTagName('button')[0];
+            const opacityInput = secondaryEl.getElementsByTagName('input')[0];
+            backBtn.tabIndex = 0;
+            backBtn.focus();
+            if (opacityInput) {
+              opacityInput.tabIndex = 0;
+            }
+            backBtn.addEventListener('click', () => {
+              backBtn.tabIndex = -99;
+              if (opacityInput) {
+                opacityInput.tabIndex = -99;
+              }
+            }, false);
+            slidenav.on('slide', () => {
+              groupEl.classList.remove('width-100');
+            });
+          }
         });
       }
       // only listen to tick changes for subgroups
