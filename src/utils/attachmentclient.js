@@ -73,12 +73,7 @@ const attachmentclient = function attachmentclient(layer) {
 
     // Do the actual call to server
     const retval = fetch(url)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP status ${res.status}`);
-        }
-        return res.json();
-      })
+      .then(res => res.json())
       .then(res => {
         const allAttachments = new Map();
         if (res.attachmentInfos) {

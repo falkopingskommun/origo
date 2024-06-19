@@ -234,8 +234,8 @@ const Legend = function Legend(options = {}) {
       viewer.dispatch('active:togglevisibleLayers');
     },
     style: {
-      'vertical-align': 'bottom',
-      margin: '0.45rem 0.5rem'
+      'align-self': 'right',
+      'padding-right': '6px'
     },
     icon: '#ic_close_fullscreen_24px',
     iconStyle: {
@@ -250,8 +250,8 @@ const Legend = function Legend(options = {}) {
       viewer.dispatch('active:togglevisibleLayers');
     },
     style: {
-      'vertical-align': 'bottom',
-      margin: '0.45rem 0.5rem'
+      'align-self': 'right',
+      'padding-right': '6px'
     },
     icon: '#ic_open_in_full_24px',
     iconStyle: {
@@ -706,10 +706,6 @@ const Legend = function Legend(options = {}) {
       const closeButtonState = isExpanded ? 'initial' : 'hidden';
       closeButton = Button({
         cls: 'icon-smaller small round grey-lightest falk-menu-close', // FM cls falk-menu-close for external styling on menu close button
-        style: {
-          'vertical-align': 'bottom',
-          margin: '0.2rem 0'
-        },
         icon: '#ic_close_24px',
         state: closeButtonState,
         validStates: ['initial', 'hidden'],
@@ -736,12 +732,7 @@ const Legend = function Legend(options = {}) {
       legendControlCmps.push(closeButton);
 
       const legendControlCmp = El({
-        cls: 'grow flex no-shrink',
-        style: {
-          display: 'inline',
-          'text-align': 'right',
-          'margin-right': '0.1rem'
-        },
+        cls: 'grow flex justify-end align-center no-shrink',
         components: legendControlCmps
       });
 
@@ -753,8 +744,7 @@ const Legend = function Legend(options = {}) {
           'background-color': '#fff',
           height: '80px', // FM changed height for baselayers menu
           'border-top': '1px solid #dbdbdb',
-          'border-radius': '0.5rem',
-          'line-height': '0'
+          'border-radius': '0.5rem'
         },
         components: baselayerCmps
       });
@@ -780,11 +770,10 @@ const Legend = function Legend(options = {}) {
       const mainContainerComponents = [falkexternalcmp, overlaysCmp, visibleOverlaysCmp, toolsCmp, baselayersCmp]; // FM falkexternalcmp
 
       mainContainerCmp = El({
-        cls: 'flex column relative',
+        cls: 'flex column relative width-100',
         components: mainContainerComponents,
         style: {
-          'max-height': `${maxHeight}px`,
-          width: 'min-content'
+          'max-height': `${maxHeight}px`
         }
       });
 

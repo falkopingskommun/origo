@@ -1,9 +1,11 @@
 const getSource = (style) => {
-  const image = style.image || style.custom.image;
-  if (!image) return null;
-  const src = image.src || null;
-  if (!src) throw new Error('image style must have src');
-  else return src;
+  if ('image' in style) {
+    if (style.image.src) {
+      return style.image.src;
+    }
+    throw new Error('image style must have src');
+  }
+  return null;
 };
 
 // return the image source from an origo style
