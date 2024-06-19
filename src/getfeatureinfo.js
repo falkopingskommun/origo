@@ -46,12 +46,11 @@ async function getFeatureInfoUrl({
   resolution,
   projection
 }, layer, viewer, textHtmlHandler) {
-  /* FMB Utkommenterad problem med infoklick för Geodataportal lager
+  /* FMB Utkommenterda problem med geoportal plugin vid infotryck
   if (layer.get('infoFormat') === 'text/html') {
     const mapSource = viewer.getMapSource();
     const sourceName = layer.get('sourceName');
     const WMSServerType = mapSource[sourceName].type.toLowerCase();
-    
 
     const supportedWMSServerTypes = ['geoserver'];
 
@@ -134,11 +133,11 @@ async function getFeatureInfoUrl({
     layer.set('attributes', 'textHtml');
     return features;
   }
-  FMS Utkommenterad */
+ */
   if (layer.get('infoFormat') === 'application/geo+json' || layer.get('infoFormat') === 'application/geojson') {
     const url = layer.getSource().getFeatureInfoUrl(coordinate, resolution, projection, {
       INFO_FORMAT: layer.get('infoFormat'),
-      FEATURE_COUNT: '30'
+      FEATURE_COUNT: '20'
     });
     const res = await fetch(url, { method: 'GET' });
     const text = await res.text();
@@ -167,7 +166,7 @@ async function getFeatureInfoUrl({
 
   const url = layer.getSource().getFeatureInfoUrl(coordinate, resolution, projection, {
     INFO_FORMAT: 'application/json',
-    FEATURE_COUNT: '30'
+    FEATURE_COUNT: '20'
   });
   const res = await fetch(url, { method: 'GET' });
   const json = await res.json();
