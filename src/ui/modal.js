@@ -26,6 +26,7 @@ export default function Modal(options = {}) {
     contentElement,
     contentCmp,
     cls = '',
+    contentCls = '',
     isStatic = options.static,
     target,
     closeIcon = '#ic_close_24px',
@@ -170,7 +171,7 @@ export default function Modal(options = {}) {
       }
       return `<div id="${this.getId()}" class="${cls} flex">
                   ${screenEl.render()}
-                  <div class="o-modal" ${addStyle}>
+                  <div class="o-modal ${contentCls}" ${addStyle}>
                     ${headerEl.render()}
                     ${contentEl.render()}
                   </div>
