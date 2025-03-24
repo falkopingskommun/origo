@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // Margin and padding
 $app-margin: 1rem;
 $spacer: 1rem;
@@ -6,31 +8,21 @@ $spacer: 1rem;
 $black: rgba(0, 0, 0, 1);
 $white: rgba(255, 255, 255, 1);
 $whitesmoke: rgba(245, 245, 245, 1);
-$red: hsl(3, 59, 48);
-$orange: hsl(35, 100, 50);
-$yellow: hsl(48, 100, 50);
-$green: hsl(130, 65, 58);
-$blue: hsl(205, 100, 48);
-$purple: hsl(241, 61, 59);
-$pink: hsl(349, 100, 59);
-$grey-darker: hsl(0, 0, 21);
-$grey-dark: hsl(0, 0, 29);
-$grey: hsl(0, 0, 48);
-$grey-light: hsl(0, 0, 71);
-$grey-lighter: hsl(0, 0, 86);
-$grey-lightest: hsl(0, 0, 92);
+$red: hsl(3, 59%, 48%);
+$orange: hsl(35, 100%, 50%);
+$yellow: hsl(48, 100%, 50%);
+$green: hsl(130, 65%, 58%);
+$blue: hsl(205, 100%, 48%);
+$purple: hsl(241, 61%, 59%);
+$pink: hsl(349, 100%, 59%);
 
-// Falköpings kommun - profile colors
-$falk-yellow-dark: rgb(240, 179, 50);
-$falk-yellow-light: rgb(239, 200, 121);
-$falk-orange-dark: rgb(234, 84, 49);
-$falk-orange-light: rgb(239, 143, 118);
-$falk-blue-dark: rgb(44, 88, 141);
-$falk-blue-light: rgb(143, 168, 200);
-$falk-green-dark: rgb(59, 159, 106);
-$falk-green-light: rgb(178, 194, 162);
-$falk-grey-dark: rgb(140, 130, 132);
-$falk-grey-light: rgb(230, 227, 228);
+$grey-darker: hsl(0, 0%, 21%);
+$grey-dark: hsl(0, 0%, 29%);
+$grey: hsl(0, 0%, 48%);
+$grey-light: hsl(0, 0%, 71%);
+$grey-lighter: hsl(0, 0%, 86%);
+$grey-lightest: hsl(0, 0%, 92%);
+
 
 // General colors
 $primary-color: $blue;
@@ -41,10 +33,10 @@ $success-color: $green;
 $warning-color: $yellow;
 $danger-color: $red;
 
-$primary-color-dark: hsl(205, 100, 43);
-$primary-color-light: hsl(205, 100, 60);
+$primary-color-dark: hsl(205, 100%, 43%);
+$primary-color-light: hsl(205, 100%, 60%);
 $light-color: $white;
-$danger-color-dark: hsl(3, 59, 43);
+$danger-color-dark: hsl(3, 59%, 43%);
 
 $border-color: $grey-lighter;
 
@@ -89,7 +81,7 @@ $font-weight-semibold: 600;
 $font-weight-bold: 700;
 $font-weight-base: $font-weight-normal;
 
-$headings-margin-bottom: $spacer / 2;
+$headings-margin-bottom: math.div($spacer, 2);
 $h1-font-size: $font-size-base * 2.5;
 $h2-font-size: $font-size-base * 2;
 $h3-font-size: $font-size-base * 1.75;
