@@ -6,6 +6,11 @@ const Fullscreen = function Fullscreen(options = {}) {
   let {
     target
   } = options;
+  const localization = options.localization;
+
+  function localize(key) {
+    return localization.getStringByKeys({ targetParentKey: 'fullscreen', targetKey: key });
+  }
 
   let viewer;
   let fullscreenButton;
@@ -29,7 +34,7 @@ const Fullscreen = function Fullscreen(options = {}) {
           goFullScreen();
         },
         icon: '#ic_fullscreen_24px',
-        tooltipText: 'Visa stor karta',
+        tooltipText: localize('fullscreenButtonTooltip'),
         tooltipPlacement: 'east'
       });
       if (!target) target = `${viewer.getMain().getBottomTools().getId()}`;

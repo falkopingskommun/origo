@@ -30,6 +30,7 @@ const Group = function Group(viewer, options = {}) {
     draggable = false,
     zIndexStart = 0.1,
     opacityControl = false,
+    removable = false,
     zoomToExtent = false,
     description,
     localization
@@ -112,7 +113,7 @@ const Group = function Group(viewer, options = {}) {
     }
   }) : false;
 
-  const moreInfoButton = (opacityControl || zoomToExtent || description || (abstract && !showAbstractInLegend)) ? createMoreInfoButton({ viewer, group: thisGroup, localization }) : false;
+  const moreInfoButton = (opacityControl || removable || zoomToExtent || description || (abstract && !showAbstractInLegend)) ? createMoreInfoButton({ viewer, group: thisGroup, localization }) : false;
 
   const SubGroupHeader = function SubGroupHeader() {
     const expandButton = Button({

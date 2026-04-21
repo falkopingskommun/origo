@@ -59,10 +59,15 @@ html {
 
 img,
 embed,
-object,
+iframe,
+object {
+  height: auto;
+  max-width: 100%;
+}
+
 audio,
 video {
-  height: auto;
+  height: revert;
   max-width: 100%;
 }
 
